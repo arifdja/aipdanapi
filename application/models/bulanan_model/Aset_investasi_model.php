@@ -879,6 +879,7 @@ class Aset_investasi_model extends CI_Model {
 										$saldo_akhir[$k] = str_replace('.', '', $saldo_akhir[$k]);
 										$nilai_perolehan[$k] = str_replace(',', '', $nilai_perolehan[$k]);
 										$nilai_kapitalisasi_pasar[$k] = str_replace('.', '', $nilai_kapitalisasi_pasar[$k]);
+										$lembar_saham[$k] = str_replace('.', '', $lembar_saham[$k]);
 
 										$arr_detail_investasi = array(
 											'bln_aset_investasi_header_id' => $id,
@@ -969,6 +970,7 @@ class Aset_investasi_model extends CI_Model {
 										$harga_saham[$k] = str_replace(',', '', $harga_saham[$k]);
 										$saldo_akhir[$k] = str_replace('.', '', $saldo_akhir[$k]);
 										$persentase[$k] = str_replace(',', '.', $persentase[$k]);
+										$lembar_saham[$k] = str_replace('.', '', $lembar_saham[$k]);
 
 
 										$arr_detail_investasi = array(
@@ -1370,6 +1372,7 @@ class Aset_investasi_model extends CI_Model {
 										$saldo_akhir[$k] = str_replace('.', '', $saldo_akhir[$k]);
 										$nilai_perolehan[$k] = str_replace(',', '', $nilai_perolehan[$k]);
 										$nilai_kapitalisasi_pasar[$k] = str_replace('.', '', $nilai_kapitalisasi_pasar[$k]);
+										$lembar_saham[$k] = str_replace('.', '', $lembar_saham[$k]);
 
 										$arr_detail_investasi = array(
 											'bln_aset_investasi_header_id' => $id,
@@ -1458,6 +1461,7 @@ class Aset_investasi_model extends CI_Model {
 										$harga_saham[$k] = str_replace(',', '', $harga_saham[$k]);
 										$saldo_akhir[$k] = str_replace('.', '', $saldo_akhir[$k]);
 										$persentase[$k] = str_replace(',', '.', $persentase[$k]);
+										$lembar_saham[$k] = str_replace('.', '', $lembar_saham[$k]);
 
 										$arr_detail_investasi = array(
 											'bln_aset_investasi_header_id' => $id,
@@ -1722,6 +1726,7 @@ class Aset_investasi_model extends CI_Model {
 					FROM mst_cabang A
 					$where
 				";
+				// echo $sql;exit;
 			break;
 
 			case 'combo_beban_investasi':
@@ -1753,7 +1758,8 @@ class Aset_investasi_model extends CI_Model {
 				";
 			break;
 		}
-		
+		// echo $sql;exit;
+		// var_dump($this->db->query($sql)->result_array());exit;
 		return $this->db->query($sql)->result_array();
 	}
 
@@ -2432,7 +2438,7 @@ class Aset_investasi_model extends CI_Model {
 									AND B.iduser = 'ASB003'
 									AND C.tahun = '2020'
 									AND A.uraian = 'ASET INVESTASI' THEN
-										17669911410364
+										17686699455493
 									ELSE
 										SUM(D.saldo_akhir)
 									END

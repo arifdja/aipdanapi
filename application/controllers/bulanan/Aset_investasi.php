@@ -6,7 +6,6 @@ class Aset_investasi extends CI_Controller {
 		parent::__construct();
 		date_default_timezone_set('Asia/Jakarta');
 		$this->load->model('bulanan_model/aset_investasi_model');
-		// echo "string";exit;
         $this->load->model('bulanan_model/pendahuluan_model');
 		
         $this->load->library('form_validation');
@@ -29,7 +28,6 @@ class Aset_investasi extends CI_Controller {
 	
 	
 	public function index(){
-		// echo "string";exit;
 		$bln=$this->session->userdata('id_bulan');
         $data['data_invest'] = $this->aset_investasi_front();
         $data['data_pendahuluan'] = $this->pendahuluan_model->get_ket($bln);
@@ -257,6 +255,7 @@ class Aset_investasi extends CI_Controller {
                     $data['data'] = $data;
                 }
 
+                $data['saldo_awal_invest'] = '-78425350687090';
                 $data['data_jenis'] = $this->aset_investasi_model->getdata('mst_hasil_investasi', 'result');
                 $data['bread'] = array('header'=>'Hasil Investasi', 'subheader'=>'Hasil Investasi');
                 $data['view']  = "bulanan/hasil_investasi/input_hasil_investasi";

@@ -113,10 +113,14 @@ class Arus_kas extends REST_Controller
 
 
       public function index_post() {
+        // echo "string";exit;
         $headers = $this->input->request_headers(); 
         if (isset($headers['Authorization'])) {
+       
 
           $decodedToken = $this->authorization_token->validateToken($headers['Authorization']);
+ // var_dump($decodedToken);exit;
+
           if ($decodedToken['status']) {
             $data = (array)json_decode(file_get_contents('php://input'));
             $post = array();
@@ -130,6 +134,7 @@ class Arus_kas extends REST_Controller
                 }
               }
             }
+            // var_dump($post);exit;
             $insert = $this->modelnya->insert($post);
             if ($insert['error']===false) {
               $this->response([

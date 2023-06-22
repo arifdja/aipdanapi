@@ -365,7 +365,6 @@ $config['encryption_key'] = '780dfs879sdf0s9%8sdfolkn79523424#@';
 $config['sess_driver'] = 'database';
 $config['sess_cookie_name'] = 'ci_session';
 $config['sess_expiration'] = 7200;
-$config['sess_encrypt_cookie'] = TRUE; //tambahan penutupan celah secure cookie
 // $config['sess_save_path'] = NULL;
 $config['sess_save_path'] = 'ci_sessions';
 $config['sess_match_ip'] = TRUE;
@@ -390,8 +389,8 @@ $config['sess_regenerate_destroy'] = TRUE;
 $config['cookie_prefix']	= '';
 $config['cookie_domain']	= '';
 $config['cookie_path']		= '/';
-$config['cookie_secure']	= TRUE;  //diubah dari false ke true utk penutupan celah
-$config['cookie_httponly'] 	= TRUE;
+$config['cookie_secure']	= FALSE;
+$config['cookie_httponly'] 	= FALSE;
 
 /*
 |--------------------------------------------------------------------------

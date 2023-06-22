@@ -1906,7 +1906,7 @@ function tambah_row(mod,param,param2){
 			tr_table += '<input type="text" name="saldo_akhir[]" class="form-control saldo_akhir_3 format_number" id="saldo_akhir_'+idx_row+'" placeholder="saldo akhir"/>';
 			tr_table += '</td>';
 			tr_table += '<td width="13%">';
-			tr_table += '<input type="text" name="lembar_saham[]" class="form-control lembar_saham_3" id="lembar_saham_'+idx_row+'" placeholder="lembar saham"/>';
+			tr_table += '<input type="text" name="lembar_saham[]" class="form-control lembar_saham_3 format_number" id="lembar_saham_'+idx_row+'" placeholder="lembar saham"/>';
 			tr_table += '</td>';
 			tr_table += '<td width="13%">';
 			tr_table += '<input type="text" name="nilai_kapitalisasi_pasar[]" class="form-control nilai_kapitalisasi_pasar_3 format_number" id="nilai_kapitalisasi_pasar_'+idx_row+'" placeholder="Nilai Kapitalisasi Pasar"/>';
@@ -1948,7 +1948,7 @@ function tambah_row(mod,param,param2){
 				tr_table += '<input type="text" name="saldo_akhir[]" class="form-control saldo_akhir_3 format_number" id="saldo_akhir_'+idx_row+'" placeholder="saldo akhir"/>';
 				tr_table += '</td>';
 				tr_table += '<td width="13%">';
-				tr_table += '<input type="text" name="lembar_saham[]" class="form-control lembar_saham_3" id="lembar_saham_'+idx_row+'" placeholder="lembar saham"/>';
+				tr_table += '<input type="text" name="lembar_saham[]" class="form-control lembar_saham_3 format_number" id="lembar_saham_'+idx_row+'" placeholder="lembar saham"/>';
 				tr_table += '</td>';
 				tr_table += '<td width="13%">';
 				tr_table += '<input type="text" name="nilai_kapitalisasi_pasar[]" class="form-control nilai_kapitalisasi_pasar_3 format_number" id="nilai_kapitalisasi_pasar_'+idx_row+'" placeholder="Nilai Kapitalisasi Pasar"/>';
@@ -2088,7 +2088,7 @@ function tambah_row(mod,param,param2){
 			tr_table += '<input type="text" name="saldo_akhir[]" class="form-control format_number saldo_akhir_5" id="saldo_akhir_'+idx_row+'" placeholder="saldo akhir" readonly/>';
 			tr_table += '</td>';
 			tr_table += '<td width="10%">';
-			tr_table += '<input type="text" name="lembar_saham[]" class="form-control jml_lembar_saham_5" id="lembar_saham_'+idx_row+'" placeholder="lembar saham"/>';
+			tr_table += '<input type="text" name="lembar_saham[]" class="form-control jml_lembar_saham_5 format_number" id="lembar_saham_'+idx_row+'" placeholder="lembar saham"/>';
 			tr_table += '</td>';
 			tr_table += '<td width="10%">';
 			tr_table += '<input type="text" name="harga_saham[]" class="form-control rupiah harga_saham_5" id="harga_saham_'+idx_row+'" placeholder="harga saham" readonly/>';
@@ -2130,7 +2130,7 @@ function tambah_row(mod,param,param2){
 				tr_table += '<input type="text" name="saldo_akhir[]" class="form-control format_number saldo_akhir_5" id="saldo_akhir_'+idx_row+'" placeholder="saldo akhir" readonly/>';
 				tr_table += '</td>';
 				tr_table += '<td width="10%">';
-				tr_table += '<input type="text" name="lembar_saham[]" class="form-control jml_lembar_saham_5" id="lembar_saham_'+idx_row+'" placeholder="lembar saham"/>';
+				tr_table += '<input type="text" name="lembar_saham[]" class="form-control jml_lembar_saham_5 format_number" id="lembar_saham_'+idx_row+'" placeholder="lembar saham"/>';
 				tr_table += '</td>';
 				tr_table += '<td width="10%">';
 				tr_table += '<input type="text" name="harga_saham[]" class="form-control format_number harga_saham_5" id="harga_saham_'+idx_row+'" placeholder="harga saham" readonly/>';

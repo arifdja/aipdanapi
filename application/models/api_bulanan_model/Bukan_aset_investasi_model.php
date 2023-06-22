@@ -178,7 +178,7 @@ class Bukan_aset_investasi_model extends CI_Model {
                       'nama_produk' => escape($v->nama_produk),
                       'jml_unit_penyertaan' => escape($v->jml_unit_penyertaan),
                       'cabang' => escape($v->cabang),
-                      'bunga' => escape($v->bunga),
+                      'bunga' => escape($v->jml_unit_penyertaan),
                       'nilai_perolehan' => escape($v->nilai_perolehan),
                       'jenis_reksadana' => escape($v->jenis_reksadana),
                       'nilai_kapitalisasi_pasar' => escape($v->nilai_kapitalisasi_pasar),

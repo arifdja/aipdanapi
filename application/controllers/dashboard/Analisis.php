@@ -121,7 +121,7 @@ class Analisis extends CI_Controller {
 
 
         // echo "<pre>";
-        // print_r($data);exit();
+        // print_r($dt['opt_invest']);exit();
     }
 
     public function aruskas(){
@@ -206,6 +206,17 @@ class Analisis extends CI_Controller {
 
 	function getdisplay($type){
 		switch($type){
+            case 'jenis-detail':
+            $data_x =   $this->analisis_model->get_combo('mst_investasi');
+            $tampil = '<option>--Pilih--</option>';
+            $nom1 = 1;
+            foreach ($data_x as $key) {
+                $tampil .= '
+                <option value="'.$key['id'].'" >'.$key['txt'].'</option>';
+                $nom1++;
+            }
+            echo json_encode($tampil);
+            break;
 			case 'testing_array':
 
 				$array['nil1'] = 50;
