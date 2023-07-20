@@ -512,7 +512,7 @@ class Analisis_model extends CI_Model {
 					GROUP BY
 						C.id_bulan, C.tahun
 
-					ORDER BY CAST(id_bulan as unsigned),id ASC
+					ORDER BY id ASC
 
 				";
 			break;

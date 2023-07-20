@@ -31,19 +31,19 @@
 
 		<?php
 			$iduser= $this->session->userdata('idusergroup');
-			// if($iduser == "1" ){
-			// 	echo '
-			// 		.user{
-			// 			display: none;
-			// 		}
-			// 	';
-			// 	echo '
-			// 		.user-bln{
-			// 			display: none;
-			// 			pointer-events:none;
-			// 		}
-			// 	';
-			// }
+			if($iduser == "1"){
+				echo '
+					.user{
+						display: none;
+					}
+				';
+				echo '
+					.user-bln{
+						display: none;
+						pointer-events:none;
+					}
+				';
+			}
 
 			if($iduser == "2" || $iduser == "3" ){
 				echo '
@@ -84,19 +84,7 @@
 					';
 				}
 				
-				// print_r($sts_bln['status']);exit();
-			}else{
-				echo '
-					.user{
-						display: none;
-					}
-				';
-				echo '
-					.user-bln{
-						display: none;
-						pointer-events:none;
-					}
-				';
+// 				print_r($sts_bln['status']);exit();
 			}
 
 

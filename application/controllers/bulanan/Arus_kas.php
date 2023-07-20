@@ -400,28 +400,6 @@ class Arus_kas extends CI_Controller {
         // $data['view']  = "bulanan/arus_kas/data_aruskas";
         // $this->load->view('main/utama', $data);
     }
-
-
-
-    public function test($value='')
-    {
-        $a=15;
-        $b=27;
-        
-        echo "\n before     ";
-        echo "a = ".$a." b = ".$b."\n";
-
-        // $c = $a;  
-        // $a = $b;  
-        // $b = $a;
-
-        $a=$a+$b; 
-        $b=$a-$b; 
-        $a=$a-$b;
-        
-        echo "\n after ";
-        echo "a = ".$a." b = ".$b;
-    }
     	
 
 }

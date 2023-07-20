@@ -73,9 +73,9 @@
       <?php endforeach;?>
     <?php endif;?>
     <?php endforeach;?>
-    <?php if($child['group'] == 'HASIL INVESTASI' || $child['group'] == 'NILAI INVESTASI'):?>
+    <?php if($child['group'] == 'HASIL INVESTASI'):?>
       <tr style="font-weight: bold;">
-        <td style="text-align: left; background-color:#e6f5fe;font-size: 14px;padding-left: 25px;"><?=$child['judul_total']?></td>
+        <td style="text-align: left; background-color:#e6f5fe;font-size: 14px;"><?=$child['judul_total']?></td>
         <td style="text-align: right; background-color:#e6f5fe;"><?=($child['sum_lvl2'] != 0 ) ? rupiah($child['sum_lvl2']) : '-';?></td>
         <td style="text-align: right; background-color:#e6f5fe;"><?=($child['sum_prev_lvl2'] != 0 ) ? rupiah($child['sum_prev_lvl2']) : '-';?></td>
         <td style="text-align: right; background-color:#e6f5fe;"><?=($child['rka_thn_lvl2'] != 0 ) ? rupiah($child['rka_thn_lvl2']) : '-';?></td>

@@ -46,6 +46,16 @@
                 <div class="form-group">
                   <label>Jenis Detail</label>
                   <select class="form-control select2nya" id="detail_invest">
+                    <option value="">
+                      --Pilih--
+                    </option>
+                    <?php if(isset($opt_invest) && is_array($opt_invest)){?> 
+                      <?php foreach($opt_invest as $k=>$v){?>
+                        <option value="<?php echo $v['id'];?>" <?php if(!empty($iduser) && $v['id'] == $iduser) echo 'selected="selected"';?>>
+                          <?php echo $v['txt'];?>
+                        </option>
+                      <?php }?>
+                    <?php }?>
                   </select>
                 </div>
               </div> 
@@ -167,16 +177,5 @@
     }
     
 });
-
-
-  $('#iduser').on('change', function(){
-    $.post(host+'dashboard-display/jenis-detail', { 'iduser':$('#iduser').val(), [csrf_token]:csrf_hash }, function(resp){
-      if(resp){
-        parsing = JSON.parse(resp);
-        $("#detail_invest").html(parsing);
-      }
-    });
-
-  });
 
 </script>

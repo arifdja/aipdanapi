@@ -2,9 +2,6 @@
 td.dataTables_empty{
 	text-align: center;
 }
-.noHover{
-    pointer-events: none;
-}
 /*.odd*/
 </style>
 <form id="form_<?=$acak;?>" method="post" url="<?php echo site_url(); ?>investasi-simpan/hasil_investasi" enctype="multipart/form-data" >
@@ -65,9 +62,9 @@ td.dataTables_empty{
 									</div>
 								</div>
 								<div class="col-md-5">
-									<div class="form-group nama">
+									<div class="form-group">
 										<label>Saldo Awal</label>
-										<input type="text" placeholder="Total Saldo Awal" class="form-control negative" id="saldo_awal_invest" name="saldo_awal_invest" value="<?php echo !empty($data) ? $data['saldo_awal_invest'] : '';?>" required="required">
+										<input type="text" placeholder="Total Saldo Awal" class="form-control negative hasil" id="saldo_awal_invest" name="saldo_awal_invest" value="<?php echo !empty($data) ? $data['saldo_awal_invest'] : '';?>" required="required">
 									</div>
 								</div>
 								<div class="col-md-5">
@@ -81,7 +78,7 @@ td.dataTables_empty{
 								<div class="col-md-4">
 									<div class="form-group">
 										<label>Saldo Akhir</label>
-										<input type="text" placeholder="Total Saldo Akhir" class="form-control negative" id="saldo_akhir_head" name="saldo_akhir_invest" value="<?php echo !empty($data) ? $data['saldo_akhir_invest'] : '';?>" readonly>
+										<input type="text" placeholder="Total Saldo Akhir" class="form-control format_number" id="saldo_akhir_head" name="saldo_akhir_invest" value="<?php echo !empty($data) ? $data['saldo_akhir_invest'] : '';?>" readonly>
 									</div>
 								</div>
 								<div class="col-md-4">
@@ -156,7 +153,6 @@ td.dataTables_empty{
 			minimumValue:-99999999999999999999
 		});
 
-
 		new AutoNumeric.multiple('.persentase', {
 			alwaysAllowDecimalCharacter: true,
 			decimalCharacter: ",",
@@ -211,12 +207,10 @@ td.dataTables_empty{
 							parsing_bln_lalu = JSON.parse(resp1)
 							if(parsing_bln_lalu == "" || parsing_bln_lalu == null ){
 								$('#saldo_awal_invest').val("");
-								$('#saldo_awal_invest').removeClass("noHover");
 								$('#rka').val("");
 							}else{
 
 								$('#saldo_awal_invest').val(parsing_bln_lalu.saldo_bln_lalu);
-								$('#saldo_awal_invest').addClass("noHover");
 								$('#rka').val(parsing_bln_lalu.rka);
 							}
 
@@ -238,7 +232,6 @@ td.dataTables_empty{
 	// edit
 	if(sts == "edit"){
 		$(".combo").select2({'disabled': true,});
-		$('#saldo_awal_invest').removeClass("noHover");
 	}
 
 	$(".hasil").on("keyup", function(){
@@ -255,12 +248,12 @@ td.dataTables_empty{
 		rka = parseFloat($("#rka").val().replace(/\./g,''));
 		mutasi_head = parseFloat($("#mutasi_invest").val().replace(/\./g,''));
 
-		console.log(saldoawal_head);
+
 		saldoakhir_head = (saldoawal_head + mutasi_head);
 		realisasi_head = ((saldoakhir_head/rka)*100);
 		if(isNaN(realisasi_head)) realisasi_head = 0;
 
-		$("#saldo_akhir_head").val(saldoakhir_head.toFixed(0));
+		$("#saldo_akhir_head").val(saldoakhir_head.toFixed(2));
 		$("#realisasi_head").val(realisasi_head.toFixed(2));
 	};
 
