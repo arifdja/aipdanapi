@@ -13,7 +13,7 @@ Klik tombol fork
 
 ### 2. Copy link untuk clone
 
-<img src="ximages/1.jpg">
+<img src="ximages/1.JPG">
 
 lalu jalankan perintah ini:
 
