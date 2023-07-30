@@ -1007,6 +1007,14 @@ function gensearch(modulnya, submodulnya, stswindow, p1, p2, p3, stscrudmodal){
 				$.LoadingOverlay("hide", true);
 			});
 		break;
+		case "index-ikhtisar_kinerja":
+			$.LoadingOverlay("show");
+			var urlpost = host+'ikhtisar_kinerja-index/'+modulnya;
+			$.post(urlpost+uri, {'id_bulan':bln, 'iduser':iduser, [csrf_token]:csrf_hash  }, function(resp){
+				$('.content').html(resp);
+				$.LoadingOverlay("hide", true);
+			});
+		break;
 		case "index-pendahuluan":
 		case "index-pernyataan":
 			$.LoadingOverlay("show");

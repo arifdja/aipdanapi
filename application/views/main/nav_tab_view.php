@@ -1,6 +1,8 @@
 <ul class="nav nav-tabs">
 	<li role="presentation" <?php if($this->uri->segment(2)=="pendahuluan" && $this->uri->segment(3)=="" ||  $this->uri->segment(2)=="index-pendahuluan"){echo 'class="active"';}?>><a href="<?php echo site_url('bulanan/pendahuluan').get_uri();?>">Pendahuluan</a></li>
 
+	<li role="presentation" <?php if($this->uri->segment(2)=="ikhtisar_kinerja" && $this->uri->segment(3)=="" ||  $this->uri->segment(2)=="index-ikhtisar_kinerja"){echo 'class="active"';}?>><a href="<?php echo site_url('bulanan/ikhtisar_kinerja').get_uri();?>">Ikhtisar Kinerja</a></li>
+
 	<li role="presentation" <?php if($this->uri->segment(2)=="aset_investasi" ||  $this->uri->segment(2)=="index-investasi"){echo 'class="active"';}?>><a href="<?php echo site_url('bulanan/aset_investasi').get_uri();?>">Aset Investasi</a></li>
 
 	<li role="presentation" <?php if($this->uri->segment(2)=="hasil_investasi" ||  $this->uri->segment(2)=="index-hasil-investasi"){echo 'class="active"';}?>><a href="<?php echo site_url('bulanan/hasil_investasi').get_uri();?>">Hasil Investasi</a></li>
