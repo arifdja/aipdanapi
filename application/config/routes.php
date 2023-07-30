@@ -79,6 +79,16 @@ $route['pendahuluan-semester-cetak/(:any)/(:any)'] = 'semesteran/pendahuluan/cet
 $route['pendahuluan-thn-index/(:any)'] = 'tahunan/pendahuluan/get_index/$1';
 $route['pendahuluan-thn-cetak/(:any)/(:any)'] = 'tahunan/pendahuluan/cetak/$1/$2';
 
+// IKHTISAR KINERJA - BULANAN
+$route['ikhtisar_kinerja-index/(:any)'] = 'bulanan/ikhtisar_kinerja/get_index/$1';
+$route['ikhtisar_kinerja-cetak/(:any)/(:any)'] = 'bulanan/ikhtisar_kinerja/cetak/$1/$2';
+
+// $route['pendahuluan-semester-index/(:any)'] = 'semesteran/get_index/$1';
+// $route['pendahuluan-semester-cetak/(:any)/(:any)'] = 'semesteran/pendahuluan/cetak/$1/$2';
+
+// $route['pendahuluan-thn-index/(:any)'] = 'tahunan/pendahuluan/get_index/$1';
+// $route['pendahuluan-thn-cetak/(:any)/(:any)'] = 'tahunan/pendahuluan/cetak/$1/$2';
+
 
 // MASTER DATA
 $route['master-display/(:any)'] = 'master/master_data/getdisplay/$1';
