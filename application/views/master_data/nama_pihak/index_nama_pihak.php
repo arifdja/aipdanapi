@@ -55,7 +55,9 @@
                   <a href="javascript:void(0)" title="Add" class="btn btn-primary btn-sm btn-flat adm" onClick="
                   genform('master_nama_pihak','master_nama_pihak','master_nama_pihak','','','','','add');">
                   <i class="fa fa-plus"></i>&nbsp;&nbsp;Tambah
-                </a>  
+                </a>   
+                  <button class="btn btn-sm btn-flat btn-primary" id="excel"><i class="fas fa-excel"></i>Download Excel</button>
+                
               </div>
             </div>
           </div>
@@ -68,7 +70,7 @@
                 <th>Nama Pihak</th>
  								<th>Group</th>
  								<th>User</th>
- 								<th width="100">#</th>
+ 								<th width="100" class='noExl'>#</th>
  							</tr>
  						</thead>
  						<tbody>
@@ -133,8 +135,25 @@
         "paging":true,
         "searching": false,
         "ordering": false,
-        "lengthChange": false,
+        "lengthChange": true,
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "iDisplayLength": 10
     });
     
 </script>
        
+
+
+<script>
+  $(document).ready(function () {
+    $("#excel").click(function(){
+      $(".table").table2excel({
+        // exclude CSS class
+        exclude: ".noExl",
+        name: "cabang",
+        filename: "data_cabang", //do not include extension
+        fileext: ".xls" // file extension
+      }); 
+    });
+  });
+</script>

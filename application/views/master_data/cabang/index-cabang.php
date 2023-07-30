@@ -1,6 +1,7 @@
  <!-- Main content -->
             <?php $level = $this->session->userdata('level');?>
             <?php $tahun = $this->session->userdata('tahun');?>
+            <?php $iduser= $this->session->userdata('idusergroup');?>
             <style type="text/css">
                 td.subchild{
                     padding-left: 50px;
@@ -17,6 +18,7 @@
                         <div class="box-body" style="overflow-x:auto;">
                             <div class="col-md-12">
                                 <div class="row">
+                                    <?php if($iduser == 1): ?>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <select class="form-control select2nya" id="iduser">
@@ -40,12 +42,18 @@
                                             </a> 
                                         </div>
                                     </div>
+                                    <?php endif; ?>
+                                    <?php if($iduser == 1): ?>
                                     <div  class="col-md-8"> 
+                                    <?php else: ?>
+                                    <div  class="col-md-12"> 
+                                    <?php endif; ?>
                                         <div class="form-group pull-right">
-                                            <a href="javascript:void(0)" title="Add" class="btn btn-primary btn-sm btn-flat adm" onClick="
+                                            <a href="javascript:void(0)" title="Add" class="btn btn-primary btn-sm btn-flat" onClick="
                                             genform('master_cabang','master_cabang','master_cabang','','','','','add');">
                                                 <i class="fa fa-plus"></i>&nbsp;&nbsp;Tambah
                                             </a>  
+                                            <button class="btn btn-sm btn-flat btn-primary" id="excel"><i class="fas fa-excel"></i>Download Excel</button>
                                         </div>
                                     </div>
                                 </div>
@@ -58,10 +66,13 @@
                             <table id="tbl-invest" class="table table-bordered table-striped table-hover tbl-form">
                                 <thead>
 									<tr>
-                                        <th width="5%">No</th>
-                                        <th width="55%">Nama Cabang</th>
-                                        <th width="15%">User</th>
-                                        <th width="10%">Action</th>
+                                        <th>No</th>
+                                        <th>ID Cabang</th>
+                                        <th>Nama Cabang</th>
+                                        <th>User</th>
+                                        <th>Keterangan</th>
+                                        <th>Approval</th>
+                                        <th width="10%" class='noExl'>Action</th>
 									</tr>
 								
                                 </thead>
@@ -71,6 +82,7 @@
                                     <?php foreach($data_cabang as $cabang):?>
                                         <tr>
                                             <td style="text-align: center;"><?= $no++;?></td>
+                                            <td style="text-align: left;"><?=$cabang['id_cabang']?></td>
                                             <td style="text-align: left;"><?=$cabang['nama_cabang']?></td>
                                             <?php 
                                             if($cabang['iduser'] == 'TSN002'){
@@ -80,8 +92,10 @@
                                             }
                                             ?>
                                             <td style="text-align: left;"><?=$iduser;?></td>
+                                            <td style="text-align: left;"><?=$cabang['keterangan']?></td>
+                                            <td style="text-align: left;"><?=$cabang['approval']?></td>
                                             <td>
-                                                <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat adm" onClick="genform('master_cabang','master_cabang','master_cabang','','<?=$cabang['id_cabang'] ?>','','','edit');">
+                                                <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat" onClick="genform('master_cabang','master_cabang','master_cabang','','<?=$cabang['id_cabang'] ?>','','','edit');">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 &nbsp;
@@ -128,9 +142,25 @@
         "paging":true,
         "searching": false,
         "ordering": false,
-        "lengthChange": false,
+        "lengthChange": true,
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "iDisplayLength": 10
     });
     
+</script>
+
+<script>
+  $(document).ready(function () {
+    $("#excel").click(function(){
+      $(".table").table2excel({
+        // exclude CSS class
+        exclude: ".noExl",
+        name: "cabang",
+        filename: "data_cabang", //do not include extension
+        fileext: ".xls" // file extension
+      }); 
+    });
+  });
 </script>
        
     

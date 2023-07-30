@@ -15,9 +15,10 @@ class Master_data extends CI_Controller {
 		if (! $this->session->userdata('isLoggedIn') ) redirect("login/show_login");
         $userData=$this->session->userdata();
 		$level=$this->session->userdata("level");
+        $iduser= $this->session->userdata('idusergroup');
 
 		//cek akses route
-		if($level != 'DJA') show_error('Error 403 Access Denied', 403);
+		// if($level != 'DJA') show_error('Error 403 Access Denied', 403);
 		
 		$this->page_limit = 10;
 		
