@@ -466,7 +466,7 @@ class Lampiran extends CI_Controller {
 
     public function nilai_perubahan_danabersih(){
         $array = array();
-        $perubahan_lv1 = $this->operasional_belanja_model->getdata('perubahan_danabersih_lv1','result_array');
+        $perubahan_lv1 = $this->aspek_keuangan_model->getdata('perubahan_danabersih_lv1','result_array');
         foreach ($perubahan_lv1 as $k => $v) {
 
             if($v['uraian'] == 'PENAMBAHAN'){
@@ -484,7 +484,7 @@ class Lampiran extends CI_Controller {
             $array[$k]['sum_prev_lvl1'] =  (isset($v['saldo_akhir_smt2']) ? $v['saldo_akhir_smt2'] : 0) ;
             $array[$k]['child'] = array();
 
-            $perubahan_lv2 = $this->operasional_belanja_model->getdata('perubahan_danabersih_lv2','result_array', $v['uraian']);
+            $perubahan_lv2 = $this->aspek_keuangan_model->getdata('perubahan_danabersih_lv2','result_array', $v['uraian']);
             foreach ($perubahan_lv2 as $key => $val) {
                 if($val['group'] == 'BEBAN'){
                     $judul_total = 'Total Beban';
@@ -511,7 +511,7 @@ class Lampiran extends CI_Controller {
                 $array[$k]['child'][$key]['sum_prev_lvl2'] =  (isset($val['saldo_akhir_smt2']) ? $val['saldo_akhir_smt2'] : 0) ;
                 $array[$k]['child'][$key]['subchild'] = array();
 
-                $perubahan_lv3 = $this->operasional_belanja_model->getdata('perubahan_danabersih_lv3','result_array', $val['group']);
+                $perubahan_lv3 = $this->aspek_keuangan_model->getdata('perubahan_danabersih_lv3','result_array', $val['group']);
                 foreach ($perubahan_lv3 as $x => $y) {
                     $array[$k]['child'][$key]['subchild'][$x]['type'] = $y['type'];
                     $array[$k]['child'][$key]['subchild'][$x]['id_investasi'] = $y['id_investasi'];
@@ -522,7 +522,7 @@ class Lampiran extends CI_Controller {
                    
                     if($y['type'] == 'PC'){
                         $type = 'C';
-                        $perubahan_lv4 = $this->operasional_belanja_model->getdata('perubahan_danabersih_lv4','result_array', $y['id_investasi'], $type);
+                        $perubahan_lv4 = $this->aspek_keuangan_model->getdata('perubahan_danabersih_lv4','result_array', $y['id_investasi'], $type);
                         foreach ($perubahan_lv4 as $xx => $zz) {
                             $array[$k]['child'][$key]['subchild'][$x]['subchild_sub'][$xx]['type'] = $zz['type'];
                             $array[$k]['child'][$key]['subchild'][$x]['subchild_sub'][$xx]['id_investasi'] = $zz['id_investasi'];

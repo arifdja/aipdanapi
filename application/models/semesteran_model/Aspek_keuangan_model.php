@@ -817,14 +817,18 @@ class Aspek_keuangan_model extends CI_Model {
 
 			case 'perubahan_danabersih_lv1':
 				$semester = $this->input->post('semester');
-				if($semester != ""){
+				$tahun_filter = $tahun - 1;
+				if ($semester != "") {
 					if ($semester == 1) {
-						$tahun_filter = $tahun - 1;
-					}else{
-						$tahun_filter = $tahun;
+						// $tahun_filter = $tahun - 1;
+						$between = 'id_bulan BETWEEN 1 AND 6';
+					} else {
+						// $tahun_filter = $tahun;
+						$between = 'id_bulan BETWEEN 7 AND 12';
 					}
-				}else{
-					$tahun_filter = $tahun;
+				} else {
+					// $tahun_filter = $tahun;
+					$between = 'id_bulan BETWEEN 1 AND 6';
 				}
 
 				$sql ="
@@ -838,7 +842,7 @@ class Aspek_keuangan_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 6
+						WHERE $between
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 						GROUP BY id_investasi
@@ -847,7 +851,7 @@ class Aspek_keuangan_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 7 AND 12
+						WHERE $between
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 						GROUP BY id_investasi
@@ -862,14 +866,19 @@ class Aspek_keuangan_model extends CI_Model {
 
 			case 'perubahan_danabersih_lv2':
 				$semester = $this->input->post('semester');
+
+				$tahun_filter = $tahun - 1;
 				if($semester != ""){
 					if ($semester == 1) {
-						$tahun_filter = $tahun - 1;
-					}else{
-						$tahun_filter = $tahun;
+						// $tahun_filter = $tahun - 1;
+						$between = 'id_bulan BETWEEN 1 AND 6';
+					} else {
+						// $tahun_filter = $tahun;
+						$between = 'id_bulan BETWEEN 7 AND 12';
 					}
 				}else{
-					$tahun_filter = $tahun;
+					// $tahun_filter = $tahun;
+					$between = 'id_bulan BETWEEN 1 AND 6';
 				}
 
 				$sql ="
@@ -883,7 +892,7 @@ class Aspek_keuangan_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 6
+						WHERE $between
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 						GROUP BY id_investasi
@@ -892,7 +901,7 @@ class Aspek_keuangan_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 7 AND 12
+						WHERE $between
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 						GROUP BY id_investasi
@@ -903,19 +912,23 @@ class Aspek_keuangan_model extends CI_Model {
 					GROUP BY B.group
 					ORDER BY B.no_urut_group ASC
 				";
-				 // echo $sql;exit;
+				//  echo $sql;exit;
 			break;
 
 			case 'perubahan_danabersih_lv3':
 				$semester = $this->input->post('semester');
-				if($semester != ""){
+				$tahun_filter = $tahun - 1;
+				if ($semester != "") {
 					if ($semester == 1) {
-						$tahun_filter = $tahun - 1;
-					}else{
-						$tahun_filter = $tahun;
+						// $tahun_filter = $tahun - 1;
+						$between = 'id_bulan BETWEEN 1 AND 6';
+					} else {
+						// $tahun_filter = $tahun;
+						$between = 'id_bulan BETWEEN 7 AND 12';
 					}
-				}else{
-					$tahun_filter = $tahun;
+				} else {
+					// $tahun_filter = $tahun;
+					$between = 'id_bulan BETWEEN 1 AND 6';
 				}
 
 				$sql ="
@@ -929,7 +942,7 @@ class Aspek_keuangan_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 6
+						WHERE $between
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 						GROUP BY id_investasi
@@ -938,7 +951,7 @@ class Aspek_keuangan_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 7 AND 12
+						WHERE $between
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 						GROUP BY id_investasi
@@ -955,14 +968,18 @@ class Aspek_keuangan_model extends CI_Model {
 
 			case 'perubahan_danabersih_lv4':
 				$semester = $this->input->post('semester');
-				if($semester != ""){
+				$tahun_filter = $tahun - 1;
+				if ($semester != "") {
 					if ($semester == 1) {
-						$tahun_filter = $tahun - 1;
-					}else{
-						$tahun_filter = $tahun;
+						// $tahun_filter = $tahun - 1;
+						$between = 'id_bulan BETWEEN 1 AND 6';
+					} else {
+						// $tahun_filter = $tahun;
+						$between = 'id_bulan BETWEEN 7 AND 12';
 					}
-				}else{
-					$tahun_filter = $tahun;
+				} else {
+					// $tahun_filter = $tahun;
+					$between = 'id_bulan BETWEEN 1 AND 6';
 				}
 
 				$sql ="
@@ -976,7 +993,7 @@ class Aspek_keuangan_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 6
+						WHERE $between
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 						GROUP BY id_investasi
@@ -985,7 +1002,7 @@ class Aspek_keuangan_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 7 AND 12
+						WHERE $between
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 						GROUP BY id_investasi
