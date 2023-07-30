@@ -53,6 +53,33 @@ class Aset_investasi_model extends CI_Model {
     
   }
 
+  
+  private function getDetil($user=null,$tahun=null,$bulan=null,$id_investasi=null,$kode_pihak=null)
+  {
+    if (null === $bulan) {
+      $bulan = 0;
+    }
+
+    if (null === $tahun) {
+      $tahun = 0;
+    }
+
+    $bulan = $bulan - 1;
+    
+    // echo $user;exit;
+  
+    // $this->db->query('kode_pihak,saldo_awal,mutasi_pembelian,mutasi_penjualan,mutasi_amortisasi,mutasi_pasar,mutasi_penanaman,mutasi_pencairan,mutasi_nilai_wajar,mutasi_diskonto,yield_to_maturity,amortisasi,saldo_akhir,lembar_saham,manager_investasi,harga_saham,nama_reksadana,jml_unit_reksadana,persentase,peringkat,tgl_jatuh_tempo,r_kupon,nama_produk,jml_unit_penyertaan,cabang,bunga,nilai_perolehan,jenis_reksadana,nilai_kapitalisasi_pasar,nilai_dana_kelolaan');
+    
+    $sql = "SELECT a.id_investasi,b.* FROM bln_aset_investasi_header a LEFT JOIN bln_aset_investasi_detail b ON a.id = b.bln_aset_investasi_header_id WHERE b.iduser = ? AND b.tahun = ? AND b.id_bulan = ? AND a.id_investasi = ? AND b.kode_pihak = ?";
+
+    $query = $this->db->query($sql, array($user, $tahun, $bulan,$id_investasi,$kode_pihak));
+
+    $result = $query->row_array();
+
+    return $result;
+    
+  }
+
   public function delete($bulan=null,$tahun=null,$user=null)
   {
     if (null === $bulan) {
@@ -797,6 +824,23 @@ class Aset_investasi_model extends CI_Model {
 
   }
 
+  private function validasi_saldo_awal($id_user,$tahun,$id_bulan,$id_investasi,$detail)
+  {
+    // echo "tes";exit;
+    foreach($detail as $keyDet => $v){
+
+      $result = $this->getDetil($id_user,$tahun,$id_bulan,$id_investasi,$v->kode_pihak);
+
+      if($result['saldo_akhir'] != $v->saldo_awal){
+        $msg.="<< Saldo awal bulan ".$id_bulan." tahun ".$tahun."  id_investasi ".$id_investasi." kode pihak ".$v->kode_pihak." tidak sama dengan saldo akhir bulan sebelumnya yaitu sebesar ".$result['saldo_akhir']."  >>";
+      }
+
+      return $msg;
+    }
+
+    
+  }
+
   public function insert($data)
   {
     $dataInsert =array();
@@ -842,6 +886,18 @@ class Aset_investasi_model extends CI_Model {
       // cek data id investasi
       if (in_array($id_investasi, $arrID) && in_array($id_user, $arrUSER) && in_array($id_bulan, $arrBulan)) {
         // jika key nya not null maka id investasi merupakan INVESTASI
+        if($id_bulan != 1){
+          $return = $this->validasi_saldo_awal($id_user,$tahun,$id_bulan,$id_investasi,$detail);
+          if($return){
+            $status = 0;
+            $res=array();
+            $res['error']=true;
+            $res['msg']=$return;
+            return $res;
+          }
+        }
+
+
         if($id_investasi == 1){
           $return = $this->validasi_form_1($id_investasi,$key,$data,$detail);
           if($return){
