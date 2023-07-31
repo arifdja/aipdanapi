@@ -12,7 +12,8 @@ class Hasil_investasi extends REST_Controller
     {
         parent::__construct($config = 'rest');
         date_default_timezone_set('Asia/Jakarta');
-        $this->load->model('api_bulanan_model/hasil_investasi_model','modelnya');
+        $this->load->model('api_bulanan_model/hasil_investasi2_model','modelnya');
+        // $this->load->model('api_bulanan_model/hasil_investasi_model','modelnya');
        $this->load->library('Authorization_Token');  
         $this->load->library('form_validation');  
         // $this->methods['index_post']['limit'] = 12;
