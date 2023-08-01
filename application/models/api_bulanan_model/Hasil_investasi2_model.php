@@ -40,7 +40,7 @@ class Hasil_investasi2_model extends CI_Model {
     $result = $this->db->get($this->table)->result_array();
     foreach ($result as $key => $value) {
       $idHeader = $value['id'];
-      $this->db->select('kode_pihak,saldo_awal,mutasi_pembelian,mutasi_penjualan,mutasi_amortisasi,mutasi_pasar,mutasi_penanaman,mutasi_pencairan,mutasi_nilai_wajar,mutasi_diskonto,yield_to_maturity,saldo_akhir,lembar_saham,manager_investasi,harga_saham,nama_reksadana,jml_unit_reksadana,persentase,peringkat,tgl_jatuh_tempo,r_kupon,nama_produk,jml_unit_penyertaan,cabang,bunga,nilai_perolehan,jenis_reksadana,nilai_kapitalisasi_pasar,nilai_dana_kelolaan');
+      $this->db->select('kode_pihak,saldo_awal,mutasi_pembelian,mutasi_penjualan,mutasi_amortisasi,mutasi_pasar,mutasi_penanaman,mutasi_pencairan,mutasi_nilai_wajar,mutasi_diskonto,mutasi_hasil_investasi,yield_to_maturity,saldo_akhir,lembar_saham,manager_investasi,harga_saham,nama_reksadana,jml_unit_reksadana,persentase,peringkat,tgl_jatuh_tempo,r_kupon,nama_produk,jml_unit_penyertaan,cabang,bunga,nilai_perolehan,jenis_reksadana,nilai_kapitalisasi_pasar,nilai_dana_kelolaan');
       $this->db->where('id_bulan',$bulan);
       $this->db->where('tahun',$tahun);
       $this->db->where('iduser',$user);
@@ -162,57 +162,17 @@ class Hasil_investasi2_model extends CI_Model {
             }
           }
 
-          if($id_investasi == 50){
-            $return = $this->validasi_form_1($id_investasi,$key,$data,$detail);
-            if($return){
-              $status = 0;
-              $res=array();
-              $res['error']=true;
-              $res['msg']=$return;
-              return $res;
-            }
-            
-          } elseif (in_array($id_investasi,['2','3','4','6','10','11','14','15','16','17','18','19','20','21','22'])) {
-            //saldo akhir = saldo awal + pembelian - penjualan + diskonto/premium + kenaikan/penurunan harga pasar
-            $return = $this->validasi_form_2($id_investasi,$key,$data,$detail);
-            if($return){
-              $status = 0;
-              $res=array();
-              $res['error']=true;
-              $res['msg']=$return;
-              return $res;
-            }
-          } elseif (in_array($id_investasi,['5','7'])) {
-            //saldo akhir = saldo awal + pembelian - penjualan + amortisasi + mutasi pasar
-            $return = $this->validasi_form_3($id_investasi,$key,$data,$detail);
-            if($return){
-              $status = 0;
-              $res=array();
-              $res['error']=true;
-              $res['msg'].=$return;
-              return $res;
-            }
-          } elseif (in_array($id_investasi,['8','9','12'])) {
-            //saldo akhir = saldo awal + pembelian - penjualan + harga pasar
-            $return = $this->validasi_form_4($id_investasi,$key,$data,$detail);
-            if($return){
-              $status = 0;
-              $res=array();
-              $res['error']=true;
-              $res['msg']=$return;
-              return $res;
-            }
-          } elseif (in_array($id_investasi,['13'])) {
-            //saldo akhir = saldo awal + pembelian - penjualan + nilai wajar
-            $return = $this->validasi_form_5($id_investasi,$key,$data,$detail);
-            if($return){
-              $status = 0;
-              $res=array();
-              $res['error']=true;
-              $res['msg']=$return;
-              return $res;
-            }
+          // if($id_investasi == 50){
+          $return = $this->validasi_hasil_investasi($id_investasi,$key,$data,$detail);
+          if($return){
+            $status = 0;
+            $res=array();
+            $res['error']=true;
+            $res['msg']=$return;
+            return $res;
           }
+            
+          // } 
 
           //INSERT HEADER DAN DETIL
 
@@ -245,6 +205,7 @@ class Hasil_investasi2_model extends CI_Model {
                 'mutasi_nilai_wajar' => escape($v->mutasi_nilai_wajar),
                 'mutasi_pencairan' => escape($v->mutasi_pencairan),
                 'mutasi_diskonto' => escape($v->mutasi_diskonto),
+                'mutasi_hasil_investasi' => escape($v->mutasi_hasil_investasi),
                 'yield_to_maturity' => escape($v->yield_to_maturity),
                 'saldo_akhir' => escape($v->saldo_akhir),
                 'lembar_saham' => escape($v->lembar_saham),
@@ -289,6 +250,60 @@ class Hasil_investasi2_model extends CI_Model {
   
       return $res;
     }
+
+  }
+
+
+  
+  
+  /**
+   * function validasi_hasil_investasi
+   * saldo akhir = saldo awal + mutasi
+   * 
+   * @param [type] $id_investasi
+   * @param [type] $key
+   * @param [type] $data
+   * @param [type] $detail
+   * @return void
+   */
+  private function validasi_hasil_investasi($id_investasi,$key,$data,$detail)
+  {
+
+    foreach($detail as $keyDet => $v){
+
+      $sum_saldo_awal += $v->saldo_awal;
+      $sum_mutasi_hasil_investasi += $v->mutasi_hasil_investasi;
+      $sum_saldo_akhir += $v->saldo_akhir;
+
+    }
+
+    $sum_mutasi = $sum_mutasi_hasil_investasi;
+
+    unset($data[$key]['detail']);
+    unset($value['detail']);
+    $dataInsert=$data[$key];
+
+
+    $header_saldo_awal = $dataInsert['saldo_awal_invest'];
+    $header_mutasi = $dataInsert['mutasi_invest'];
+    $header_saldo_akhir = $dataInsert['saldo_akhir_invest'];
+    $header_rka = $dataInsert['rka'];
+    $header_realisasi_rka = $dataInsert['realisasi_rka'];
+
+    if ($header_saldo_awal != $sum_saldo_awal)          {
+      $msg.= '<< Saldo awal header dan detil id_investasi '.$id_investasi.' tidak valid >>';
+    } 
+    if ($header_mutasi != $sum_mutasi){
+      $msg.= '<< Mutasi header dan detil id_investasi '.$id_investasi.' tidak valid >>';
+    } 
+    if ($header_saldo_akhir != $sum_saldo_akhir){
+      $msg.= '<< Saldo akhir header dan detil id_investasi '.$id_investasi.' tidak valid>>';
+    }
+    if ($header_saldo_akhir/$header_rka*100 != $header_realisasi_rka){
+      $msg.= '<< RKA id_investasi '.$id_investasi.' tidak valid>>';
+    }
+
+    return $msg;
 
   }
 
