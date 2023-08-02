@@ -582,6 +582,35 @@ function genform(type, modulnya, submodulnya, stswindow, p1, p2, p3, stscrudmoda
 			}
 			
 		break;	
+		
+		case "master_cabang_user":
+			if(stscrudmodal == 'add'){
+				var urlpostaddmodal = host+'master-form/'+submodulnya;
+				$.LoadingOverlay("show");
+				$('#modalidnya').html('');
+				$.post(urlpostaddmodal, {'editstatus':'add', 'ts':table, [csrf_token]:csrf_hash  }, function(resp){
+					$('#headernya').html("<b>Master Data</b>");
+					$('#modalidnya').html(resp);
+					$('#pesanModal').modal('show');
+					$.LoadingOverlay("hide", true);
+				});
+			}else if(stscrudmodal == 'edit'){
+				if (type == 'master_nama_pihak') {
+					var urlposteditmodal =  host+'master-form/'+submodulnya+'/'+p1+'/'+p2+'/'+p3;
+				}else{
+					var urlposteditmodal =  host+'master-form/'+submodulnya+'/'+p1;
+				}
+				$.LoadingOverlay("show");
+				$('#modalidnya').html('');
+				$.post(urlposteditmodal, {'editstatus':'edit', 'id':p1, 'kd':p2, 'iduser':p3, 'ts':table, [csrf_token]:csrf_hash  }, function(resp){
+					$('#headernya').html("<b>Master Data</b>");
+					$('#modalidnya').html(resp);
+					$('#pesanModal').modal('show');
+					$.LoadingOverlay("hide", true);
+				});
+			}
+			
+		break;	
 
 		case "print-all":
 			var iduser= $('#iduser').val();	

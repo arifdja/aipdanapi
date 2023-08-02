@@ -56,7 +56,11 @@ class Master_data extends CI_Controller {
         $data['data_cabang'] = $this->master_data_model->getdata('master_cabang', 'result_array');
         $data['opt_user'] = dtuser();
         $data['bread'] = array('header'=>'Master Data', 'subheader'=>'Cabang');
-        $data['view']  = "master_data/cabang/index-cabang";
+        if($iduser == 1 ){
+            $data['view']  = "master_data/cabang/index-cabang";
+        } else {
+            $data['view']  = "master_data/cabang/index-cabang-user";
+        }
         $this->load->view('main/utama', $data);
     }
 
@@ -273,6 +277,17 @@ class Master_data extends CI_Controller {
                 $data['bread'] = array('header'=>'Cabang', 'subheader'=>'Cabang');
                 $data['view']  = "master_data/cabang/input-cabang";
             break;
+            case 'master_cabang_user':
+                if($sts=='edit'){
+                    $id = $this->input->post('id');
+                    $data = $this->master_data_model->getdata('master_cabang_detail', 'row_array', $id);
+                    $data['data'] = $data;
+                }
+                $data['opt_user'] = dtuser();
+                // var_dump($data['opt_user']);exit;
+                $data['bread'] = array('header'=>'Cabang', 'subheader'=>'Cabang');
+                $data['view']  = "master_data/cabang/input-cabang-user";
+            break;
             case "master_aruskas":
                 if($sts=='edit'){
                     $id = $this->input->post('id');
@@ -369,6 +384,11 @@ class Master_data extends CI_Controller {
         if(isset($post['editstatus'])){$editstatus = $post['editstatus'];unset($post['editstatus']);}
         else $editstatus = $p2;
         // $post1 = htmlspecialchars($post, ENT_COMPAT, 'UTF-8');
+        // echo "<pre>";
+        // print_r($p1); 
+        // print_r($post); 
+        // print_r($editstatus); 
+        // exit;
         echo $this->master_data_model->simpandata($p1, $post, $editstatus);
     }
 

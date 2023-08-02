@@ -62,9 +62,11 @@
  								<th>Kode Pihak</th>
                 <th>Nama Pihak</th>
  								<th>User</th>
+                 <th>Status</th>
                 <th>Keterangan</th>
-                <th>Approval</th>
+                <?php if($iduser == 1): ?>
  								<th width="100" class='noExl'>#</th>
+                <?php endif; ?>
  							</tr>
  						</thead>
  						<tbody>
@@ -83,10 +85,11 @@
                     }
                   ?>
                   <td style="text-align: left;"><?=$iduser;?></td>
-                  <td style="text-align: left;"><?=$pihak['keterangan']?></td>
                   <td style="text-align: left;"><?=$pihak['approval']?></td>
+                  <td style="text-align: left;"><?=$pihak['keterangan']?></td>
+                  <?php if($iduser == 1): ?>
                   <td>
-                    <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat" onClick="genform('mst_pihak','mst_pihak','mst_pihak','','<?=$pihak['id'] ?>','','','edit');">
+                    <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat adm" onClick="genform('mst_pihak','mst_pihak','mst_pihak','','<?=$pihak['id'] ?>','','','edit');">
                       <i class="fa fa-edit"></i>
                     </a>
                     &nbsp;
@@ -94,6 +97,7 @@
                       <i class="fa fa-trash"></i>
                     </a>
                   </td>
+                  <?php endif; ?>
                 </tr>
               <?php endforeach;?>
               <?php endif;?>

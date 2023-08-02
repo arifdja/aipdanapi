@@ -1,5 +1,5 @@
  <!-- Main content -->
-            <?php $level = $this->session->userdata('level');?>
+ <?php $level = $this->session->userdata('level');?>
             <?php $tahun = $this->session->userdata('tahun');?>
             <?php $iduser= $this->session->userdata('idusergroup');?>
             <style type="text/css">
@@ -18,39 +18,10 @@
                         <div class="box-body" style="overflow-x:auto;">
                             <div class="col-md-12">
                                 <div class="row">
-                                    <?php if($iduser == 1): ?>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <select class="form-control select2nya" id="iduser">
-                                                <option value="">
-                                                    -- Pilih User --
-                                                </option>
-                                                <?php if(isset($opt_user) && is_array($opt_user)){?> 
-                                                    <?php foreach($opt_user as $k=>$v){?>
-                                                        <option value="<?php echo $v['id'];?>" <?php if(!empty($iduser) && $v['id'] == $iduser) echo 'selected="selected"';?>>
-                                                            <?php echo $v['txt'];?>
-                                                        </option>
-                                                    <?php }?>
-                                                <?php }?>
-                                            </select>
-                                        </div>
-                                    </div> 
-                                    <div class="col-md-1">
-                                        <div class="form-group">
-                                            <a href="javascript:void(0)" title="Add" class="btn btn-primary btn-sm btn-flat" onClick="gensearch('index-master-cabang','index-master-cabang');">
-                                                <i class="fa fa-search"></i>
-                                            </a> 
-                                        </div>
-                                    </div>
-                                    <?php endif; ?>
-                                    <?php if($iduser == 1): ?>
-                                    <div  class="col-md-8"> 
-                                    <?php else: ?>
                                     <div  class="col-md-12"> 
-                                    <?php endif; ?>
                                         <div class="form-group pull-right">
                                             <a href="javascript:void(0)" title="Add" class="btn btn-primary btn-sm btn-flat" onClick="
-                                            genform('master_cabang','master_cabang','master_cabang','','','','','add');">
+                                            genform('master_cabang_user','master_cabang_user','master_cabang_user','','','','','add');">
                                                 <i class="fa fa-plus"></i>&nbsp;&nbsp;Tambah
                                             </a>  
                                             <button class="btn btn-sm btn-flat btn-primary" id="excel"><i class="fas fa-excel"></i>Download Excel</button>
@@ -72,9 +43,6 @@
                                         <th>User</th>
                                         <th>Status</th>
                                         <th>Keterangan</th>
-                                        <?php if($iduser == 1): ?>
-                                        <th width="10%" class='noExl'>Action</th>
-                                        <?php endif ?>
 									</tr>
 								
                                 </thead>
@@ -94,19 +62,20 @@
                                             }
                                             ?>
                                             <td style="text-align: left;"><?=$iduser;?></td>
-                                            <td style="text-align: left;"><?=$cabang['keterangan']?></td>
-                                            <td style="text-align: left;"><?=$cabang['approval']?></td>
-                                            <?php if($iduser == 1): ?>
-                                            <td>
-                                                <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat" onClick="genform('master_cabang','master_cabang','master_cabang','','<?=$cabang['id_cabang'] ?>','','','edit');">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                                &nbsp;
-                                                <a href="javascript:void(0)" title="Delete" class="btn btn-danger btn-sm btn-flat adm" onClick="genform('delete', 'master_cabang','master_cabang','','<?=$cabang['id_cabang'] ?>','');">
-                                                    <i class="fa fa-trash"></i>
-                                                </a>
+                                            <td style="text-align: left;">
+                                            <?php
+                                            if ($cabang['approval'] == '1'){ 
+                                                echo 'Diajukan';
+                                            }elseif ($cabang['approval'] == '2') {
+                                                echo 'Ditolak';
+                                            }elseif ($cabang['approval'] == '3') {
+                                                echo 'Diterima';
+                                            }elseif ($cabang['approval'] == '') {
+                                                echo 'Data Awal';
+                                            }
+                                            ?>
                                             </td>
-                                            <?php endif ?>
+                                            <td style="text-align: left;"><?=$cabang['keterangan']?></td>
                                         </tr>
                                     <?php endforeach;?>
                                 <?php endif;?>
