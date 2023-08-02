@@ -178,8 +178,59 @@ class Aset_investasi_model extends CI_Model {
             $msg.=$return;
           }
         }
+        
+        // untuk mencari id investasi dari jenis form
+        // Contoh data group 1 = '1','88'
+        $where_group1 = array('1');
+        $this->db->select('id_investasi');
+        $this->db->where('mst_investasi.group','INVESTASI');
+        $this->db->where_in('jns_form',$where_group1);
+        $group1 = $this->db->get('mst_investasi')->result_array();
+        foreach($group1 as $g) {
+          $arr_group[1][] = $g['id_investasi'];
+        }
 
-        if($id_investasi == 1){
+        // Contoh data group 2 = '2','3','4','6','10','11','14','15','16','17','18','19','20','21','22'
+        $where_group2 = array('2','8','4');
+        $this->db->select('id_investasi');
+        $this->db->where('mst_investasi.group','INVESTASI');
+        $this->db->where_in('jns_form',$where_group2);
+        $group2 = $this->db->get('mst_investasi')->result_array();
+        foreach($group2 as $g) {
+          $arr_group[2][] = $g['id_investasi'];
+        }
+
+        // Contoh data group 3 = '5','7','8'
+        $where_group3 = array('7','9');
+        $this->db->select('id_investasi');
+        $this->db->where('mst_investasi.group','INVESTASI');
+        $this->db->where_in('jns_form',$where_group3);
+        $group3 = $this->db->get('mst_investasi')->result_array();
+        foreach($group3 as $g) {
+          $arr_group[3][] = $g['id_investasi'];
+        }
+
+        // Contoh data group 4 = '9','12'
+        $where_group4 = array('3','5');
+        $this->db->select('id_investasi');
+        $this->db->where('mst_investasi.group','INVESTASI');
+        $this->db->where_in('jns_form',$where_group4);
+        $group4 = $this->db->get('mst_investasi')->result_array();
+        foreach($group4 as $g) {
+          $arr_group[4][] = $g['id_investasi'];
+        }
+
+        // Contoh data group 5 = '13'
+        $where_group5 = array('6');
+        $this->db->select('id_investasi');
+        $this->db->where('mst_investasi.group','INVESTASI');
+        $this->db->where_in('jns_form',$where_group5);
+        $group5 = $this->db->get('mst_investasi')->result_array();
+        foreach($group5 as $g) {
+          $arr_group[5][] = $g['id_investasi'];
+        }
+        
+        if(in_array($id_investasi,$arr_group[1])){
           //saldo akhir = saldo awal + penanaman - pencairan
           $return = $this->validasi_form_1($id_investasi,$key,$data,$detail);
           if($return){
@@ -392,14 +443,7 @@ class Aset_investasi_model extends CI_Model {
   }
 
   /**
-   * function validasi_form_1
    * saldo akhir = saldo awal + penanaman - pencairan
-   * 
-   * @param [type] $id_investasi
-   * @param [type] $key
-   * @param [type] $data
-   * @param [type] $detail
-   * @return void
    */
   private function validasi_form_1($id_investasi,$key,$data,$detail)
   {
@@ -445,14 +489,7 @@ class Aset_investasi_model extends CI_Model {
 
   
   /**
-   * Undocumented function
    * Saldo akhir = Saldo awal + pembelian - penjualan + diskonto/premium + kenaikan/penurunan harga pasar
-   * 
-   * @param [type] $id_investasi
-   * @param [type] $key
-   * @param [type] $data
-   * @param [type] $detail
-   * @return void
    */
   private function validasi_form_2($id_investasi,$key,$data,$detail)
   {
@@ -499,12 +536,6 @@ class Aset_investasi_model extends CI_Model {
 
   /**
    * Saldo akhir = saldo awal + pembelian - penjualan + amortisasi + mutasi pasar
-   *
-   * @param [type] $id_investasi
-   * @param [type] $key
-   * @param [type] $data
-   * @param [type] $detail
-   * @return void
    */
   private function validasi_form_3($id_investasi,$key,$data,$detail)
   {
@@ -552,12 +583,6 @@ class Aset_investasi_model extends CI_Model {
   
   /**
    * saldo akhir = saldo awal + pembelian - penjualan + harga pasar
-   *
-   * @param [type] $id_investasi
-   * @param [type] $key
-   * @param [type] $data
-   * @param [type] $detail
-   * @return void
    */
   private function validasi_form_4($id_investasi,$key,$data,$detail)
   {
@@ -603,12 +628,6 @@ class Aset_investasi_model extends CI_Model {
 
   /**
    * saldo awal + pembelian - penjualan + nilai wajar
-   *
-   * @param [type] $id_investasi
-   * @param [type] $key
-   * @param [type] $data
-   * @param [type] $detail
-   * @return void
    */
   private function validasi_form_5($id_investasi,$key,$data,$detail)
   {
