@@ -92,7 +92,7 @@ class Bukan_aset_investasi_model extends CI_Model {
   {
     $dataInsert =array();
     $dataUpdate =array();
-    $arrBulan = array(1,2,3,4,5,6,7,8,9,10,11,12);
+    $arrBulan = array(1,2,3,4,5,6,7,8,9,10,11,12,13);
 
     $this->db->select('id_investasi');
     $id = $this->db->get_where('mst_investasi',array('mst_investasi.group'=>'BUKAN INVESTASI'))->result_array();

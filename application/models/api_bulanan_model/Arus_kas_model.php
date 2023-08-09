@@ -70,7 +70,7 @@ class Arus_kas_model extends CI_Model {
   {
     $dataInsert =array();
     $dataUpdate =array();
-    $arrBulan = array(1,2,3,4,5,6,7,8,9,10,11,12);
+    $arrBulan = array(1,2,3,4,5,6,7,8,9,10,11,12,13);
 
     $this->db->select('id_aruskas');
     $id = $this->db->get('mst_aruskas')->result_array();

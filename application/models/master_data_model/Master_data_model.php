@@ -33,6 +33,7 @@ class Master_data_model extends CI_Model {
 		if($sts_crud == "add"){
 			unset($data['id_investasi']);
 			unset($data['id']);
+			unset($data['id_cabang']);
 		}
 
 		switch($table){
@@ -159,6 +160,10 @@ class Master_data_model extends CI_Model {
 		}
 		switch ($sts_crud){
 			case "add":
+				// var_dump($table_data);
+				// var_dump($data);
+				// var_dump($sts_crud);
+				// exit;
 				if($table_data != "mst_nama_pihak"){
 					$insert = $this->db->insert($table_data,$data);
 					$id = $this->db->insert_id();
