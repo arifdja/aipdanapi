@@ -261,6 +261,23 @@ class Aset_investasi extends CI_Controller {
                 $data['bread'] = array('header'=>'Hasil Investasi', 'subheader'=>'Hasil Investasi');
                 $data['view']  = "bulanan/hasil_investasi/input_hasil_investasi";
             break;
+            case 'detail_hasil_investasi':
+                if($sts=='edit'){
+                    $id = $this->input->post('id');
+                    $jns_form = $this->input->post('jns_form');
+                    $data = $this->aset_investasi_model->getdata('data_aset_investasi', 'row_array', $id, $jns_form);
+                    $data_detail = $this->aset_investasi_model->getdata('data_detail_aset_investasi', 'result_array', $id, $jns_form);
+                    $combo = $this->aset_investasi_model->get_combo('data_pihak', $data['id_investasi']);
+
+                    $data['combo'] = $combo;
+                    $data['data'] = $data;
+                    $data['data_detail'] = $data_detail;
+                }
+
+                $data['data_jenis'] = $this->aset_investasi_model->getdata('mst_hasil_investasi', 'result');
+                $data['bread'] = array('header'=>'Hasil Investasi', 'subheader'=>'Detail Hasil Investasi');
+                $data['view']  = "bulanan/hasil_investasi/detail_hasil_investasi";
+            break;
             case 'danabersih_kewajiban':
                 $data['kewajiban'] = $this->aset_investasi_model->getdata('data_kewajiban_header', 'result_array');
                 $data['data_jenis'] = $this->aset_investasi_model->getdata('mst_jenis_investasi_kewajiban', 'result');

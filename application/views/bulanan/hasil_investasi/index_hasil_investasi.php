@@ -66,14 +66,14 @@
                                 <thead>
 									<tr>
                                         <th width="10">No</th>
-                                        <th width="30%">Jenis Hasil Investasi</th>
+                                        <th width="25%">Jenis Hasil Investasi</th>
                                         <th>RIT</th>
     									<th>Saldo Awal</th>
                                         <th>Mutasi</th>
                                         <th>Saldo Akhir</th>
                                         <th width="8%">(%) Realisasi RIT</th>
                                         <th width="8%">(%) Target YOI</th>
-                                        <th class="user-bln" width="13%">Action</th>
+                                        <th class="user-bln" width="18%">Action</th>
 									</tr>
 								
                                 </thead>
@@ -83,7 +83,7 @@
                                     <?php foreach($data_hasil_investasi as $hasil):?>
                                         <?php if($hasil['type'] == 'P'):?>
                                             <tr class="cek">
-                                                <td><?= $no++;?></td>
+                                                <td><?= $no++;?> </td>
                                                 <td style="text-align: left;"><?=$hasil['jenis_investasi']?></td>
                                                 <td><?=($hasil['rka'] != 0 ) ? rupiah($hasil['rka']) : '-';?></td>
                                                 <td><?=($hasil['saldo_awal'] != 0 ) ? rupiah($hasil['saldo_awal']) : '-';?></td>
@@ -100,7 +100,12 @@
                                                     <a href="javascript:void(0)" title="Delete" class="btn btn-danger btn-sm btn-flat" onClick="genform('delete', 'hasil_investasi','hasil_investasi','','<?=$hasil['id'] ?>','');">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
+                                                     &nbsp;
+                                                   <a href="javascript:void(0)" title="Detail" class="btn btn-primary btn-sm btn-flat" onClick="genform('edit', 'detail_hasil_investasi','detail_hasil_investasi','','<?=$hasil['id'] ?>','<?=$hasil['jns_form']?>');">
+                                                        <i class="fa fa-list"></i>
+                                                    </a>
                                                     &nbsp;
+
                                                     <?php if($hasil['filedata'] != ""):?>
                                                     <a href="<?php echo site_url('bulanan/aset_investasi/get_file_jenis/'.(isset($hasil['id']) ? $hasil['id'] : '').get_uri());?>" class="btn btn-sm btn-primary btn-flat" title="Lihat Dokumen"><i class="fa fa-file-o"></i></a>
                                                     <?php endif;?>
@@ -142,7 +147,13 @@
                                                                 <a href="javascript:void(0)" title="Delete" class="btn btn-danger btn-sm btn-flat" onClick="genform('delete', 'hasil_investasi','hasil_investasi','','<?=$subchild['id'] ?>','');">
                                                                     <i class="fa fa-trash"></i>
                                                                 </a>
+
                                                                 &nbsp;
+                                                                <a href="javascript:void(0)" title="Detail" class="btn btn-primary btn-sm btn-flat" onClick="genform('edit', 'hasilnya','hasilnya','','<?=$hasil['id'] ?>','<?=$hasil['jns_form']?>');">
+                                                                    <i class="fa fa-list"></i>
+                                                                </a>
+                                                                &nbsp;
+
                                                                 <?php if($hasil['filedata'] != ""):?>
                                                                 <a href="<?php echo site_url('bulanan/aset_investasi/get_file_jenis/'.(isset($hasil['id']) ? $hasil['id'] : '').get_uri());?>" class="btn btn-sm btn-primary btn-flat" title="Lihat Dokumen"><i class="fa fa-file-o"></i></a>
                                                                 <?php endif;?>
