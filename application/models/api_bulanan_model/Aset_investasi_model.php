@@ -91,22 +91,35 @@ class Aset_investasi_model extends CI_Model {
     foreach ($id as $key => $value) {
       $arrID[] = $value['id_investasi'];
     }
+    
+    //Cari id tabel detil untuk ASET INVESTASI
+    $this->db->select('id');
+    $this->db->where('id_bulan',$bulan);
+    $this->db->where('tahun',$tahun);
+    $this->db->where('iduser',$user);
+    $this->db->where_in('id_investasi',$arrID);
+    $detailID = $this->db->get('bln_aset_investasi_header')->result_array();
+    $arrDetailID = array();
+    foreach ($detailID as $key => $value) {
+      $arrDetailID[] = $value['id'];
+    }
       
+    $this->db->where('id_bulan',$bulan);
+    $this->db->where('tahun',$tahun);
+    $this->db->where('iduser',$user);
+    $this->db->where_in('id_investasi',$arrID);
+    $this->db->delete($this->table);
+    $del = $this->db->affected_rows();
+    
+    if ($del) {
       $this->db->where('id_bulan',$bulan);
       $this->db->where('tahun',$tahun);
       $this->db->where('iduser',$user);
-      $this->db->where_in('id_investasi',$arrID);
-      $this->db->delete($this->table);
-      $del = $this->db->affected_rows();
-      
-      if ($del) {
-        $this->db->where('id_bulan',$bulan);
-        $this->db->where('tahun',$tahun);
-        $this->db->where('iduser',$user);
-        $this->db->delete($this->tableDetail);
-      }
+      $this->db->where_in('bln_aset_investasi_header_id',$arrDetailID);
+      $this->db->delete($this->tableDetail);
+    }
 
-      return $this->db->affected_rows();
+    return $this->db->affected_rows();
     
   }
 
