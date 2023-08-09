@@ -93,6 +93,7 @@ class Hasil_investasi_model extends CI_Model {
       $arrID[] = $value['id_investasi'];
     }
 
+
     //Cari id tabel detil untuk HASIL INVESTASI
     $this->db->select('id');
     $this->db->where('id_bulan',$bulan);

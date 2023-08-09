@@ -194,6 +194,7 @@ class Aset_investasi_model extends CI_Model {
         
         // untuk mencari id investasi dari jenis form
         // Contoh data group 1 = '1','88'
+        //saldo akhir = saldo awal + penanaman - pencairan
         $where_group1 = array('1');
         $this->db->select('id_investasi');
         $this->db->where('mst_investasi.group','INVESTASI');
@@ -204,6 +205,7 @@ class Aset_investasi_model extends CI_Model {
         }
 
         // Contoh data group 2 = '2','3','4','6','10','11','14','15','16','17','18','19','20','21','22'
+          //saldo akhir = saldo awal + pembelian - penjualan + diskonto/premium + kenaikan/penurunan harga pasar
         $where_group2 = array('2','8','4');
         $this->db->select('id_investasi');
         $this->db->where('mst_investasi.group','INVESTASI');
@@ -214,7 +216,8 @@ class Aset_investasi_model extends CI_Model {
         }
 
         // Contoh data group 3 = '5','7','8'
-        $where_group3 = array('7','9');
+          //saldo akhir = saldo awal + pembelian - penjualan + amortisasi + mutasi pasar
+        $where_group3 = array('7');
         $this->db->select('id_investasi');
         $this->db->where('mst_investasi.group','INVESTASI');
         $this->db->where_in('jns_form',$where_group3);
@@ -224,7 +227,8 @@ class Aset_investasi_model extends CI_Model {
         }
 
         // Contoh data group 4 = '9','12'
-        $where_group4 = array('3','5');
+          //saldo akhir = saldo awal + pembelian - penjualan + harga pasar
+        $where_group4 = array('3','5','9');
         $this->db->select('id_investasi');
         $this->db->where('mst_investasi.group','INVESTASI');
         $this->db->where_in('jns_form',$where_group4);
@@ -234,6 +238,7 @@ class Aset_investasi_model extends CI_Model {
         }
 
         // Contoh data group 5 = '13'
+          //saldo akhir = saldo awal + pembelian - penjualan + nilai wajar
         $where_group5 = array('6');
         $this->db->select('id_investasi');
         $this->db->where('mst_investasi.group','INVESTASI');
@@ -254,7 +259,7 @@ class Aset_investasi_model extends CI_Model {
             return $res;
           }
           
-        } elseif (in_array($id_investasi,['2','3','4','6','10','11','14','15','16','17','18','19','20','21','22'])) {
+        } elseif (in_array($id_investasi,$arr_group[2])) {
           //saldo akhir = saldo awal + pembelian - penjualan + diskonto/premium + kenaikan/penurunan harga pasar
           $return = $this->validasi_form_2($id_investasi,$key,$data,$detail);
           if($return){
@@ -264,7 +269,7 @@ class Aset_investasi_model extends CI_Model {
             $res['msg']=$return;
             return $res;
           }
-        } elseif (in_array($id_investasi,['5','7','8'])) {
+        } elseif (in_array($id_investasi,$arr_group[3])) {
           //saldo akhir = saldo awal + pembelian - penjualan + amortisasi + mutasi pasar
           $return = $this->validasi_form_3($id_investasi,$key,$data,$detail);
           if($return){
@@ -274,7 +279,7 @@ class Aset_investasi_model extends CI_Model {
             $res['msg'].=$return;
             return $res;
           }
-        } elseif (in_array($id_investasi,['9','12'])) {
+        } elseif (in_array($id_investasi,$arr_group[4])) {
           //saldo akhir = saldo awal + pembelian - penjualan + harga pasar
           $return = $this->validasi_form_4($id_investasi,$key,$data,$detail);
           if($return){
@@ -284,7 +289,7 @@ class Aset_investasi_model extends CI_Model {
             $res['msg']=$return;
             return $res;
           }
-        } elseif (in_array($id_investasi,['13'])) {
+        } elseif (in_array($id_investasi,$arr_group[5])) {
           //saldo akhir = saldo awal + pembelian - penjualan + nilai wajar
           $return = $this->validasi_form_5($id_investasi,$key,$data,$detail);
           if($return){
@@ -468,6 +473,10 @@ class Aset_investasi_model extends CI_Model {
       $sum_mutasi_pencairan += $v->mutasi_pencairan;
       $sum_saldo_akhir += $v->saldo_akhir;
 
+      if ($v->saldo_awal + $v->mutasi_penanaman - $v->mutasi_pencairan != $v->saldo_akhir) {
+        $msg.= '<< Detil id_investasi '.$id_investasi.' kode_pihak '.$v->kode_pihak.' tidak valid >>';
+      }
+
     }
 
     $sum_mutasi = $sum_mutasi_penanaman - $sum_mutasi_pencairan;
@@ -516,6 +525,10 @@ class Aset_investasi_model extends CI_Model {
       $sum_mutasi_pasar += $v->mutasi_pasar;
       $sum_saldo_akhir += $v->saldo_akhir;
 
+      if ($v->saldo_awal + $v->mutasi_pembelian - $v->mutasi_penjualan + $v->mutasi_diskonto + $v->mutasi_pasar != $v->saldo_akhir) {
+        $msg.= '<< Detil id_investasi '.$id_investasi.' kode_pihak '.$v->kode_pihak.' tidak valid >>';
+      }
+
     }
 
     $sum_mutasi = $sum_mutasi_pembelian - $sum_mutasi_penjualan + $sum_mutasi_diskonto + $sum_mutasi_pasar;
@@ -562,6 +575,9 @@ class Aset_investasi_model extends CI_Model {
       $sum_mutasi_pasar += $v->mutasi_pasar;
       $sum_saldo_akhir += $v->saldo_akhir;
 
+      if ($v->saldo_awal + $v->mutasi_pembelian - $v->mutasi_penjualan + $v->mutasi_amortisasi + $v->mutasi_pasar != $v->saldo_akhir) {
+        $msg.= '<< Detil id_investasi '.$id_investasi.' kode_pihak '.$v->kode_pihak.' tidak valid >>';
+      }
     }
 
     $sum_mutasi = $sum_mutasi_pembelian - $sum_mutasi_penjualan + $sum_mutasi_amortisasi + $sum_mutasi_pasar;
@@ -607,6 +623,10 @@ class Aset_investasi_model extends CI_Model {
       $sum_mutasi_penjualan += $v->mutasi_penjualan;
       $sum_mutasi_pasar += $v->mutasi_pasar;
       $sum_saldo_akhir += $v->saldo_akhir;
+      
+      if ($v->saldo_awal + $v->mutasi_pembelian - $v->mutasi_penjualan  + $v->mutasi_pasar != $v->saldo_akhir) {
+        $msg.= '<< Detil id_investasi '.$id_investasi.' kode_pihak '.$v->kode_pihak.' tidak valid >>';
+      }
     }
 
     $sum_mutasi = $sum_mutasi_pembelian - $sum_mutasi_penjualan + $sum_mutasi_pasar;
@@ -652,6 +672,10 @@ class Aset_investasi_model extends CI_Model {
       $sum_mutasi_penjualan += $v->mutasi_penjualan;
       $sum_mutasi_nilai_wajar += $v->mutasi_nilai_wajar;
       $sum_saldo_akhir += $v->saldo_akhir;
+
+      if ($v->saldo_awal + $v->mutasi_pembelian - $v->mutasi_penjualan  + $v->mutasi_nilai_wajar != $v->saldo_akhir) {
+        $msg.= '<< Detil id_investasi '.$id_investasi.' kode_pihak '.$v->kode_pihak.' tidak valid >>';
+      }
     }
 
     $sum_mutasi = $sum_mutasi_pembelian - $sum_mutasi_penjualan + $sum_mutasi_nilai_wajar;
