@@ -388,6 +388,7 @@ function genform(type, modulnya, submodulnya, stswindow, p1, p2, p3, stscrudmoda
 		case "detail_aset_investasi": 
 		case "detail_bukan_investasi": 
 		case "danabersih_kewajiban": 
+		case "detail_hasil_investasi": 
 		// case "perubahan_dana_bersih": 
 			var urlpostadd = host+'investasi-form/'+submodulnya;
 			var urlpostedit = host+'investasi-form/'+submodulnya+'/'+p1+'/'+p2;
