@@ -130,7 +130,7 @@ class Bukan_aset_investasi extends REST_Controller
                 }
               }
             }
-            $insert = $this->modelnya->insert($post);
+            $insert = $this->modelnya->insert($post,$decodedToken['data']);
             if ($insert['error']===false) {
               $this->response([
                 'status'=>true,
