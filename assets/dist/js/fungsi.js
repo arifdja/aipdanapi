@@ -1,3 +1,93 @@
+function genGaugeChart(divnya,judul, datanya) {
+	var gaugeOptions = {
+		chart: {
+			type: 'solidgauge'
+		},
+
+		title: null,
+
+		pane: {
+			center: ['50%', '70%'],
+			size: '90%',
+			startAngle: -90,
+			endAngle: 90,
+			background: {
+				backgroundColor:
+				Highcharts.defaultOptions.legend.backgroundColor || '#EEE',
+				innerRadius: '60%',
+				outerRadius: '100%',
+				shape: 'arc'
+			}
+		},
+
+		exporting: {
+			enabled: true
+		},
+
+		credits: {
+			enabled: false
+		},
+
+		tooltip: {
+			enabled: true
+		},
+
+    // the value axis
+    yAxis: {
+    	stops: [
+            [0.1, '#55BF3B'], // green
+            [0.5, '#DDDF0D'], // yellow
+            [0.9, '#DF5353'] // red
+            ],
+            lineWidth: 0,
+            tickWidth: 0,
+            minorTickInterval: null,
+            tickAmount: 2,
+            title: {
+            	y: -70
+            },
+            labels: {
+            	y: 16
+            }
+        },
+
+        plotOptions: {
+        	solidgauge: {
+        		dataLabels: {
+        			y: 5,
+        			borderWidth: 0,
+        			useHTML: true
+        		}
+        	}
+        }
+    };
+
+	var chartSpeed = Highcharts.chart(divnya, Highcharts.merge(gaugeOptions, judul, {   
+		yAxis: {
+			min: 0,
+			max: 200,
+			title: {
+				text: judul
+			}
+		},
+
+		series: [{
+			name: judul,
+			data: [datanya],
+			dataLabels: {
+				format:
+				'<div style="text-align:center">' +
+				'<span style="font-size:25px">{y}</span>%<br/>' +
+				'<span style="font-size:12px;opacity:0.4">Persentase</span>' +
+				'</div>'
+			},
+			tooltip: {
+				valueSuffix: ' %'
+			}
+		}]
+
+	}));
+}
 function genPieChart(divnya, tipe, judul, data, pointformatnya, p1){
 	Highcharts.setOptions({
 		lang:{
@@ -52,6 +142,132 @@ function genPieChart(divnya, tipe, judul, data, pointformatnya, p1){
 		},
 		series: data
 	} );
+}
+
+
+function genColumnChart2(divnya, type, xxChart, yyChart, judul, pointformatnya, par1, par2){
+	Highcharts.setOptions({
+		lang:{
+			thousandsSep: ','
+		},
+	});
+
+	Highcharts.chart(divnya, {
+        chart: {
+            type: 'bar',
+            
+            // backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        },
+        title: {
+            text: judul,
+			style: {
+				color: '#FFF',
+				font: '16px Lucida Grande, Lucida Sans Unicode,' +
+					' Verdana, Arial, Helvetica, sans-serif'
+			}
+        },
+        xAxis: {
+            categories: xxChart,
+            reversed : par2,
+            labels: {
+				style: {
+					color: '#000'
+				}
+			}
+        },
+        scrollbar: {
+            enabled: false
+        },
+
+        rangeSelector: {
+            selected: 1
+        },
+        yAxis: [{
+        	labels: {
+				overflow: 'justify',
+				style: {
+					color: '#000'
+				}
+			},
+			title:{
+				text:'JUMLAH',
+			}
+        },
+        {
+            min: 0,
+            title: {
+                text: ''
+            },
+        }, {
+            title: {
+                text: ''
+            },
+            opposite: true
+        }],
+        legend: {
+            shadow: false,
+            enabled: true,//(type == "pratut-tiga" ? false : true)
+        },
+        credits: {
+        	enabled: false
+        },
+        tooltip: {
+            shared:true,
+			// pointFormat: ponitformatnya
+        },
+        plotOptions: {
+	        column: {
+	            pointPadding: 0.1,
+	            borderWidth: 0
+	        },
+	        series: {
+				cursor: (type == 'ctwna' ? 'pointer' : ""),
+	        	dataLabels: {
+	        		enabled: true,
+	        		color: 'black',
+	        		style: {fontWeight: 'bolder'},
+	        		// formatter: function() {return this.x + ' : ' + this.y},
+	        		inside: false,
+	        		// rotation: 270
+	        	},
+				point: {
+					events: {
+						click: function () {
+							if(type == "ctwna"){
+								$.blockUI({ message: '<img width="100px" src="'+host+'__assets/images/loader.gif"><br/> Proses Data' });
+								par1['idnya_wna'] = par1['id'][this.index];
+								var negara = par1['negara'][this.index];
+								
+								// console.log(par1['idnya_wna']);
+								$('#modalencuk').html('');
+								$.post(host+'wna-detail/detail-wna-chart', par1, function (resp){
+									 $('#headernya').html( "DETAIL CHART "+negara );
+									 $('#modalencuk').html(resp);
+									 $('#pesanModal').modal('show');
+									 $.unblockUI();
+								});
+							}
+
+							if(type == "spdp"){
+								$.blockUI({ message: '<img width="100px" src="'+host+'__assets/images/loader.gif"><br/> Proses Data' });
+								par1['idnya_jenis'] = par1['id_jenis'][this.index];
+								par1['nama_jenis'] = this.category;
+								
+								$('#kotakan_spdp').hide();
+								$('#tablean_spdp').html('');
+								$.post(host+'pidana-umum3-dataperkara-table', par1, function (resp){
+									$('#tablean_spdp').html(resp).show();
+									$.unblockUI();
+								});
+							}
+							
+						}
+					}
+				 }
+	        }
+	    },
+        series: yyChart
+    });
 }
 
 function genColumnChart(divnya, type, xxChart, yyChart, judul, pointformatnya, par1, par2){
@@ -3618,6 +3834,7 @@ function submit_form(frm,func){
 				return isValid;	
             },
             success:function(data){
+         		// console.log('datanya',data);
                 if (func == undefined ){
                      if (data == "1"){
                         pesan('Data Sudah Disimpan ','Sukses');
