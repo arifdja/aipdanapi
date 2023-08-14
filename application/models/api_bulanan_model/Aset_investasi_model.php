@@ -141,14 +141,16 @@ class Aset_investasi_model extends CI_Model {
     
   }
 
-  public function insert($data)
+  public function insert($data,$tkn)
   {
+
+    $tknid = $tkn->id_aktif;
     $dataInsert =array();
     $dataUpdate =array();
     $arrBulan = array(1,2,3,4,5,6,7,8,9,10,11,12,13);
 
     $this->db->select('id_investasi');
-    $id = $this->db->get_where('mst_investasi',array('mst_investasi.group'=>'INVESTASI'))->result_array();
+    $id = $this->db->get_where('mst_investasi',array('mst_investasi.group'=>'INVESTASI','mst_investasi.iduser'=>$tknid))->result_array();
     $arrID = array();
     foreach ($id as $key => $value) {
       $arrID[] = $value['id_investasi'];
@@ -446,6 +448,7 @@ class Aset_investasi_model extends CI_Model {
         
       }else{
         $status = 0;
+        $msg.='<< Invalid Id Investasi '.$id_investasi.' >>';
         // jika key nya null maka error karna bukan INVESTASI
       }
 

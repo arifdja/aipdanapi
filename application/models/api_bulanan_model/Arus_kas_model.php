@@ -66,14 +66,16 @@ class Arus_kas_model extends CI_Model {
     
   }
 
-  public function insert($data)
+  public function insert($data,$tkn)
   {
+    $tknid = $tkn->id_aktif;
     $dataInsert =array();
     $dataUpdate =array();
     $arrBulan = array(1,2,3,4,5,6,7,8,9,10,11,12,13);
 
     $this->db->select('id_aruskas');
-    $id = $this->db->get('mst_aruskas')->result_array();
+    $id = $this->db->get_where('mst_aruskas',array('mst_aruskas.iduser'=>$tknid))->result_array();
+    // $id = $this->db->get('mst_aruskas')->result_array();
     $arrID = array();
     foreach ($id as $key => $value) {
       $arrID[] = $value['id_aruskas'];
