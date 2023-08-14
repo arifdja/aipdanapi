@@ -69,12 +69,13 @@
 													</tr>
 												</thead>
 												<tbody class="form_investasi_1 form_investasi_bln_lalu_1">
+													<?php $no=1; ?>
 													<?php if($editstatus == "edit" && $data['jns_form'] == "1") :?>
 														<?php if(isset($data_detail) && is_array($data_detail)):?>
 															<?php $idx=1;?>
 															<?php foreach($data_detail as  $detail):?>
 																<tr class="form_1" id="tr_inv_<?=$idx;?>" idx="<?=$idx;?>">
-																	<td style="text-align: center"><?= $detail['no_urut'];?></td>
+																	<td style="text-align: center"><?= $no++;?></td>
 																	<td style="text-align: left"><?= $detail['nama_pihak'];?></td>
 																	<td style="text-align: left">--seri--</td>
 																	<td><?= rupiah($detail['saldo_awal']);?></td>
@@ -111,12 +112,13 @@
 													</tr>
 												</thead>
 												<tbody class="form_investasi_2 form_investasi_bln_lalu_2">
+													<?php $no=1; ?>
 													<?php if($editstatus == "edit" && $data['jns_form'] == "2") :?>
 														<?php if(isset($data_detail) && is_array($data_detail)):?>
 															<?php $idx=1;?>
 															<?php foreach($data_detail as  $detail):?>
 																<tr class="form_2" id="tr_inv_<?=$idx;?>" idx="<?=$idx;?>">
-																	<td style="text-align: center"><?= $detail['no_urut'];?></td>
+																	<td style="text-align: center"><?= $no++;?></td>
 																	<td style="text-align: left"><?= $detail['nama_pihak'];?></td>
 																	<td><?= rupiah($detail['saldo_awal']);?></td>
 																	<td><?= rupiah($detail['mutasi_hasil_investasi']);?></td>
@@ -153,12 +155,13 @@
 													</tr>
 												</thead>
 												<tbody class="form_investasi_3 form_investasi_bln_lalu_3">
+													<?php $no=1; ?>
 													<?php if($editstatus == "edit" && $data['jns_form'] == "3") :?>
 														<?php if(isset($data_detail) && is_array($data_detail)):?>
 															<?php $idx=1;?>
 															<?php foreach($data_detail as  $detail):?>
 																<tr class="form_3" id="tr_inv_<?=$idx;?>" idx="<?=$idx;?>">
-																	<td style="text-align: center"><?= $detail['no_urut'];?></td>
+																	<td style="text-align: center"><?= $no++;?></td>
 																	<td style="text-align: left"><?= $detail['nama_pihak'];?></td>
 																	<td style="text-align: left">--uraian--</td>
 																	<td><?= rupiah($detail['saldo_awal']);?></td>
@@ -196,12 +199,13 @@
 													</tr>
 												</thead>
 												<tbody class="form_investasi_4 form_investasi_bln_lalu_4">
+													<?php $no=1; ?>
 													<?php if($editstatus == "edit" && $data['jns_form'] == "4") :?>
 														<?php if(isset($data_detail) && is_array($data_detail)):?>
 															<?php $idx=1;?>
 															<?php foreach($data_detail as  $detail):?>
 																<tr class="form_4" id="tr_inv_<?=$idx;?>" idx="<?=$idx;?>">
-																	<td style="text-align: center"><?= $detail['no_urut'];?></td>
+																	<td style="text-align: center"><?= $no++;?></td>
 																	<td style="text-align: left"><?= $detail['nama_pihak'];?></td>
 																	<td style="text-align: left">--no bilyet--</td>
 																	<td><?= rupiah($detail['saldo_awal']);?></td>
@@ -240,12 +244,13 @@
 													</tr>
 												</thead>
 												<tbody class="form_investasi_5 form_investasi_bln_lalu_5">
+													<?php $no=1; ?>
 													<?php if($editstatus == "edit" && $data['jns_form'] == "5") :?>
 														<?php if(isset($data_detail) && is_array($data_detail)):?>
 															<?php $idx=1;?>
 															<?php foreach($data_detail as  $detail):?>
 																<tr class="form_5" id="tr_inv_<?=$idx;?>" idx="<?=$idx;?>">
-																	<td style="text-align: center"><?= $detail['no_urut'];?></td>
+																	<td style="text-align: center"><?= $no++;?></td>
 																	<td style="text-align: left"><?= $detail['nama_pihak'];?></td>
 																	<td style="text-align: left">--uraian--</td>
 																	<td><?= rupiah($detail['saldo_awal']);?></td>

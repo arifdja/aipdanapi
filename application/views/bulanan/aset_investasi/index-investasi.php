@@ -74,13 +74,13 @@
                                 <thead>
 									<tr>
                                         <th width="10">No</th>
-                                        <th width="30%">Jenis Investasi</th>
+                                        <th width="25%">Jenis Investasi</th>
                                         <th>RIT</th>
     									<th>Saldo Awal</th>
                                         <th>Mutasi</th>
                                         <th>Saldo Akhir</th>
                                         <th width="8%">(%) Realisasi RIT</th>
-                                        <th width="13%">Action</th>
+                                        <th width="18%">Action</th>
 									</tr>
 								
                                 </thead>

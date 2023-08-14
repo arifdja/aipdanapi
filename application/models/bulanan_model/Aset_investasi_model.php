@@ -552,21 +552,26 @@ class Aset_investasi_model extends CI_Model {
 						unset($data['keterangan']);
 					}
 
-					
-					$sql_cek = "
-						SELECT A.id_investasi as id, A.jenis_investasi as txt
-						FROM  mst_investasi A 
-						WHERE A.`group` = 'BEBAN'
-						AND A.type_sub_jenis_investasi = 'P'
-						AND A.iduser = '".$iduser."'
-						AND  A.jenis_investasi= 'Beban Investasi'
-						ORDER BY A. no_urut ASC
-					";
 
-					$cek = $this->db->query($sql_cek)->row_array();
-					$id_cek = $cek['id'];
-					$txt = $cek['txt'];
+					// UPDATE KE PERUBAHAN DANA BERSIH BEBAN INVESTASI
+					
+					// $sql_cek = "
+					// 	SELECT A.id_investasi as id, A.jenis_investasi as txt
+					// 	FROM  mst_investasi A 
+					// 	WHERE A.`group` = 'BEBAN'
+					// 	AND A.type_sub_jenis_investasi = 'P'
+					// 	AND A.iduser = '".$iduser."'
+					// 	AND  A.jenis_investasi= 'Beban Investasi'
+					// 	ORDER BY A. no_urut ASC
+					// ";
+
+					// $cek = $this->db->query($sql_cek)->row_array();
+					// $id_cek = $cek['id'];
+					// $txt = $cek['txt'];
+
 					// print_r($data);exit;
+
+					// =================================================
 
 					// UPLOAD MULTIPLE FILE
 					$name_data = array();
@@ -631,53 +636,57 @@ class Aset_investasi_model extends CI_Model {
 							
 						}
 
-						$sql_sum = "
-							SELECT A.iduser, B.id_bulan,
-							sum(B.saldo_awal) as saldo_awal, sum(B.mutasi) as mutasi, sum(B.rka) as rka, sum(B.realisasi_rka) as realisasi_rka, 
-							sum(B.saldo_akhir) as saldo_akhir
-							FROM mst_investasi A
-							LEFT JOIN(
-								SELECT id_investasi, saldo_awal_invest as saldo_awal, mutasi_invest as mutasi, rka, realisasi_rka, tahun,
-								saldo_akhir_invest as saldo_akhir, id_bulan, iduser
-								FROM bln_aset_investasi_header
-								WHERE id_bulan = '".$id_bulan."'
-								AND tahun = '".$tahun."'
-								AND iduser = '".$iduser."'
-							) B ON A.id_investasi = B.id_investasi
-							WHERE A.`group` ='BEBAN INVESTASI'
-							AND A.iduser = '".$iduser."'
-							AND B.id_bulan = '".$id_bulan."'
-							AND B.tahun = '".$tahun."'
-						";
+						// UPDATE KE PERUBAHAN DANA BERSIH BEBAN INVESTASI LANJUTAN
 
-						$sum = $this->db->query($sql_sum)->row_array();
+						// $sql_sum = "
+						// 	SELECT A.iduser, B.id_bulan,
+						// 	sum(B.saldo_awal) as saldo_awal, sum(B.mutasi) as mutasi, sum(B.rka) as rka, sum(B.realisasi_rka) as realisasi_rka, 
+						// 	sum(B.saldo_akhir) as saldo_akhir
+						// 	FROM mst_investasi A
+						// 	LEFT JOIN(
+						// 		SELECT id_investasi, saldo_awal_invest as saldo_awal, mutasi_invest as mutasi, rka, realisasi_rka, tahun,
+						// 		saldo_akhir_invest as saldo_akhir, id_bulan, iduser
+						// 		FROM bln_aset_investasi_header
+						// 		WHERE id_bulan = '".$id_bulan."'
+						// 		AND tahun = '".$tahun."'
+						// 		AND iduser = '".$iduser."'
+						// 	) B ON A.id_investasi = B.id_investasi
+						// 	WHERE A.`group` ='BEBAN INVESTASI'
+						// 	AND A.iduser = '".$iduser."'
+						// 	AND B.id_bulan = '".$id_bulan."'
+						// 	AND B.tahun = '".$tahun."'
+						// ";
+
+						// $sum = $this->db->query($sql_sum)->row_array();
 						
-						$dt['saldo_awal_invest'] = $sum['saldo_awal'];
-						$dt['saldo_akhir_invest'] = $sum['saldo_akhir'];
-						$dt['rka'] = $sum['rka'];
-						$dt['iduser'] = $sum['iduser'];
-						$dt['id_bulan'] = $sum['id_bulan'];
-						$dt['id_investasi'] = $id_cek;
+						// $dt['saldo_awal_invest'] = $sum['saldo_awal'];
+						// $dt['saldo_akhir_invest'] = $sum['saldo_akhir'];
+						// $dt['rka'] = $sum['rka'];
+						// $dt['iduser'] = $sum['iduser'];
+						// $dt['id_bulan'] = $sum['id_bulan'];
+						// $dt['id_investasi'] = $id_cek;
 
-						$sql_tot = "
-							SELECT count(*) as total
-							FROM mst_investasi A  
-							LEFT JOIN bln_aset_investasi_header B  on B.id_investasi = A.id_investasi
-							WHERE  A.iduser = '".$iduser."'
-							AND  A.id_investasi = '".$id_cek."' 
-							AND  B.id_bulan = '".$id_bulan."' 
-							AND  B.tahun = '".$tahun."' 
-							ORDER BY A.id_investasi ASC
-						";
+						// $sql_tot = "
+						// 	SELECT count(*) as total
+						// 	FROM mst_investasi A  
+						// 	LEFT JOIN bln_aset_investasi_header B  on B.id_investasi = A.id_investasi
+						// 	WHERE  A.iduser = '".$iduser."'
+						// 	AND  A.id_investasi = '".$id_cek."' 
+						// 	AND  B.id_bulan = '".$id_bulan."' 
+						// 	AND  B.tahun = '".$tahun."' 
+						// 	ORDER BY A.id_investasi ASC
+						// ";
 
-						$tot = $this->db->query($sql_tot)->row_array();
+						// $tot = $this->db->query($sql_tot)->row_array();
 						// print_r($dt);exit;
 
-						if($tot['total'] != 0){
-							$this->db->update('bln_aset_investasi_header', $dt, array('id_investasi' => $id_cek,'id_bulan' => $id_bulan,'iduser' => $iduser,'tahun' => $tahun) );
-						}else{
-							$this->db->insert('bln_aset_investasi_header', $dt);
-						}
+						// if($tot['total'] != 0){
+						// 	$this->db->update('bln_aset_investasi_header', $dt, array('id_investasi' => $id_cek,'id_bulan' => $id_bulan,'iduser' => $iduser,'tahun' => $tahun) );
+						// }else{
+						// 	$this->db->insert('bln_aset_investasi_header', $dt);
+						// }
+
+						// =========================================================================================
 						
 					}
 				}
@@ -1736,9 +1745,11 @@ class Aset_investasi_model extends CI_Model {
 					FROM mst_investasi A 
 					$where
 					AND A.`group` = 'BEBAN INVESTASI'
-					AND A.type_sub_jenis_investasi = 'PC'
+					AND (A.type_sub_jenis_investasi = 'P' OR A.type_sub_jenis_investasi = 'PC')
 					ORDER BY A. no_urut ASC
 				";
+
+				// echo $sql;exit;
 			break;
 
 			case 'combo_detail_beban_investasi':
@@ -1747,10 +1758,12 @@ class Aset_investasi_model extends CI_Model {
 					FROM mst_investasi A 
 					$where
 					AND A.`group` = 'BEBAN INVESTASI'
-					AND A.type_sub_jenis_investasi = 'C'
-					AND A.parent_id = '".$p1."'
+					AND (A.type_sub_jenis_investasi = 'C' OR A.type_sub_jenis_investasi = 'P')
+					AND (A.parent_id = '".$p1."' OR A.id_investasi = '".$p1."')
 					ORDER BY A. no_urut ASC
 				";
+
+				// echo $sql;exit;
 			break;
 		}
 		
@@ -1890,6 +1903,8 @@ class Aset_investasi_model extends CI_Model {
 					ORDER BY A.no_urut ASC
 
 				";
+
+				// echo $sql;exit;
 			break;
 			case 'aset_investasi_front_lv2':
 				$sql="
@@ -2096,7 +2111,7 @@ class Aset_investasi_model extends CI_Model {
 					FROM mst_investasi A 
 					$where2
 					AND A.`group` = 'BEBAN INVESTASI'
-					AND A.type_sub_jenis_investasi = 'PC'
+					AND (A.type_sub_jenis_investasi = 'P' OR A.type_sub_jenis_investasi = 'PC')
 					AND A.id_investasi = '".$p1."'
 					ORDER BY A. no_urut ASC
 				";
@@ -2115,8 +2130,8 @@ class Aset_investasi_model extends CI_Model {
 					) B ON A.id_investasi = B.id_investasi
 					$where2
 					AND A.`group` = 'BEBAN INVESTASI'
-					AND A.type_sub_jenis_investasi = 'C'
-					AND A.parent_id = '".$p1."'
+					AND (A.type_sub_jenis_investasi = 'C' OR A.type_sub_jenis_investasi = 'P')
+					AND (A.parent_id = '".$p1."' OR A.id_investasi = '".$p1."')
 					ORDER BY A. no_urut ASC
 				";
 				// echo $sql;exit;
