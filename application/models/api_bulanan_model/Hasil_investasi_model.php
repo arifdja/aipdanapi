@@ -213,6 +213,15 @@ class Hasil_investasi_model extends CI_Model {
                 $msg.=$return;
               }
             }
+
+            $invalid_id_investasi = invalid_id_investasi($id_user);
+            if(in_array($id_investasi,$invalid_id_investasi)){
+              $status = 0;
+              $res=array();
+              $res['error']=true;
+              $res['msg']="Id Investasi tidak valid";
+              return $res;
+            }
           
             $return = $this->validasi_hasil_investasi($id_investasi,$key,$data,$detail);
             if($return){

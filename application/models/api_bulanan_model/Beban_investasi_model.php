@@ -164,12 +164,22 @@ class Beban_investasi_model extends CI_Model {
             $res['error']=true;
             $res['msg']=$msg;
           } else {
+            
 
             if($id_bulan != 1){
               $return = $this->validasi_saldo_awal($id_user,$tahun,$id_bulan,$id_investasi,$saldo_awal_invest);
               if($return){
                 $msg.=$return;
               }
+            }
+
+            $invalid_id_investasi = invalid_id_investasi($id_user);
+            if(in_array($id_investasi,$invalid_id_investasi)){
+              $status = 0;
+              $res=array();
+              $res['error']=true;
+              $res['msg']="Id Investasi tidak valid";
+              return $res;
             }
             
             $cekdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'id_investasi'=>$id_investasi,'id_bulan'=>$id_bulan,'tahun'=>$tahun))->num_rows();

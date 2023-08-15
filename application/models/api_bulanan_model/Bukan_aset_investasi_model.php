@@ -228,6 +228,15 @@ class Bukan_aset_investasi_model extends CI_Model {
             }
           }
 
+          $invalid_id_investasi = invalid_id_investasi($id_user);
+          if(in_array($id_investasi,$invalid_id_investasi)){
+            $status = 0;
+            $res=array();
+            $res['error']=true;
+            $res['msg']="Id Investasi tidak valid";
+            return $res;
+          }
+
           //saldo akhir = saldo awal + pembelian - penjualan
           $return = $this->validasi_bukan_investasi($id_investasi,$key,$data,$detail);
           if($return){
