@@ -715,15 +715,36 @@ function get_status_input($id_user="", $tahun="", $id_bulan=""){
 		AND A.tahun = '".$tahun."'
 		AND A.id_bulan = '".$id_bulan."'
 	";
-	// echo "$id_user $tahun $id_bulan";exit;
 
-	// $sql = "
-	// 	SELECT A.iduser,A.tahun,A.id_bulan,A.status
-	// 	FROM bln_pendahuluan A
-	// 	WHERE A.iduser = 'TSN002'
-	// 	AND A.tahun = '2021'
-	// 	AND A.id_bulan = '10'
-	// ";
+	$balikan = false;
+	$var =  $ci->db->query($sql)->row_array();
+	if ($var) {
+		if($var['status'] == 'Selesai'){
+			$balikan = false;
+		} else {
+			$balikan = true;
+		}
+	  } else {
+		$balikan = true;
+	  }
+
+	return $balikan;
+
+}
+
+
+function get_status_input_semester($id_user="", $tahun="", $id_semester=""){
+	$ci = & get_instance();
+	$ci->load->database();
+
+		
+	$sql = "
+		SELECT A.iduser,A.tahun,A.semester,A.status
+		FROM tb_pendahuluan_semesteran A
+		WHERE A.iduser = '".$id_user."'
+		AND A.tahun = '".$tahun."'
+		AND A.semester = '".$id_semester."'
+	";
 
 	$balikan = false;
 	$var =  $ci->db->query($sql)->row_array();
