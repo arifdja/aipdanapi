@@ -80,18 +80,11 @@ class Kewajiban extends REST_Controller
               // get from token
               $user = $decodedToken['data']->id_aktif;
               $res = $this->modelnya->delete($bulan,$tahun,$user);
-              if ($res>0) {
-                $this->response([
-                  'status'=>true,
-                  'count'=>$res,
-                  'message'=>'Berhasil Menghapus Data'
-                  ],REST_Controller::HTTP_OK);
-              }else{
-                $this->response([
-                    'status'=>false,
-                    'message'=>'Gagal Menghapus Data'
-                    ],REST_Controller::HTTP_BAD_REQUEST);
-              }
+              $this->response([
+                'status'=>true,
+                'message'=>$res['msg']
+                ],REST_Controller::HTTP_OK);
+
 
             }else{
               $this->response([

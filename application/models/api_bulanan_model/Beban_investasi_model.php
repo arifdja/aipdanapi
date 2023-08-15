@@ -56,13 +56,23 @@ class Beban_investasi_model extends CI_Model {
       $arrID[] = $value['id_investasi'];
     }
 
+    
+    $status_input = get_status_input($user,$tahun,$bulan);
+
+    if($status_input == true){
       
       $this->db->where('id_bulan',$bulan);
       $this->db->where('tahun',$tahun);
       $this->db->where('iduser',$user);
       $this->db->where_in('id_investasi',$arrID);
       $this->db->delete($this->table);
-      return $this->db->affected_rows();
+      $res['msg'].= $this->db->affected_rows()." data deleted, ";
+
+    } else {
+      $res['msg'].= "Invalid status input $user $tahun $bulan, ";
+
+    }
+    return $res;
     
   }
 
@@ -144,58 +154,68 @@ class Beban_investasi_model extends CI_Model {
       if (in_array($id_investasi, $arrID) && in_array($id_user, $arrUSER) && in_array($id_bulan, $arrBulan)) {
         // jika key nya not null maka id investasi merupakan BEBAN INVESTASI
 
-        if ($saldo_akhir_invest/$rka*100 != $realisasi_rka) {
-          $msg.= '<< RKA id_investasi '.$id_investasi.' tidak valid>>';
-          $res['error']=true;
-          $res['msg']=$msg;
-        } else {
+        
+        $status_input = get_status_input($id_user,$tahun,$id_bulan);
 
-          if($id_bulan != 1){
-            $return = $this->validasi_saldo_awal($id_user,$tahun,$id_bulan,$id_investasi,$saldo_awal_invest);
-            if($return){
-              $msg.=$return;
-            }
-          }
-          
-          $cekdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'id_investasi'=>$id_investasi,'id_bulan'=>$id_bulan,'tahun'=>$tahun))->num_rows();
-          
-          if ($cekdata>0) {
-            $getdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'id_investasi'=>$id_investasi,'id_bulan'=>$id_bulan,'tahun'=>$tahun))->row();
+        if($status_input == true){
 
-            $idDetail = $getdata->id;
+          if ($saldo_akhir_invest/$rka*100 != $realisasi_rka) {
+            $msg.= '<< RKA id_investasi '.$id_investasi.' tidak valid>>';
+            $res['error']=true;
+            $res['msg']=$msg;
+          } else {
 
-            // update header
-            unset($data[$key]['detail']);
-            unset($value['detail']);
-            $dataUpdate=$value;
-
-            $this->db->where('iduser',$value['iduser']);
-            $this->db->where('id_investasi',$value['id_investasi']);
-            $this->db->where('id_bulan',$value['id_bulan']);
-            $this->db->where('tahun',$value['tahun']);
-            $this->db->update($this->table , $dataUpdate);
-            $jumlahUpdate = $this->db->affected_rows();
-
-            if ($jumlahUpdate>0) {
-              $msg.= '<< Data Header Id Investasi '.$id_investasi.' Berhasil Diperbarui >>';
-            }
-
-          }else{
-
-            unset($data[$key]['detail']);
-            unset($value['detail']);
-            $dataInsert=$value;
-
-            $insert = $this->db->insert($this->table, $dataInsert);
-            $idDetail = $this->db->insert_id();
-            $jumlahInsert = $this->db->affected_rows();
-
-            if ($jumlahInsert>0) {
-              $msg.= '<< Data Header Id Investasi '.$id_investasi.' Berhasil Ditambahkan >>';
+            if($id_bulan != 1){
+              $return = $this->validasi_saldo_awal($id_user,$tahun,$id_bulan,$id_investasi,$saldo_awal_invest);
+              if($return){
+                $msg.=$return;
+              }
             }
             
+            $cekdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'id_investasi'=>$id_investasi,'id_bulan'=>$id_bulan,'tahun'=>$tahun))->num_rows();
+            
+            if ($cekdata>0) {
+              $getdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'id_investasi'=>$id_investasi,'id_bulan'=>$id_bulan,'tahun'=>$tahun))->row();
+
+              $idDetail = $getdata->id;
+
+              // update header
+              unset($data[$key]['detail']);
+              unset($value['detail']);
+              $dataUpdate=$value;
+
+              $this->db->where('iduser',$value['iduser']);
+              $this->db->where('id_investasi',$value['id_investasi']);
+              $this->db->where('id_bulan',$value['id_bulan']);
+              $this->db->where('tahun',$value['tahun']);
+              $this->db->update($this->table , $dataUpdate);
+              $jumlahUpdate = $this->db->affected_rows();
+
+              if ($jumlahUpdate>0) {
+                $msg.= '<< Data Header Id Investasi '.$id_investasi.' Berhasil Diperbarui >>';
+              }
+
+            }else{
+
+              unset($data[$key]['detail']);
+              unset($value['detail']);
+              $dataInsert=$value;
+
+              $insert = $this->db->insert($this->table, $dataInsert);
+              $idDetail = $this->db->insert_id();
+              $jumlahInsert = $this->db->affected_rows();
+
+              if ($jumlahInsert>0) {
+                $msg.= '<< Data Header Id Investasi '.$id_investasi.' Berhasil Ditambahkan >>';
+              }
+              
+            }
+
           }
 
+        } else {
+          $status = 0;
+          $msg.="Invalid status input $id_user $tahun $id_bulan, ";
         }
 
       }else{

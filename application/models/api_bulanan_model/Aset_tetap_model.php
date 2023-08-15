@@ -55,14 +55,23 @@ class Aset_tetap_model extends CI_Model {
       $arrID[] = $value['id_investasi'];
     }
 
+    
+    $status_input = get_status_input($user,$tahun,$bulan);
+
+    if($status_input == true){
       
       $this->db->where('id_bulan',$bulan);
       $this->db->where('tahun',$tahun);
       $this->db->where('iduser',$user);
       $this->db->where_in('id_investasi',$arrID);
       $this->db->delete($this->table);
-      return $this->db->affected_rows();
+      $res['msg'].= $this->db->affected_rows()." data deleted, ";
     
+    } else {
+      $res['msg'].= "Invalid status input $user $tahun $bulan, ";
+
+    }
+    return $res;
   }
 
   public function insert($data,$tkn)
@@ -98,35 +107,41 @@ class Aset_tetap_model extends CI_Model {
       if (in_array($id_investasi, $arrID) && in_array($id_user, $arrUSER) && in_array($id_bulan, $arrBulan)) {
         // jika key nya not null maka id investasi merupakan ASET TETAP
         
-        $cekdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'id_investasi'=>$id_investasi,'id_bulan'=>$id_bulan,'tahun'=>$tahun))->num_rows();
+        $status_input = get_status_input($id_user,$tahun,$id_bulan);
         
-        if ($cekdata>0) {
+        if($status_input == true){
 
-          // update
-          $dataUpdate[]=$value;
-        }else{
-          $dataInsert[]=$value;
-          // insert
+          $cekdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'id_investasi'=>$id_investasi,'id_bulan'=>$id_bulan,'tahun'=>$tahun))->num_rows();
           
+          if ($cekdata>0) {
+
+            // update
+            $dataUpdate[]=$value;
+          }else{
+            $dataInsert[]=$value;
+            // insert
+            
+          }
+
+        } else {
+          $status = 0;
+          $res['msg'].="Invalid status input $id_user $tahun $id_bulan, ";
         }
 
       }else{
         $status = 0;
+        $res['msg'].="Invalid Id Investasi $id_investasi, ";
         // jika key nya null maka error karna bukan ASET TETAP
       }
     }
 
-    $msg='| ';
-    $res=array();
-    if ($status==0) {
-      $res['error']=true;
-      $res['msg']='Data Invalid';
-    }else{
+    if ($status==1) 
+    {
       if ((is_countable($dataInsert)?$dataInsert:[])) { 
         // jika ada data yg diinput
         $this->db->insert_batch($this->table, $dataInsert);
         $jumlahInsert = $this->db->affected_rows();
-        $msg.= $jumlahInsert.' Data Berhasil Ditambahkan | ';
+        $msg.= $jumlahInsert.' data added, ';
       }
 
       if ((is_countable($dataUpdate)?$dataUpdate:[])) { 
@@ -145,9 +160,9 @@ class Aset_tetap_model extends CI_Model {
         }
         // jika ada data yg diinput
         
-        $msg.= $jumlahUpdateAll.' Data Berhasil Diperbarui | ';
+        $msg.= $jumlahUpdateAll.' data updated, ';
       }
-
+      $res=array();
       $res['error']=false;
       $res['msg']=$msg;
     }

@@ -91,36 +91,48 @@ class Aset_investasi_model extends CI_Model {
     foreach ($id as $key => $value) {
       $arrID[] = $value['id_investasi'];
     }
+
     
-    //Cari id tabel detil untuk ASET INVESTASI
-    $this->db->select('id');
-    $this->db->where('id_bulan',$bulan);
-    $this->db->where('tahun',$tahun);
-    $this->db->where('iduser',$user);
-    $this->db->where_in('id_investasi',$arrID);
-    $detailID = $this->db->get('bln_aset_investasi_header')->result_array();
-    $arrDetailID = array();
-    foreach ($detailID as $key => $value) {
-      $arrDetailID[] = $value['id'];
-    }
+    $status_input = get_status_input($user,$tahun,$bulan);
+
+    if($status_input == true){
       
-    $this->db->where('id_bulan',$bulan);
-    $this->db->where('tahun',$tahun);
-    $this->db->where('iduser',$user);
-    $this->db->where_in('id_investasi',$arrID);
-    $this->db->delete($this->table);
-    $del = $this->db->affected_rows();
-    
-    if ($del) {
+      //Cari id tabel detil untuk ASET INVESTASI
+      $this->db->select('id');
       $this->db->where('id_bulan',$bulan);
       $this->db->where('tahun',$tahun);
       $this->db->where('iduser',$user);
-      $this->db->where_in('bln_aset_investasi_header_id',$arrDetailID);
-      $this->db->delete($this->tableDetail);
+      $this->db->where_in('id_investasi',$arrID);
+      $detailID = $this->db->get('bln_aset_investasi_header')->result_array();
+      $arrDetailID = array();
+      foreach ($detailID as $key => $value) {
+        $arrDetailID[] = $value['id'];
+      }
+        
+      $this->db->where('id_bulan',$bulan);
+      $this->db->where('tahun',$tahun);
+      $this->db->where('iduser',$user);
+      $this->db->where_in('id_investasi',$arrID);
+      $this->db->delete($this->table);
+      $del = $this->db->affected_rows();
+      
+      if ($del) {
+        $this->db->where('id_bulan',$bulan);
+        $this->db->where('tahun',$tahun);
+        $this->db->where('iduser',$user);
+        $this->db->where_in('bln_aset_investasi_header_id',$arrDetailID);
+        $this->db->delete($this->tableDetail);
+      }
+
+      $res['msg'].= $this->db->affected_rows()." data deleted, ";
+    
+    } else {
+      $res['msg'].= "Invalid status input $user $tahun $bulan, ";
+
     }
 
-    return $this->db->affected_rows();
-    
+    return $res;
+
   }
 
   
@@ -152,14 +164,16 @@ class Aset_investasi_model extends CI_Model {
     $this->db->select('id_investasi');
     $id = $this->db->get_where('mst_investasi',array('mst_investasi.group'=>'INVESTASI','mst_investasi.iduser'=>$tknid))->result_array();
     $arrID = array();
-    foreach ($id as $key => $value) {
+    foreach ($id as $key => $value) 
+    {
       $arrID[] = $value['id_investasi'];
     }
 
     $this->db->select('iduser');
     $resUser = $this->db->get('t_user')->result_array();
     $arrUSER = array();
-    foreach ($resUser as $key => $value) {
+    foreach ($resUser as $key => $value) 
+    {
       $arrUSER[] = $value['iduser'];
     }
 
@@ -167,13 +181,15 @@ class Aset_investasi_model extends CI_Model {
     $msg='-- Trans Begin --';
     $noHeader = 0;
 
-    foreach ($data as $key => $value) {
+    foreach ($data as $key => $value) 
+    {
       $id_bulan = $value['id_bulan'];
       $id_user = $value['iduser'];
       $tahun = $value['tahun'];
     }
 
-    foreach ($data as $key => $value) {
+    foreach ($data as $key => $value) 
+    {
       $noHeader++;
       $noDetail = 0;
       $id_investasi = $value['id_investasi'];
@@ -184,272 +200,285 @@ class Aset_investasi_model extends CI_Model {
       $detail = $value['detail'];
 
       // cek data id investasi
-      if (in_array($id_investasi, $arrID) && in_array($id_user, $arrUSER) && in_array($id_bulan, $arrBulan)) {
+      if (in_array($id_investasi, $arrID) && in_array($id_user, $arrUSER) && in_array($id_bulan, $arrBulan)) 
+      {
         // jika key nya not null maka id investasi merupakan INVESTASI
-
-        if($id_bulan != 1){
-          $return = $this->validasi_saldo_awal($id_user,$tahun,$id_bulan,$id_investasi,$detail);
-          if($return){
-            $msg.=$return;
-          }
-        }
         
-        // untuk mencari id investasi dari jenis form
-        // Contoh data group 1 = '1','88'
-        //saldo akhir = saldo awal + penanaman - pencairan
-        $where_group1 = array('1');
-        $this->db->select('id_investasi');
-        $this->db->where('mst_investasi.group','INVESTASI');
-        $this->db->where_in('jns_form',$where_group1);
-        $group1 = $this->db->get('mst_investasi')->result_array();
-        foreach($group1 as $g) {
-          $arr_group[1][] = $g['id_investasi'];
-        }
+        $status_input = get_status_input($id_user,$tahun,$id_bulan);
+        // var_dump($status_input);exit;
+        if($status_input == true)
+        {
 
-        // Contoh data group 2 = '2','3','4','6','10','11','14','15','16','17','18','19','20','21','22'
-          //saldo akhir = saldo awal + pembelian - penjualan + diskonto/premium + kenaikan/penurunan harga pasar
-        $where_group2 = array('2','8','4');
-        $this->db->select('id_investasi');
-        $this->db->where('mst_investasi.group','INVESTASI');
-        $this->db->where_in('jns_form',$where_group2);
-        $group2 = $this->db->get('mst_investasi')->result_array();
-        foreach($group2 as $g) {
-          $arr_group[2][] = $g['id_investasi'];
-        }
-
-        // Contoh data group 3 = '5','7','8'
-          //saldo akhir = saldo awal + pembelian - penjualan + amortisasi + mutasi pasar
-        $where_group3 = array('7');
-        $this->db->select('id_investasi');
-        $this->db->where('mst_investasi.group','INVESTASI');
-        $this->db->where_in('jns_form',$where_group3);
-        $group3 = $this->db->get('mst_investasi')->result_array();
-        foreach($group3 as $g) {
-          $arr_group[3][] = $g['id_investasi'];
-        }
-
-        // Contoh data group 4 = '9','12'
-          //saldo akhir = saldo awal + pembelian - penjualan + harga pasar
-        $where_group4 = array('3','5','9');
-        $this->db->select('id_investasi');
-        $this->db->where('mst_investasi.group','INVESTASI');
-        $this->db->where_in('jns_form',$where_group4);
-        $group4 = $this->db->get('mst_investasi')->result_array();
-        foreach($group4 as $g) {
-          $arr_group[4][] = $g['id_investasi'];
-        }
-
-        // Contoh data group 5 = '13'
-          //saldo akhir = saldo awal + pembelian - penjualan + nilai wajar
-        $where_group5 = array('6');
-        $this->db->select('id_investasi');
-        $this->db->where('mst_investasi.group','INVESTASI');
-        $this->db->where_in('jns_form',$where_group5);
-        $group5 = $this->db->get('mst_investasi')->result_array();
-        foreach($group5 as $g) {
-          $arr_group[5][] = $g['id_investasi'];
-        }
-        
-        if(in_array($id_investasi,$arr_group[1])){
-          //saldo akhir = saldo awal + penanaman - pencairan
-          $return = $this->validasi_form_1($id_investasi,$key,$data,$detail);
-          if($return){
-            $status = 0;
-            $res=array();
-            $res['error']=true;
-            $res['msg']=$return;
-            return $res;
+          if($id_bulan != 1)
+          {
+            $return = $this->validasi_saldo_awal($id_user,$tahun,$id_bulan,$id_investasi,$detail);
+            if($return){
+              $msg.=$return;
+            }
           }
           
-        } elseif (in_array($id_investasi,$arr_group[2])) {
-          //saldo akhir = saldo awal + pembelian - penjualan + diskonto/premium + kenaikan/penurunan harga pasar
-          $return = $this->validasi_form_2($id_investasi,$key,$data,$detail);
-          if($return){
-            $status = 0;
-            $res=array();
-            $res['error']=true;
-            $res['msg']=$return;
-            return $res;
+          // untuk mencari id investasi dari jenis form
+          // Contoh data group 1 = '1','88'
+          //saldo akhir = saldo awal + penanaman - pencairan
+          $where_group1 = array('1');
+          $this->db->select('id_investasi');
+          $this->db->where('mst_investasi.group','INVESTASI');
+          $this->db->where_in('jns_form',$where_group1);
+          $group1 = $this->db->get('mst_investasi')->result_array();
+          foreach($group1 as $g) 
+          {
+            $arr_group[1][] = $g['id_investasi'];
           }
-        } elseif (in_array($id_investasi,$arr_group[3])) {
-          //saldo akhir = saldo awal + pembelian - penjualan + amortisasi + mutasi pasar
-          $return = $this->validasi_form_3($id_investasi,$key,$data,$detail);
-          if($return){
-            $status = 0;
-            $res=array();
-            $res['error']=true;
-            $res['msg'].=$return;
-            return $res;
+
+          // Contoh data group 2 = '2','3','4','6','10','11','14','15','16','17','18','19','20','21','22'
+            //saldo akhir = saldo awal + pembelian - penjualan + diskonto/premium + kenaikan/penurunan harga pasar
+          $where_group2 = array('2','8','4');
+          $this->db->select('id_investasi');
+          $this->db->where('mst_investasi.group','INVESTASI');
+          $this->db->where_in('jns_form',$where_group2);
+          $group2 = $this->db->get('mst_investasi')->result_array();
+          foreach($group2 as $g) {
+            $arr_group[2][] = $g['id_investasi'];
           }
-        } elseif (in_array($id_investasi,$arr_group[4])) {
-          //saldo akhir = saldo awal + pembelian - penjualan + harga pasar
-          $return = $this->validasi_form_4($id_investasi,$key,$data,$detail);
-          if($return){
-            $status = 0;
-            $res=array();
-            $res['error']=true;
-            $res['msg']=$return;
-            return $res;
+
+          // Contoh data group 3 = '5','7','8'
+            //saldo akhir = saldo awal + pembelian - penjualan + amortisasi + mutasi pasar
+          $where_group3 = array('7');
+          $this->db->select('id_investasi');
+          $this->db->where('mst_investasi.group','INVESTASI');
+          $this->db->where_in('jns_form',$where_group3);
+          $group3 = $this->db->get('mst_investasi')->result_array();
+          foreach($group3 as $g) {
+            $arr_group[3][] = $g['id_investasi'];
           }
-        } elseif (in_array($id_investasi,$arr_group[5])) {
-          //saldo akhir = saldo awal + pembelian - penjualan + nilai wajar
-          $return = $this->validasi_form_5($id_investasi,$key,$data,$detail);
-          if($return){
-            $status = 0;
-            $res=array();
-            $res['error']=true;
-            $res['msg']=$return;
-            return $res;
+
+          // Contoh data group 4 = '9','12'
+            //saldo akhir = saldo awal + pembelian - penjualan + harga pasar
+          $where_group4 = array('3','5','9');
+          $this->db->select('id_investasi');
+          $this->db->where('mst_investasi.group','INVESTASI');
+          $this->db->where_in('jns_form',$where_group4);
+          $group4 = $this->db->get('mst_investasi')->result_array();
+          foreach($group4 as $g) {
+            $arr_group[4][] = $g['id_investasi'];
           }
-        }
 
-        $cekdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'id_investasi'=>$id_investasi,'id_bulan'=>$id_bulan,'tahun'=>$tahun))->num_rows();
+          // Contoh data group 5 = '13'
+            //saldo akhir = saldo awal + pembelian - penjualan + nilai wajar
+          $where_group5 = array('6');
+          $this->db->select('id_investasi');
+          $this->db->where('mst_investasi.group','INVESTASI');
+          $this->db->where_in('jns_form',$where_group5);
+          $group5 = $this->db->get('mst_investasi')->result_array();
+          foreach($group5 as $g) {
+            $arr_group[5][] = $g['id_investasi'];
+          }
+          
+          if(in_array($id_investasi,$arr_group[1])){
+            //saldo akhir = saldo awal + penanaman - pencairan
+            $return = $this->validasi_form_1($id_investasi,$key,$data,$detail);
+            if($return){
+              $status = 0;
+              $res=array();
+              $res['error']=true;
+              $res['msg']=$return;
+              return $res;
+            }
+            
+          } elseif (in_array($id_investasi,$arr_group[2])) {
+            //saldo akhir = saldo awal + pembelian - penjualan + diskonto/premium + kenaikan/penurunan harga pasar
+            $return = $this->validasi_form_2($id_investasi,$key,$data,$detail);
+            if($return){
+              $status = 0;
+              $res=array();
+              $res['error']=true;
+              $res['msg']=$return;
+              return $res;
+            }
+          } elseif (in_array($id_investasi,$arr_group[3])) {
+            //saldo akhir = saldo awal + pembelian - penjualan + amortisasi + mutasi pasar
+            $return = $this->validasi_form_3($id_investasi,$key,$data,$detail);
+            if($return){
+              $status = 0;
+              $res=array();
+              $res['error']=true;
+              $res['msg'].=$return;
+              return $res;
+            }
+          } elseif (in_array($id_investasi,$arr_group[4])) {
+            //saldo akhir = saldo awal + pembelian - penjualan + harga pasar
+            $return = $this->validasi_form_4($id_investasi,$key,$data,$detail);
+            if($return){
+              $status = 0;
+              $res=array();
+              $res['error']=true;
+              $res['msg']=$return;
+              return $res;
+            }
+          } elseif (in_array($id_investasi,$arr_group[5])) {
+            //saldo akhir = saldo awal + pembelian - penjualan + nilai wajar
+            $return = $this->validasi_form_5($id_investasi,$key,$data,$detail);
+            if($return){
+              $status = 0;
+              $res=array();
+              $res['error']=true;
+              $res['msg']=$return;
+              return $res;
+            }
+          }
 
-        if ($cekdata>0) {
-          $getdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'id_investasi'=>$id_investasi,'id_bulan'=>$id_bulan,'tahun'=>$tahun))->row();
+          $cekdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'id_investasi'=>$id_investasi,'id_bulan'=>$id_bulan,'tahun'=>$tahun))->num_rows();
 
-          $idDetail = $getdata->id;
+          if ($cekdata>0) {
+            $getdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'id_investasi'=>$id_investasi,'id_bulan'=>$id_bulan,'tahun'=>$tahun))->row();
 
-          // update header
-          unset($data[$key]['detail']);
-          unset($value['detail']);
-          $dataUpdate=$value;
+            $idDetail = $getdata->id;
 
-          $this->db->where('iduser',$value['iduser']);
-          $this->db->where('id_investasi',$value['id_investasi']);
-          $this->db->where('id_bulan',$value['id_bulan']);
-          $this->db->where('tahun',$value['tahun']);
-          $this->db->update($this->table , $dataUpdate);
-          $jumlahUpdate = $this->db->affected_rows();
+            // update header
+            unset($data[$key]['detail']);
+            unset($value['detail']);
+            $dataUpdate=$value;
 
-          $cekdataDetail = $this->db->get_where($this->tableDetail,array('iduser'=>$id_user,'bln_aset_investasi_header_id'=>$idDetail,'id_bulan'=>$id_bulan,'tahun'=>$tahun))->num_rows();
+            $this->db->where('iduser',$value['iduser']);
+            $this->db->where('id_investasi',$value['id_investasi']);
+            $this->db->where('id_bulan',$value['id_bulan']);
+            $this->db->where('tahun',$value['tahun']);
+            $this->db->update($this->table , $dataUpdate);
+            $jumlahUpdate = $this->db->affected_rows();
 
-          if ($cekdataDetail>0) {
-            $del = $this->db->delete($this->tableDetail,array('iduser'=>$id_user,'bln_aset_investasi_header_id'=>$idDetail,'id_bulan'=>$id_bulan,'tahun'=>$tahun));
+            $cekdataDetail = $this->db->get_where($this->tableDetail,array('iduser'=>$id_user,'bln_aset_investasi_header_id'=>$idDetail,'id_bulan'=>$id_bulan,'tahun'=>$tahun))->num_rows();
 
-            foreach($detail as $keyDet => $v){
-              $noDetail++;
-              $dataInsertDetail = array(
-                'bln_aset_investasi_header_id' => $idDetail,
-                'id_bulan' => $id_bulan,
-                'iduser' => $id_user,
-                'tahun' => $tahun,
-                'kode_pihak' => escape($v->kode_pihak),
-                'saldo_awal' => escape($v->saldo_awal),
-                'mutasi_pembelian' => escape($v->mutasi_pembelian),
-                'mutasi_penjualan' => escape($v->mutasi_penjualan),
-                'mutasi_amortisasi' => escape($v->mutasi_amortisasi),
-                'mutasi_pasar' => escape($v->mutasi_pasar),
-                'mutasi_penanaman' => escape($v->mutasi_penanaman),
-                'mutasi_nilai_wajar' => escape($v->mutasi_nilai_wajar),
-                'mutasi_pencairan' => escape($v->mutasi_pencairan),
-                'mutasi_diskonto' => escape($v->mutasi_diskonto),
-                'mutasi_hasil_investasi' => escape($v->mutasi_hasil_investasi),
-                'yield_to_maturity' => escape($v->yield_to_maturity),
-                'saldo_akhir' => escape($v->saldo_akhir),
-                'lembar_saham' => escape($v->lembar_saham),
-                'manager_investasi' => escape($v->manager_investasi),
-                'harga_saham' => escape($v->harga_saham),
-                'nama_reksadana' => escape($v->nama_reksadana),
-                'jml_unit_reksadana' => escape($v->jml_unit_reksadana),
-                'persentase' => escape($v->persentase),
-                'peringkat' => escape($v->peringkat),
-                'tgl_jatuh_tempo' => escape($v->tgl_jatuh_tempo),
-                'r_kupon' => escape($v->r_kupon),
-                'nama_produk' => escape($v->nama_produk),
-                'jml_unit_penyertaan' => escape($v->jml_unit_penyertaan),
-                'cabang' => escape($v->cabang),
-                'bunga' => escape($v->bunga),
-                'nilai_perolehan' => escape($v->nilai_perolehan),
-                'jenis_reksadana' => escape($v->jenis_reksadana),
-                'nilai_kapitalisasi_pasar' => escape($v->nilai_kapitalisasi_pasar),
-                'nilai_dana_kelolaan' => escape($v->nilai_dana_kelolaan),
-                'insert_at' => date('Y-m-d H:i:s'),
-              );
+            if ($cekdataDetail>0) {
+              $del = $this->db->delete($this->tableDetail,array('iduser'=>$id_user,'bln_aset_investasi_header_id'=>$idDetail,'id_bulan'=>$id_bulan,'tahun'=>$tahun));
 
-              $this->db->insert('bln_aset_investasi_detail', $dataInsertDetail);
+              foreach($detail as $keyDet => $v){
+                $noDetail++;
+                $dataInsertDetail = array(
+                  'bln_aset_investasi_header_id' => $idDetail,
+                  'id_bulan' => $id_bulan,
+                  'iduser' => $id_user,
+                  'tahun' => $tahun,
+                  'kode_pihak' => escape($v->kode_pihak),
+                  'saldo_awal' => escape($v->saldo_awal),
+                  'mutasi_pembelian' => escape($v->mutasi_pembelian),
+                  'mutasi_penjualan' => escape($v->mutasi_penjualan),
+                  'mutasi_amortisasi' => escape($v->mutasi_amortisasi),
+                  'mutasi_pasar' => escape($v->mutasi_pasar),
+                  'mutasi_penanaman' => escape($v->mutasi_penanaman),
+                  'mutasi_nilai_wajar' => escape($v->mutasi_nilai_wajar),
+                  'mutasi_pencairan' => escape($v->mutasi_pencairan),
+                  'mutasi_diskonto' => escape($v->mutasi_diskonto),
+                  'mutasi_hasil_investasi' => escape($v->mutasi_hasil_investasi),
+                  'yield_to_maturity' => escape($v->yield_to_maturity),
+                  'saldo_akhir' => escape($v->saldo_akhir),
+                  'lembar_saham' => escape($v->lembar_saham),
+                  'manager_investasi' => escape($v->manager_investasi),
+                  'harga_saham' => escape($v->harga_saham),
+                  'nama_reksadana' => escape($v->nama_reksadana),
+                  'jml_unit_reksadana' => escape($v->jml_unit_reksadana),
+                  'persentase' => escape($v->persentase),
+                  'peringkat' => escape($v->peringkat),
+                  'tgl_jatuh_tempo' => escape($v->tgl_jatuh_tempo),
+                  'r_kupon' => escape($v->r_kupon),
+                  'nama_produk' => escape($v->nama_produk),
+                  'jml_unit_penyertaan' => escape($v->jml_unit_penyertaan),
+                  'cabang' => escape($v->cabang),
+                  'bunga' => escape($v->bunga),
+                  'nilai_perolehan' => escape($v->nilai_perolehan),
+                  'jenis_reksadana' => escape($v->jenis_reksadana),
+                  'nilai_kapitalisasi_pasar' => escape($v->nilai_kapitalisasi_pasar),
+                  'nilai_dana_kelolaan' => escape($v->nilai_dana_kelolaan),
+                  'insert_at' => date('Y-m-d H:i:s'),
+                );
 
-              if ($jumlahUpdate>0) {
-                  $msg.= '<< Data Detail ke-'.$noDetail.' Id Investasi '.$id_investasi.' Berhasil Diperbarui >>';
+                $this->db->insert('bln_aset_investasi_detail', $dataInsertDetail);
+
+                if ($jumlahUpdate>0) {
+                    $msg.= '<< Data Detail ke-'.$noDetail.' Id Investasi '.$id_investasi.' Berhasil Diperbarui >>';
+                }
+
               }
 
             }
 
+            if ($jumlahUpdate>0) {
+              $msg.= '<< Data Header Id Investasi '.$id_investasi.' Berhasil Diperbarui >>';
+            }
+            
+          } else {
+
+            //INSERT HEADER DAN DETIL
+            unset($data[$key]['detail']);
+            unset($value['detail']);
+            $dataInsert=$value;
+
+            $insert = $this->db->insert($this->table, $dataInsert);
+            $idDetail = $this->db->insert_id();
+            $jumlahInsert = $this->db->affected_rows();
+
+            if ($jumlahInsert>0) {
+              $msg.= '<< Data Header Id Investasi '.$id_investasi.' Berhasil Ditambahkan >>';
+            }
+
+            if ($insert) {
+                        
+              foreach($detail as $keyDet => $v){
+
+                      $dataInsertDetail = array(
+                        'bln_aset_investasi_header_id' => $idDetail,
+                        'id_bulan' => $id_bulan,
+                        'iduser' => $id_user,
+                        'tahun' => $tahun,
+                        'kode_pihak' => escape($v->kode_pihak),
+                        'saldo_awal' => escape($v->saldo_awal),
+                        'mutasi_pembelian' => escape($v->mutasi_pembelian),
+                        'mutasi_penjualan' => escape($v->mutasi_penjualan),
+                        'mutasi_amortisasi' => escape($v->mutasi_amortisasi),
+                        'mutasi_pasar' => escape($v->mutasi_pasar),
+                        'mutasi_penanaman' => escape($v->mutasi_penanaman),
+                        'mutasi_nilai_wajar' => escape($v->mutasi_nilai_wajar),
+                        'mutasi_pencairan' => escape($v->mutasi_pencairan),
+                        'mutasi_diskonto' => escape($v->mutasi_diskonto),
+                        'mutasi_hasil_investasi' => escape($v->mutasi_hasil_investasi),
+                        'yield_to_maturity' => escape($v->yield_to_maturity),
+                        'saldo_akhir' => escape($v->saldo_akhir),
+                        'lembar_saham' => escape($v->lembar_saham),
+                        'manager_investasi' => escape($v->manager_investasi),
+                        'harga_saham' => escape($v->harga_saham),
+                        'nama_reksadana' => escape($v->nama_reksadana),
+                        'jml_unit_reksadana' => escape($v->jml_unit_reksadana),
+                        'persentase' => escape($v->persentase),
+                        'peringkat' => escape($v->peringkat),
+                        'tgl_jatuh_tempo' => escape($v->tgl_jatuh_tempo),
+                        'r_kupon' => escape($v->r_kupon),
+                        'nama_produk' => escape($v->nama_produk),
+                        'jml_unit_penyertaan' => escape($v->jml_unit_penyertaan),
+                        'cabang' => escape($v->cabang),
+                        'bunga' => escape($v->bunga),
+                        'nilai_perolehan' => escape($v->nilai_perolehan),
+                        'jenis_reksadana' => escape($v->jenis_reksadana),
+                        'nilai_kapitalisasi_pasar' => escape($v->nilai_kapitalisasi_pasar),
+                        'nilai_dana_kelolaan' => escape($v->nilai_dana_kelolaan),
+                        'insert_at' => date('Y-m-d H:i:s'),
+                      );
+
+                      $this->db->insert('bln_aset_investasi_detail', $dataInsertDetail);
+                    }
+
+            }
+            
+            // insert detail
           }
 
-          if ($jumlahUpdate>0) {
-            $msg.= '<< Data Header Id Investasi '.$id_investasi.' Berhasil Diperbarui >>';
-          }
-          
-        } else {
-
-          //INSERT HEADER DAN DETIL
-          unset($data[$key]['detail']);
-          unset($value['detail']);
-          $dataInsert=$value;
-
-          $insert = $this->db->insert($this->table, $dataInsert);
-          $idDetail = $this->db->insert_id();
-          $jumlahInsert = $this->db->affected_rows();
-
-          if ($jumlahInsert>0) {
-            $msg.= '<< Data Header Id Investasi '.$id_investasi.' Berhasil Ditambahkan >>';
-          }
-
-          if ($insert) {
-                      
-            foreach($detail as $keyDet => $v){
-
-                    $dataInsertDetail = array(
-                      'bln_aset_investasi_header_id' => $idDetail,
-                      'id_bulan' => $id_bulan,
-                      'iduser' => $id_user,
-                      'tahun' => $tahun,
-                      'kode_pihak' => escape($v->kode_pihak),
-                      'saldo_awal' => escape($v->saldo_awal),
-                      'mutasi_pembelian' => escape($v->mutasi_pembelian),
-                      'mutasi_penjualan' => escape($v->mutasi_penjualan),
-                      'mutasi_amortisasi' => escape($v->mutasi_amortisasi),
-                      'mutasi_pasar' => escape($v->mutasi_pasar),
-                      'mutasi_penanaman' => escape($v->mutasi_penanaman),
-                      'mutasi_nilai_wajar' => escape($v->mutasi_nilai_wajar),
-                      'mutasi_pencairan' => escape($v->mutasi_pencairan),
-                      'mutasi_diskonto' => escape($v->mutasi_diskonto),
-                      'mutasi_hasil_investasi' => escape($v->mutasi_hasil_investasi),
-                      'yield_to_maturity' => escape($v->yield_to_maturity),
-                      'saldo_akhir' => escape($v->saldo_akhir),
-                      'lembar_saham' => escape($v->lembar_saham),
-                      'manager_investasi' => escape($v->manager_investasi),
-                      'harga_saham' => escape($v->harga_saham),
-                      'nama_reksadana' => escape($v->nama_reksadana),
-                      'jml_unit_reksadana' => escape($v->jml_unit_reksadana),
-                      'persentase' => escape($v->persentase),
-                      'peringkat' => escape($v->peringkat),
-                      'tgl_jatuh_tempo' => escape($v->tgl_jatuh_tempo),
-                      'r_kupon' => escape($v->r_kupon),
-                      'nama_produk' => escape($v->nama_produk),
-                      'jml_unit_penyertaan' => escape($v->jml_unit_penyertaan),
-                      'cabang' => escape($v->cabang),
-                      'bunga' => escape($v->bunga),
-                      'nilai_perolehan' => escape($v->nilai_perolehan),
-                      'jenis_reksadana' => escape($v->jenis_reksadana),
-                      'nilai_kapitalisasi_pasar' => escape($v->nilai_kapitalisasi_pasar),
-                      'nilai_dana_kelolaan' => escape($v->nilai_dana_kelolaan),
-                      'insert_at' => date('Y-m-d H:i:s'),
-                    );
-
-                    $this->db->insert('bln_aset_investasi_detail', $dataInsertDetail);
-                  }
-
-          }
-          
-          // insert detail
+        }else{
+          $status = 0;
+          $msg.="<< Invalid status input $id_user $tahun $id_bulan >>";
+          // jika key nya null maka error karna bukan INVESTASI
         }
-        
-      }else{
+
+      } else {
         $status = 0;
         $msg.='<< Invalid Id Investasi '.$id_investasi.' >>';
-        // jika key nya null maka error karna bukan INVESTASI
       }
 
     }

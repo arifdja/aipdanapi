@@ -702,4 +702,44 @@ function check_access($role_id, $menu_id){
 	return $query->row_array();
 }
 
+
+function get_status_input($id_user="", $tahun="", $id_bulan=""){
+	$ci = & get_instance();
+	$ci->load->database();
+
+		
+	$sql = "
+		SELECT A.iduser,A.tahun,A.id_bulan,A.status
+		FROM bln_pendahuluan A
+		WHERE A.iduser = '".$id_user."'
+		AND A.tahun = '".$tahun."'
+		AND A.id_bulan = '".$id_bulan."'
+	";
+	// echo "$id_user $tahun $id_bulan";exit;
+
+	// $sql = "
+	// 	SELECT A.iduser,A.tahun,A.id_bulan,A.status
+	// 	FROM bln_pendahuluan A
+	// 	WHERE A.iduser = 'TSN002'
+	// 	AND A.tahun = '2021'
+	// 	AND A.id_bulan = '10'
+	// ";
+
+	$balikan = false;
+	$var =  $ci->db->query($sql)->row_array();
+	if ($var) {
+		if($var['status'] == 'Selesai'){
+			$balikan = false;
+		} else {
+			$balikan = true;
+		}
+	  } else {
+		$balikan = true;
+	  }
+
+	return $balikan;
+
+}
+
+
 	
