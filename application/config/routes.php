@@ -14,6 +14,7 @@ $route['api-nilai-investasi-bulanan'] 	= 'api_bulanan/nilai_investasi';
 $route['api-arus-kas-bulanan'] 			= 'api_bulanan/arus_kas';
 $route['api-aset-investasi-bulanan'] 	= 'api_bulanan/aset_investasi';
 $route['api-bukan-aset-investasi-bulanan'] 	= 'api_bulanan/bukan_aset_investasi';
+$route['api_update_checkbox'] 	= 'api_bulanan/Api_checkbox';
 
 // API SEMESTERAN
 $route['api-pembayaran-pensiun-semesteran'] 		= 'api_semesteran/pembayaran_pensiun';

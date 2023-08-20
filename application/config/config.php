@@ -444,7 +444,7 @@ $config['csrf_regenerate'] = FALSE;
 $config['csrf_exclude_uris'] = array('api-aset-tetap-bulanan','api-beban-bulanan','api-beban-investasi-bulanan',
 									'api-hasil-investasi-bulanan','api-iuran-bulanan','api-kewajiban-bulanan',
 									'api-nilai-investasi-bulanan','api-arus-kas-bulanan','api-aset-investasi-bulanan','api-bukan-aset-investasi-bulanan','api-auth',
-									'api-pembayaran-pensiun-semesteran','api-nilai-tunai-semesteran','api-beban-semesteran','api-klaim-semesteran');
+									'api-pembayaran-pensiun-semesteran','api-nilai-tunai-semesteran','api-beban-semesteran','api-klaim-semesteran','api_update_checkbox');
 
 /*
 |--------------------------------------------------------------------------
