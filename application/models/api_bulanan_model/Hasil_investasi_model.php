@@ -40,7 +40,7 @@ class Hasil_investasi_model extends CI_Model {
     $result = $this->db->get($this->table)->result_array();
     foreach ($result as $key => $value) {
       $idHeader = $value['id'];
-      $this->db->select('kode_pihak,saldo_awal,mutasi_pembelian,mutasi_penjualan,mutasi_amortisasi,mutasi_pasar,mutasi_penanaman,mutasi_pencairan,mutasi_nilai_wajar,mutasi_diskonto,mutasi_hasil_investasi,yield_to_maturity,saldo_akhir,lembar_saham,manager_investasi,harga_saham,nama_reksadana,jml_unit_reksadana,persentase,peringkat,tgl_jatuh_tempo,r_kupon,nama_produk,jml_unit_penyertaan,cabang,bunga,nilai_perolehan,jenis_reksadana,nilai_kapitalisasi_pasar,nilai_dana_kelolaan');
+      $this->db->select('kode_pihak,saldo_awal,mutasi_pembelian,mutasi_penjualan,mutasi_amortisasi,mutasi_pasar,mutasi_penanaman,mutasi_pencairan,mutasi_nilai_wajar,mutasi_diskonto,mutasi_hasil_investasi,yield_to_maturity,uraian_hasil_investasi,saldo_akhir,lembar_saham,manager_investasi,harga_saham,nama_reksadana,jml_unit_reksadana,persentase,peringkat,tgl_jatuh_tempo,r_kupon,nama_produk,jml_unit_penyertaan,cabang,bunga,nilai_perolehan,jenis_reksadana,nilai_kapitalisasi_pasar,nilai_dana_kelolaan');
       $this->db->where('id_bulan',$bulan);
       $this->db->where('tahun',$tahun);
       $this->db->where('iduser',$user);
@@ -289,6 +289,7 @@ class Hasil_investasi_model extends CI_Model {
                     'mutasi_pencairan' => escape($v->mutasi_pencairan),
                     'mutasi_diskonto' => escape($v->mutasi_diskonto),
                     'mutasi_hasil_investasi' => escape($v->mutasi_hasil_investasi),
+                    'uraian_hasil_investasi' => escape($v->uraian_hasil_investasi),
                     'yield_to_maturity' => escape($v->yield_to_maturity),
                     'saldo_akhir' => escape($v->saldo_akhir),
                     'lembar_saham' => escape($v->lembar_saham),
@@ -360,6 +361,7 @@ class Hasil_investasi_model extends CI_Model {
                     'mutasi_diskonto' => escape($v->mutasi_diskonto),
                     'mutasi_hasil_investasi' => escape($v->mutasi_hasil_investasi),
                     'yield_to_maturity' => escape($v->yield_to_maturity),
+                    'uraian_hasil_investasi' => escape($v->uraian_hasil_investasi),
                     'saldo_akhir' => escape($v->saldo_akhir),
                     'lembar_saham' => escape($v->lembar_saham),
                     'manager_investasi' => escape($v->manager_investasi),
