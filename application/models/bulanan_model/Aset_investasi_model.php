@@ -1909,7 +1909,7 @@ class Aset_investasi_model extends CI_Model {
 			case 'aset_investasi_front_lv2':
 				$sql="
 					SELECT A.parent_id as id_investasi, A.jns_form, A.iduser, B.id_bulan,
-					sum(B.saldo_awal) as saldo_awal, sum(B.mutasi) as mutasi, sum(B.rka) as rka, sum(B.realisasi_rka) as realisasi_rka, 
+					sum(B.saldo_awal) as saldo_awal, sum(B.mutasi) as mutasi, sum(B.rka) as rka, avg(B.realisasi_rka) as realisasi_rka, 
 					sum(B.saldo_akhir) as saldo_akhir, A.id_investasi as parent_id, C.parent_investasi as jenis_investasi, C.type, B.id, B.filedata, B.target_yoi
 					FROM mst_investasi A
 					LEFT JOIN(
