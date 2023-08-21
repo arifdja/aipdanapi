@@ -787,4 +787,52 @@ function invalid_id_investasi($id_user){
 }
 
 
+function get_invalid_pihak($id_user,$detail){
+	$ci = & get_instance();
+	$ci->load->database();
+	$msg_pihak = [];
+	foreach($detail as $keyDet => $v)
+	{
+		$sql = "
+			SELECT kode_pihak, nama_pihak
+			FROM mst_pihak
+			WHERE iduser = '".$id_user."'
+			AND kode_pihak = '".$v->kode_pihak."'
+		";
+
+		$result = $ci->db->query($sql)->row_array();
+		if(empty($result))
+		{
+			$msg_pihak[]= $v->kode_pihak;
+		}
+		
+	}
+
+	return $msg_pihak;
+
+}
+
+function valid_id_aruskas($id_user){
+	$ci = & get_instance();
+	$ci->load->database();
+
+		
+	$sql = "
+		SELECT A.id_aruskas, A.jenis_kas
+		FROM mst_aruskas A
+		WHERE A.iduser = '".$id_user."'
+	";
+	// var_dump($sql);exit;
+	$result = $ci->db->query($sql)->result_array();
+	$valid_id = [];
+	foreach ($result as $row)
+	{
+		$valid_id[] = $row['id_aruskas'];
+	}
+	// var_dump($invalid_id);exit;
+	return $valid_id;
+
+}
+
+
 	

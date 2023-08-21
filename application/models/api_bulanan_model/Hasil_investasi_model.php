@@ -215,11 +215,26 @@ class Hasil_investasi_model extends CI_Model {
             }
 
             $invalid_id_investasi = invalid_id_investasi($id_user);
+            // var_dump($invalid_id_investasi);exit;
             if(in_array($id_investasi,$invalid_id_investasi)){
               $status = 0;
               $res=array();
               $res['error']=true;
-              $res['msg']="Id Investasi tidak valid";
+              $res['msg']="Id Investasi $id_investasi tidak valid";
+              return $res;
+            }
+
+            $invalid_pihak = get_invalid_pihak($id_user,$detail);
+            $list_invalid_pihak = "";
+            if(count($invalid_pihak) > 0){
+
+              foreach ($invalid_pihak as $key => $value) {
+                $list_invalid_pihak.=" $value ";
+              }
+              $status = 0;
+              $res=array();
+              $res['error']=true;
+              $res['msg']="Kode pihak $list_invalid_pihak tidak valid";
               return $res;
             }
           
