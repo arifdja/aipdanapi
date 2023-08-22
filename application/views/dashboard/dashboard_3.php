@@ -132,44 +132,28 @@
     </div>
 </div>
 <script type="text/javascript">
-    $.post(host+'dashboard-tampil/testing_array', {[csrf_token]:csrf_hash}, function(resp){
+    $.post(host+'dashboard-tampil/testing_array_bar', {[csrf_token]:csrf_hash}, function(resp){
         if(resp){
             parsing = JSON.parse(resp);
+
+            var datanya = [];
+                for(var i=0; i < parsing.arr_jns.length; i++) {
+                datanya.push({
+                    name: parsing.arr_jns[i],
+                    y: parsing.arr_data2[i],
+                    color: parsing.color[i],
+                    });
+                }
+
+            // console.log(datanya);
             var chartD1 = 
             [{
                 name: 'Persentase',
                 colorByPoint: true,
-                data: 
-                [{
-                    name: 'Deposito',
-                    y: parsing.nil1,
-                    // color:'#8c3f6f'
-                    color:'#FFF1C9'
-                },{
-                    name: 'Surat Utang Negara',
-                    y: parsing.nil2,
-                    // color:'#ff7c8f'
-                    color:'#F7B7A3'
-                },{
-                    name: 'Obligasi korporasi',
-                    y: parsing.nil3,
-                    color:'#EA5F89'
-                    // color:'#cee60b'
-                },{
-                    name: 'Sukuk Korporasi',
-                    y: parsing.nil4,
-                    // color:'#0bcfe6'
-                    color:'#9B3192'
-                },{
-                    name: 'MTN',
-                    y: parsing.nil5,
-                    color:'#57167E'
-                },{
-                    name: 'Reksadana',
-                    y: parsing.nil6,
-                    color:'#2B0B3F'
-                }]
+                data: datanya,
             }];
+
+
 
 
             genPieChart("container-d1", "", "", chartD1, '', 250);

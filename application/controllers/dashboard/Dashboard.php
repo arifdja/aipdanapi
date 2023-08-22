@@ -83,6 +83,9 @@ class Dashboard extends CI_Controller {
 
 				$array['arr_jns2'] = array('Tanah dan Bangunan', 'Penyertaan Langsung', 'Saham', 'Reksadana', 'MTN', 'Sukuk Korporasi');
 				$array['arr_data3'] = array(49.9, 71.5, 106.4, 129.2, 144.0, 176.0);
+
+				
+				$array['color'] = array('#FFF1C9', '#F7B7A3', '#EA5F89','#9B3192', '#57167E', '#2B0B3F');
 				// print($array);exit();
 				echo json_encode($array);
 			break;

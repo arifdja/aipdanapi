@@ -2369,7 +2369,7 @@ class Aset_investasi_model extends CI_Model {
 					C.mutasi_penanaman, C.mutasi_pencairan, C.mutasi_nilai_wajar, C.mutasi_diskonto, C.peringkat, C.tgl_jatuh_tempo,
 					C.r_kupon, C.nama_produk,C.jml_unit_penyertaan,C.cabang, C.bunga, C.nilai_perolehan,
 					C.no_urut, C.nilai_kapitalisasi_pasar, C.nilai_dana_kelolaan,
-					D.nama_pihak, E.nama_cabang, B.filedata
+					D.nama_pihak, E.nama_cabang, B.filedata, C.mutasi_hasil_investasi, C.uraian_hasil_investasi, C.yield_to_maturity
 					FROM mst_investasi A  
 					LEFT JOIN bln_aset_investasi_header B  on B.id_investasi = A.id_investasi
 					LEFT JOIN bln_aset_investasi_detail C  on C.bln_aset_investasi_header_id = B.id
@@ -2750,6 +2750,8 @@ class Aset_investasi_model extends CI_Model {
 					AND B.group = '".$p1."'
 					ORDER BY B.no_urut ASC
 				";
+
+				 // echo $sql;exit;
 			break;
 
 			case 'perubahan_danabersih_lv4':
