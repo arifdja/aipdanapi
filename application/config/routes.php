@@ -15,6 +15,10 @@ $route['api-arus-kas-bulanan'] 			= 'api_bulanan/arus_kas';
 $route['api-aset-investasi-bulanan'] 	= 'api_bulanan/aset_investasi';
 $route['api-bukan-aset-investasi-bulanan'] 	= 'api_bulanan/bukan_aset_investasi';
 $route['api_update_checkbox'] 	= 'api_bulanan/Api_checkbox';
+$route['api-master-investasi'] 		  	= 'api_referensi/master_investasi';
+$route['api-master-nama-pihak'] 		  	= 'api_referensi/master_nama_pihak';
+$route['api-master-cabang'] 		  	= 'api_referensi/master_cabang';
+
 
 // API SEMESTERAN
 $route['api-pembayaran-pensiun-semesteran'] 		= 'api_semesteran/pembayaran_pensiun';
@@ -179,3 +183,11 @@ $route['translate_uri_dashes'] = FALSE;
 // DASHBOARD
 $route['dashboard-display/(:any)'] = 'dashboard/analisis/getdisplay/$1';
 $route['dashboard-index/(:any)'] = 'dashboard/analisis/get_index/$1';
+
+
+$route['dashboard-tampil/(:any)'] = 'dashboard/dashboard/getdisplay/$1';
+
+$route['dashboard-executive-summary'] = 'dashboard/dashboard/executive_summary';
+$route['dashboard-danabersih'] = 'dashboard/dashboard/dana_bersih';
+$route['dashboard-perubahan-danabersih'] = 'dashboard/dashboard/perubahan_danabersih';
+$route['dashboard-arus-kas'] = 'dashboard/dashboard/arus_kas';

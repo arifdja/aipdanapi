@@ -90,8 +90,8 @@
 <script src="<?=base_url('assets/jquery.number.min.js');?>" type="text/javascript"></script>
 <script src="<?=base_url('assets/select2.js');?>" type="text/javascript"></script>
 
+<script src="<?=base_url('assets/dist/js/table2excel.js');?>" type="text/javascript"></script>
 <script src="<?=base_url('assets/plugins/datatable/datatables.js');?>" type="text/javascript"></script>
-
 <!-- <script src="<?= base_url('assets/plugins/datatables/jquery.dataTables.js');?>" type="text/javascript"></script> -->
 <!-- <script src="<?=  base_url('assets/plugins/datatables/jquery.dataTables.min.js');?>" type="text/javascript"></script> -->
 

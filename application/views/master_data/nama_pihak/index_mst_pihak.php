@@ -1,8 +1,12 @@
  <!-- Main content -->
+ 
+ <?php $iduser= $this->session->userdata('idusergroup');?>
  <div class="row">
  	<div class="col-xs-12">
  		<div class="nav-tabs-custom">
+      <?php if($iduser == 1): ?>
       <?php $this->load->view('main/nav_tab_nama_pihak'); ?>
+      <?php endif;?>
  			<div class="box box-default">
  				<div class="box-header with-border">
  					<h3 class="box-title">Nama Pihak</h3>
@@ -11,6 +15,7 @@
  				<div class="box-body" style="overflow-x:auto;">	
  					<div class="col-md-12">
             <div class="row">
+            <?php if($iduser == 1): ?>
               <div class="col-md-3">
                 <div class="form-group">
                   <select class="form-control select2nya" id="iduser">
@@ -34,12 +39,18 @@
                   </a> 
                 </div>
               </div>
+              <?php endif; ?>
+              <?php if($iduser == 1): ?>
               <div  class="col-md-8"> 
+              <?php else: ?>
+              <div  class="col-md-12"> 
+              <?php endif; ?>
                 <div class="form-group pull-right">
-                  <a href="javascript:void(0)" title="Add" class="btn btn-primary btn-sm btn-flat adm" onClick="
+                  <a href="javascript:void(0)" title="Add" class="btn btn-primary btn-sm btn-flat " onClick="
                   genform('mst_pihak','mst_pihak','mst_pihak','','','','','add');">
-                  <i class="fa fa-plus"></i>&nbsp;&nbsp;Tambah
-                </a>  
+                  <i class="fa fa-plus"></i>&nbsp;&nbsp;Tambah</a>  
+                  <button class="btn btn-sm btn-flat btn-primary" id="excel"><i class="fas fa-excel"></i>Download Excel</button>
+                
               </div>
             </div>
           </div>
@@ -51,7 +62,11 @@
  								<th>Kode Pihak</th>
                 <th>Nama Pihak</th>
  								<th>User</th>
- 								<th width="100">#</th>
+                 <th>Status</th>
+                <th>Keterangan</th>
+                <?php if($iduser == 1): ?>
+ 								<th width="100" class='noExl'>#</th>
+                <?php endif; ?>
  							</tr>
  						</thead>
  						<tbody>
@@ -70,6 +85,9 @@
                     }
                   ?>
                   <td style="text-align: left;"><?=$iduser;?></td>
+                  <td style="text-align: left;"><?=$pihak['approval']?></td>
+                  <td style="text-align: left;"><?=$pihak['keterangan']?></td>
+                  <?php if($iduser == 1): ?>
                   <td>
                     <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat adm" onClick="genform('mst_pihak','mst_pihak','mst_pihak','','<?=$pihak['id'] ?>','','','edit');">
                       <i class="fa fa-edit"></i>
@@ -79,6 +97,7 @@
                       <i class="fa fa-trash"></i>
                     </a>
                   </td>
+                  <?php endif; ?>
                 </tr>
               <?php endforeach;?>
               <?php endif;?>
@@ -115,8 +134,24 @@
         "paging":true,
         "searching": false,
         "ordering": false,
-        "lengthChange": false,
+        "lengthChange": true,
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "iDisplayLength": 10
     });
     
 </script>
        
+
+<script>
+  $(document).ready(function () {
+    $("#excel").click(function(){
+      $(".table").table2excel({
+        // exclude CSS class
+        exclude: ".noExl",
+        name: "cabang",
+        filename: "data_cabang", //do not include extension
+        fileext: ".xls" // file extension
+      }); 
+    });
+  });
+</script>

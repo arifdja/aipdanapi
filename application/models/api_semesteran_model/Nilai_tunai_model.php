@@ -73,24 +73,32 @@ class Nilai_tunai_model extends CI_Model {
         $arrCab[] = $valueCab['id_cabang'];
       }
 
+      $status_input = get_status_input_semester($user,$tahun,$semester);
 
+      if($status_input == true){
       
-      $this->db->where('iduser',$user);
-      $this->db->where('semester',$semester);
-      $this->db->where('tahun',$tahun);
-      $this->db->delete($this->table);
-      $del = $this->db->affected_rows();
-      
-      if ($del) {
         $this->db->where('iduser',$user);
         $this->db->where('semester',$semester);
         $this->db->where('tahun',$tahun);
-        $this->db->where_in('id_cabang',$arrCab);
-        $this->db->delete($this->tableDetail);
-        // $delDet = $this->db->affected_rows();
-      }
+        $this->db->delete($this->table);
+        $del = $this->db->affected_rows();
+        
+        if ($del) {
+          $this->db->where('iduser',$user);
+          $this->db->where('semester',$semester);
+          $this->db->where('tahun',$tahun);
+          $this->db->where_in('id_cabang',$arrCab);
+          $this->db->delete($this->tableDetail);
+          // $delDet = $this->db->affected_rows();
+        }
 
-      return $this->db->affected_rows();
+        $res['msg'].= $this->db->affected_rows()." data deleted, ";
+  
+      } else {
+        $res['msg'].= "Invalid status input $user $tahun $semester, ";
+  
+      }
+      return $res;
     
   }
 
@@ -139,101 +147,111 @@ class Nilai_tunai_model extends CI_Model {
       if (in_array($id_user, $arrUSER) && in_array($smt, $arrSmt) ) {
         // jika key nya not null maka id investasi merupakan INVESTASI
         
-        $cekdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun))->num_rows();
-        
-        if ($cekdata>0) {
-          $getdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun))->row();
-          $idDetail = $getdata->id;
+        $status_input = get_status_input_semester($id_user,$tahun,$smt);
 
+        if($status_input == true){
+
+          $cekdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun))->num_rows();
           
-          // update header
-          $detail = $value['detail'];
-          unset($data[$key]['detail']);
-          unset($value['detail']);
-          $dataUpdate=$value;
-          $dataUpdate['insert_at']=$getdata->insert_at;
-          $dataUpdate['update_at']=$insert_at;
-          
+          if ($cekdata>0) {
+            $getdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun))->row();
+            $idDetail = $getdata->id;
 
-          $this->db->where('iduser',$value['iduser']);
-          $this->db->where('semester',$value['semester']);
-          $this->db->where('tahun',$value['tahun']);
-          $this->db->update($this->table , $dataUpdate);
-          $jumlahUpdate = $this->db->affected_rows();
-          // $cekdataDetail = $this->db->get_where($this->tableDetail,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun,'tbl_nilai_tunai_header_id'=>$idDetail))->num_rows();
-
-          // if ($cekdataDetail>0) {
-            $del = $this->db->delete($this->tableDetail,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun,'tbl_nilai_tunai_header_id'=>$idDetail));
             
-            foreach($detail as $keyDet => $v){
+            // update header
+            $detail = $value['detail'];
+            unset($data[$key]['detail']);
+            unset($value['detail']);
+            $dataUpdate=$value;
+            $dataUpdate['insert_at']=$getdata->insert_at;
+            $dataUpdate['update_at']=$insert_at;
+            
 
-                    $dataInsertDetail = array(
-                      'tbl_nilai_tunai_header_id'=>$idDetail,
-                       'iduser' => $id_user,
+            $this->db->where('iduser',$value['iduser']);
+            $this->db->where('semester',$value['semester']);
+            $this->db->where('tahun',$value['tahun']);
+            $this->db->update($this->table , $dataUpdate);
+            $jumlahUpdate = $this->db->affected_rows();
+            // $cekdataDetail = $this->db->get_where($this->tableDetail,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun,'tbl_nilai_tunai_header_id'=>$idDetail))->num_rows();
+
+            // if ($cekdataDetail>0) {
+              $del = $this->db->delete($this->tableDetail,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun,'tbl_nilai_tunai_header_id'=>$idDetail));
+              
+              foreach($detail as $keyDet => $v){
+
+                      $dataInsertDetail = array(
+                        'tbl_nilai_tunai_header_id'=>$idDetail,
+                        'iduser' => $id_user,
+                          'semester' => $smt,
+                          'tahun' => $tahun,
+                          'id_cabang' => escape($v->id_cabang),
+                          'jml_penerima' => escape($v->jml_penerima),
+                          'jml_pembayaran' => escape($v->jml_pembayaran),
+                          'insert_at' => $getdata->insert_at,
+                          'update_at' => $insert_at,
+                      );
+                      
+              
+                      $this->db->insert($this->tableDetail, $dataInsertDetail);
+                      if ($jumlahUpdate>0) {
+                          $msg.= '<< Data Detail ke-'.$noHeader.' Berhasil Diperbarui >>';
+                        }
+                    }
+            
+
+            // }
+            if ($jumlahUpdate>0) {
+              $msg.= '<< Data Header ke-'.$noHeader.' Berhasil Diperbarui >>';
+            }
+          }else{
+            // insert header
+            $detail = $value['detail'];
+
+            unset($data[$key]['detail']);
+            unset($value['detail']);
+            $dataInsert=$value;
+
+            $dataInsert['insert_at']=$insert_at;
+            
+            $insert = $this->db->insert($this->table, $dataInsert);
+            $idDetail = $this->db->insert_id();
+            $jumlahInsert = $this->db->affected_rows();
+            if ($jumlahInsert>0) {
+              $msg.= '<< Data Header ke-'.$noHeader.' Berhasil Ditambahkan >>';
+            }
+            if ($insert) {
+              
+              foreach($detail as $keyDet => $v){
+
+                      $dataInsertDetail = array(
+                        'tbl_nilai_tunai_header_id'=>$idDetail,
+                        'iduser' => $id_user,
                         'semester' => $smt,
                         'tahun' => $tahun,
                         'id_cabang' => escape($v->id_cabang),
                         'jml_penerima' => escape($v->jml_penerima),
                         'jml_pembayaran' => escape($v->jml_pembayaran),
-                        'insert_at' => $getdata->insert_at,
-                        'update_at' => $insert_at,
-                    );
-                    
+                        'insert_at' => $insert_at,
+                      );
+                      
+                      $this->db->insert($this->tableDetail, $dataInsertDetail);
+                    }
+            }
             
-                    $this->db->insert($this->tableDetail, $dataInsertDetail);
-                    if ($jumlahUpdate>0) {
-                        $msg.= '<< Data Detail ke-'.$noHeader.' Berhasil Diperbarui >>';
-                      }
-                  }
-          
 
-          // }
-          if ($jumlahUpdate>0) {
-            $msg.= '<< Data Header ke-'.$noHeader.' Berhasil Diperbarui >>';
+            // insert detail
+            
           }
+
         }else{
-          // insert header
-          $detail = $value['detail'];
-
-          unset($data[$key]['detail']);
-          unset($value['detail']);
-          $dataInsert=$value;
-
-          $dataInsert['insert_at']=$insert_at;
-          
-          $insert = $this->db->insert($this->table, $dataInsert);
-          $idDetail = $this->db->insert_id();
-          $jumlahInsert = $this->db->affected_rows();
-          if ($jumlahInsert>0) {
-            $msg.= '<< Data Header ke-'.$noHeader.' Berhasil Ditambahkan >>';
-          }
-          if ($insert) {
-            
-            foreach($detail as $keyDet => $v){
-
-                    $dataInsertDetail = array(
-                      'tbl_nilai_tunai_header_id'=>$idDetail,
-                      'iduser' => $id_user,
-                      'semester' => $smt,
-                      'tahun' => $tahun,
-                      'id_cabang' => escape($v->id_cabang),
-                      'jml_penerima' => escape($v->jml_penerima),
-                      'jml_pembayaran' => escape($v->jml_pembayaran),
-                      'insert_at' => $insert_at,
-                    );
-                    
-                    $this->db->insert($this->tableDetail, $dataInsertDetail);
-                  }
-          }
-          
-
-          // insert detail
-          
+          $status = 0;
+          $msg.="<< Invalid status input $id_user $tahun $smt >>";
+          // jika key nya null maka error karna bukan INVESTASI
         }
 
-      }else{
+      } else {
         $status = 0;
-        // jika key nya null maka error karna bukan INVESTASI
+        $msg.='<< Invalid Id Investasi '.$id_investasi.' >>';
       }
     }
 

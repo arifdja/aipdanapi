@@ -13,6 +13,7 @@ class Arus_kas extends REST_Controller
         parent::__construct($config = 'rest');
         date_default_timezone_set('Asia/Jakarta');
         $this->load->model('api_bulanan_model/arus_kas_model','modelnya');
+        $this->load->model('bulanan_model/pendahuluan_model');
         $this->load->library('Authorization_Token');  
         $this->load->library('form_validation');  
         // $this->methods['index_post']['limit'] = 12;
@@ -80,19 +81,12 @@ class Arus_kas extends REST_Controller
               // get from token
               $user = $decodedToken['data']->id_aktif;
               $res = $this->modelnya->delete($bulan,$tahun,$user);
-              if ($res>0) {
-                $this->response([
-                  'status'=>true,
-                  'count'=>$res,
-                  'message'=>'Berhasil Menghapus Data'
-                  ],REST_Controller::HTTP_OK);
-              }else{
-                $this->response([
-                    'status'=>false,
-                    'message'=>'Gagal Menghapus Data'
-                    ],REST_Controller::HTTP_BAD_REQUEST);
-              }
-
+            
+              $this->response([
+                'status'=>true,
+                'message'=>$res['msg']
+                ],REST_Controller::HTTP_OK);
+              
             }else{
               $this->response([
               'status'=>false,
@@ -130,7 +124,7 @@ class Arus_kas extends REST_Controller
                 }
               }
             }
-            $insert = $this->modelnya->insert($post);
+            $insert = $this->modelnya->insert($post,$decodedToken['data']);
             if ($insert['error']===false) {
               $this->response([
                 'status'=>true,
