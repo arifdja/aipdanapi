@@ -63,7 +63,7 @@
           </div> 
           <div class="col-md-1">
             <div class="form-group">
-              <a href="javascript:void(0)" title="Add" class="btn btn-primary btn-sm btn-flat tombol_cari" onClick="gendashboardsearch('index-dashboard-analisis','index-dashboard-analisis');">
+              <a href="javascript:void(0)" title="search" class="btn btn-primary btn-sm btn-flat filter_data">
                 <i class="fa fa-search"></i>
               </a> 
             </div>
@@ -81,7 +81,7 @@
                     <div class="small-box colornya">
                         <div class="inner">
                           <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Aset Investasi</span>
-                          <p style="font-size: 20px; font-weight:bold;">Rp 200.000.000.000.000,-</p>
+                          <p style="font-size: 20px; font-weight:bold;" id="tot-investasi"></p>
                         </div>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
                     <div class="small-box colornya">
                         <div class="inner">
                           <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Aset Bukan Investasi</span>
-                          <p style="font-size: 20px; font-weight:bold;">Rp 1.000.000.000.000,-</p>
+                          <p style="font-size: 20px; font-weight:bold;" id="tot-bukan-investasi"></p>
                         </div>
                     </div>
                 </div>
@@ -118,7 +118,7 @@
                     <div class="small-box colornya">
                         <div class="inner">
                           <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Kewajiban</span>
-                          <p style="font-size: 20px; font-weight:bold;">Rp 340.000.000.000.000,-</p>
+                          <p style="font-size: 20px; font-weight:bold;" id="tot-kewajiban"></p>
                         </div>
                     </div>
                 </div>
@@ -135,7 +135,7 @@
                     <div class="small-box colornya">
                         <div class="inner">
                          <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Dana Bersih</span>
-                         <p style="font-size: 20px; font-weight:bold;">Rp 147.000.000.000.000,-</p>
+                         <p style="font-size: 20px; font-weight:bold;" id="tot-dana-bersih"></p>
                         </div>
                     </div>
                 </div>
@@ -195,36 +195,39 @@
 $('.tahun').text(tahun);
 </script>
 <script type="text/javascript">
-    $.post(host+'dashboard-tampil/get_dana_bersih', {[csrf_token]:csrf_hash}, function(resp){
+    // $.post(host+'dashboard-tampil/get_dana_bersih', {[csrf_token]:csrf_hash}, function(resp){
+    //     if(resp){
+    //         parsing = JSON.parse(resp);
+
+    //         var datanya = [];
+    //             for(var i=0; i < parsing.arr_jns.length; i++) {
+    //             datanya.push({
+    //                 name: parsing.arr_jns[i],
+    //                 y: parsing.arr_data_pie[i],
+    //                 });
+    //             }
+    //         var chartD1 = 
+    //         [{
+    //             name: 'Persentase',
+    //             colorByPoint: true,
+    //             innerSize: '60%',
+    //             data: datanya,
+    //         }];
+
+
+    //         genPieChart("container-portofolio", "", "", chartD1, '', 250);
+    //     }
+    // });
+
+    var par = {};
+    par['iduser'] = "";
+    par['ds'] = 'BULANAN';
+    par['id_bulan'] = "";
+    par[csrf_token] = csrf_hash;
+    $.LoadingOverlay("show");
+    $.post(host+'dashboard-tampil/get_dana_bersih', par, function(resp){
         if(resp){
-            parsing = JSON.parse(resp);
-
-            var datanya = [];
-                for(var i=0; i < parsing.arr_jns.length; i++) {
-                datanya.push({
-                    name: parsing.arr_jns[i],
-                    y: parsing.arr_data_pie[i],
-                    // color: parsing.color[i],
-                    });
-                }
-
-            // console.log(datanya);
-            var chartD1 = 
-            [{
-                name: 'Persentase',
-                colorByPoint: true,
-                innerSize: '60%',
-                data: datanya,
-            }];
-
-
-            genPieChart("container-portofolio", "", "", chartD1, '', 250);
-        }
-    });
-
-    $.post(host+'dashboard-tampil/get_dana_bersih', {[csrf_token]:csrf_hash}, function(resp){
-        if(resp){
-            var param = {};
+            $.LoadingOverlay("hide", true);
             parsing = JSON.parse(resp);
             var xChart = parsing.arr_bln;
 
@@ -247,7 +250,6 @@ $('.tahun').text(tahun);
                 data: parsing.arr_data_line,
             }];
 
-
             var yChart2 = [
             {
                 name: 'NILAI',
@@ -266,6 +268,36 @@ $('.tahun').text(tahun);
                 },
                 data: parsing.arr_data_line,
             }];
+
+            // PIE CHART
+            var datanya = [];
+                for(var i=0; i < parsing.arr_jns.length; i++) {
+                datanya.push({
+                    name: parsing.arr_jns[i],
+                    y: parsing.arr_data_pie[i],
+                    });
+                }
+            var chartD1 = 
+            [{
+                name: 'Persentase',
+                colorByPoint: true,
+                innerSize: '60%',
+                data: datanya,
+            }];
+
+
+
+            var investasi = 'Rp '+parsing.tot_investasi+',-';
+            var bukan_investasi = 'Rp '+parsing.tot_bukan_investasi+',-';
+            var kewajiban = 'Rp '+parsing.tot_kewajiban+',-';
+            var dana_bersih = 'Rp '+parsing.tot_dana_bersih+',-';
+
+            $('#tot-investasi').html(investasi);
+            $('#tot-bukan-investasi').html(bukan_investasi);
+            $('#tot-kewajiban').html(kewajiban);
+            $('#tot-dana-bersih').html(dana_bersih);
+
+            genPieChart("container-portofolio", "", "", chartD1, '', 250);
             genColumnChart("container-investasi", "", xChart, yChart1, "", "", "", false);
             genColumnChart("container-bukan-investasi", "", xChart, yChart1, "", "", "", false);
             genColumnChart("container-kewajiban", "", xChart, yChart2, "", "", "", false);
@@ -275,5 +307,104 @@ $('.tahun').text(tahun);
 
 
 
+    $('.filter_data').on('click', function(){
 
+        if ($('#iduser').val() == "") {
+            $.messager.alert('SMART AIP','Pilih user terlebih dahulu !','warning');
+            return false;
+        }
+
+        if ($('#dashboard').val() == "") {
+            $.messager.alert('SMART AIP','Pilih jenis laporan terlebih dahulu !','warning');
+            return false;
+        }
+
+        var param = {};
+        param['iduser'] = $('#iduser').val();
+        param['ds'] = $('#dashboard').val();
+        param['id_bulan'] = $('#id_bulan').val();
+        param[csrf_token] = csrf_hash;
+        $.LoadingOverlay("show");
+        $.post(host+'dashboard-tampil/get_dana_bersih', param, function(resp){
+            if(resp){
+                $.LoadingOverlay("hide", true);
+                parsing = JSON.parse(resp);
+                var xChart = parsing.arr_bln;
+
+                var yChart1 = [
+                {
+                    name: 'NILAI',
+                    type: 'line',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#cee60b'],
+                        [1, '#ff7c8f']
+                        ]
+                    },
+                    data: parsing.arr_data_line,
+                }];
+
+                var yChart2 = [
+                {
+                    name: 'NILAI',
+                    type: 'line',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#cee60b'],
+                        [1, '#0bcfe6']
+                        ]
+                    },
+                    data: parsing.arr_data_line,
+                }];
+
+                // PIE CHART
+                var datanya = [];
+                for(var i=0; i < parsing.arr_jns.length; i++) {
+                    datanya.push({
+                        name: parsing.arr_jns[i],
+                        y: parsing.arr_data_pie[i],
+                    });
+                }
+                var chartD1 = 
+                [{
+                    name: 'Persentase',
+                    colorByPoint: true,
+                    innerSize: '60%',
+                    data: datanya,
+                }];
+
+
+
+                var investasi = 'Rp '+parsing.tot_investasi+',-';
+                var bukan_investasi = 'Rp '+parsing.tot_bukan_investasi+',-';
+                var kewajiban = 'Rp '+parsing.tot_kewajiban+',-';
+                var dana_bersih = 'Rp '+parsing.tot_dana_bersih+',-';
+
+                $('#tot-investasi').html(investasi);
+                $('#tot-bukan-investasi').html(bukan_investasi);
+                $('#tot-kewajiban').html(kewajiban);
+                $('#tot-dana-bersih').html(dana_bersih);
+
+                genPieChart("container-portofolio", "", "", chartD1, '', 250);
+                genColumnChart("container-investasi", "", xChart, yChart1, "", "", "", false);
+                genColumnChart("container-bukan-investasi", "", xChart, yChart1, "", "", "", false);
+                genColumnChart("container-kewajiban", "", xChart, yChart2, "", "", "", false);
+                genColumnChart("container-dana-bersih", "", xChart, yChart2, "", "", "", false);
+                
+            }
+        });
+
+    });
 </script>

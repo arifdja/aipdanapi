@@ -62,7 +62,7 @@
           </div> 
           <div class="col-md-1">
             <div class="form-group">
-              <a href="javascript:void(0)" title="Add" class="btn btn-primary btn-sm btn-flat tombol_cari" onClick="gendashboardsearch('index-dashboard-analisis','index-dashboard-analisis');">
+              <a href="javascript:void(0)" title="search" class="btn btn-primary btn-sm btn-flat filter_data">
                 <i class="fa fa-search"></i>
               </a> 
             </div>
@@ -80,7 +80,7 @@
                     <div class="small-box colornya">
                         <div class="inner">
                           <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Arus Kas Dari Aktivitas Investasi</span>
-                          <p style="font-size: 20px; font-weight:bold;">Rp 200.000.000.000.000,-</p>
+                          <p style="font-size: 20px; font-weight:bold;" id="tot-investasi"></p>
                       </div>
                   </div>
                 </div>
@@ -97,7 +97,7 @@
                     <div class="small-box colornya">
                         <div class="inner">
                           <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Arus Kas Dari Aktivitas Operasional</span>
-                          <p style="font-size: 20px; font-weight:bold;">Rp 1.000.000.000.000,-</p>
+                          <p style="font-size: 20px; font-weight:bold;" id="tot-operasional"></p>
                       </div>
                   </div>
                 </div>
@@ -117,7 +117,7 @@
                     <div class="small-box colornya">
                         <div class="inner">
                           <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Arus Kas Dari Aktivitas Pendanaan</span>
-                          <p style="font-size: 20px; font-weight:bold;">Rp 340.000.000.000.000,-</p>
+                          <p style="font-size: 20px; font-weight:bold;" id="tot-pendanaan"></p>
                       </div>
                   </div>
                 </div>
@@ -129,7 +129,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    $('.bln').hide();
+  $('.bln').hide();
   $('.smt').hide();
   $('.thn').hide();
 
@@ -163,9 +163,93 @@ $('.tahun').text(tahun);
 </script>
 <script type="text/javascript">
 
-    $.post(host+'dashboard-tampil/get_arus_kas', {[csrf_token]:csrf_hash}, function(resp){
+    $('.filter_data').on('click', function(){
+
+        if ($('#iduser').val() == "") {
+            $.messager.alert('SMART AIP','Pilih user terlebih dahulu !','warning');
+            return false;
+        }
+
+        if ($('#dashboard').val() == "") {
+            $.messager.alert('SMART AIP','Pilih jenis laporan terlebih dahulu !','warning');
+            return false;
+        }
+
+        var param = {};
+        param['iduser'] = $('#iduser').val();
+        param['ds'] = $('#dashboard').val();
+        param['id_bulan'] = $('#id_bulan').val();
+        param[csrf_token] = csrf_hash;
+        $.LoadingOverlay("show");
+        $.post(host+'dashboard-tampil/get_arus_kas', param, function(resp){
+            if(resp){
+                $.LoadingOverlay("hide", true);
+                parsing = JSON.parse(resp);
+                var xChart = parsing.arr_bln;
+                var yChart2 = [
+                {
+                    name: 'Akumulasi Realisasi',
+                    type: 'column',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#cee60b'],
+                        [1, '#ff7c8f']
+                        ]
+                    },
+                    data: parsing.arr_data_bar,
+                },
+                {
+                    name: 'Realisasi Bulanan',
+                    type: 'line',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#0bcfe6']
+                        ]
+                    },
+                    data: parsing.arr_data_line,
+                }];
+
+
+                var investasi = 'Rp '+parsing.tot_investasi+',-';
+                var operasional = 'Rp '+parsing.tot_operasional+',-';
+                var pendanaan = 'Rp '+parsing.tot_pendanaan+',-';
+                $('#tot-investasi').html(investasi);
+                $('#tot-operasional').html(operasional);
+                $('#tot-pendanaan').html(pendanaan);
+
+                
+                genColumnChart("container-aruskas-investasi", "", xChart, yChart2, "", "", "", false);
+                genColumnChart("container-aruskas-operasional", "", xChart, yChart2, "", "", "", false);
+                genColumnChart("container-aruskas-pendanaan", "", xChart, yChart2, "", "", "", false);
+
+               
+            }
+        });
+    
+    });
+
+    
+    var par = {};
+    par['iduser'] = "";
+    par['ds'] = 'BULANAN';
+    par['id_bulan'] = "";
+    par[csrf_token] = csrf_hash;
+    $.LoadingOverlay("show");
+    $.post(host+'dashboard-tampil/get_arus_kas', par, function(resp){
         if(resp){
-            var param = {};
+            $.LoadingOverlay("hide", true);
             parsing = JSON.parse(resp);
             var xChart = parsing.arr_bln;
             var yChart2 = [
@@ -203,13 +287,21 @@ $('.tahun').text(tahun);
                 data: parsing.arr_data_line,
             }];
 
-            
+
+            var investasi = 'Rp '+parsing.tot_investasi+',-';
+            var operasional = 'Rp '+parsing.tot_operasional+',-';
+            var pendanaan = 'Rp '+parsing.tot_pendanaan+',-';
+            $('#tot-investasi').html(investasi);
+            $('#tot-operasional').html(operasional);
+            $('#tot-pendanaan').html(pendanaan);
+
             genColumnChart("container-aruskas-investasi", "", xChart, yChart2, "", "", "", false);
             genColumnChart("container-aruskas-operasional", "", xChart, yChart2, "", "", "", false);
             genColumnChart("container-aruskas-pendanaan", "", xChart, yChart2, "", "", "", false);
+
+
         }
     });
-
 
 
 </script>

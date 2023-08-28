@@ -1,9 +1,10 @@
 <style type="text/css">
     .colornya {
-      background: linear-gradient(90deg, rgba(1,106,156,1) 0%, rgba(96,203,202,1) 0%, rgba(252,122,100,1) 100%);
+      background: linear-gradient(90deg, hsla(207, 88%, 23%, 1) 0%, hsla(69, 78%, 32%, 1) 50%, hsla(58, 100%, 52%, 1) 100%);
       color: #ffff;
     }
 </style>
+
 <div class="row">
   <div class="col-md-12">
     <div class="nav-tabs-custom">
@@ -62,7 +63,7 @@
           </div> 
           <div class="col-md-1">
             <div class="form-group">
-              <a href="javascript:void(0)" title="Add" class="btn btn-primary btn-sm btn-flat tombol_cari" onClick="gendashboardsearch('index-dashboard-analisis','index-dashboard-analisis');">
+              <a href="javascript:void(0)" title="search" class="btn btn-primary btn-sm btn-flat filter_data">
                 <i class="fa fa-search"></i>
               </a> 
             </div>
@@ -73,36 +74,19 @@
   </div>
 </div>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="nav-tabs-custom">
             <div class="box box-default">
                 <div class="box-header with-border">
                     <div class="small-box colornya">
                         <div class="inner">
-                          <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Arus Kas Dari Aktivitas Investasi</span>
-                          <p style="font-size: 20px; font-weight:bold;">Rp 200.000.000.000.000,-</p>
-                      </div>
-                  </div>
+                          <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Jumlah Penerima Pembayaran Belanja Pensiun</span>
+                          <p style="font-size: 20px; font-weight:bold;">3.876.223 Orang</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="box-body">
-                    <div id="container-aruskas-investasi"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="nav-tabs-custom">
-            <div class="box box-default">
-                <div class="box-header with-border">
-                    <div class="small-box colornya">
-                        <div class="inner">
-                          <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Arus Kas Dari Aktivitas Operasional</span>
-                          <p style="font-size: 20px; font-weight:bold;">Rp 1.000.000.000.000,-</p>
-                      </div>
-                  </div>
-                </div>
-                <div class="box-body">
-                     <div id="container-aruskas-operasional"></div>
+                    <div id="container-line"></div>
                 </div>
             </div>
         </div>
@@ -113,16 +97,23 @@
     <div class="col-md-6">
         <div class="nav-tabs-custom">
             <div class="box box-default">
-                <div class="box-header with-border">
-                    <div class="small-box colornya">
-                        <div class="inner">
-                          <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Arus Kas Dari Aktivitas Pendanaan</span>
-                          <p style="font-size: 20px; font-weight:bold;">Rp 340.000.000.000.000,-</p>
-                      </div>
-                  </div>
+                <div class="box-header with-border colornya">
+                    <p class="box-title" style="font-size:16px;">Jumlah Penerima Pembayaran Pensiun Per Jenis Penerima</p>
                 </div>
                 <div class="box-body">
-                    <div id="container-aruskas-pendanaan"></div>
+                    <div id="container-pie1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="nav-tabs-custom">
+            <div class="box box-default">
+                <div class="box-header with-border colornya">
+                    <p class="box-title" style="font-size:16px;">Jumlah Penerima Pembayaran Pensiun Per Kelompok Penerima</p>
+                </div>
+                <div class="box-body">
+                     <div id="container-pie2"></div>
                 </div>
             </div>
         </div>
@@ -162,32 +153,67 @@
 $('.tahun').text(tahun);
 </script>
 <script type="text/javascript">
+    $.post(host+'dashboard-tampil/get_operasional', {[csrf_token]:csrf_hash}, function(resp){
+        if(resp){
+            parsing = JSON.parse(resp);
 
-    $.post(host+'dashboard-tampil/get_arus_kas', {[csrf_token]:csrf_hash}, function(resp){
+            // Data Jenis Penerima
+            var datanya = [];
+                for(var i=0; i < parsing.arr_jns.length; i++) {
+                datanya.push({
+                    name: parsing.arr_jns[i],
+                    y: parsing.arr_data_jns[i],
+                    // color: parsing.color4[i],
+                    });
+                }
+
+            // console.log(datanya);
+            var chartD1 = 
+            [{
+                name: 'Persentase',
+                colorByPoint: true,
+                innerSize: '60%',
+                data: datanya,
+            }];
+
+
+            // Data Kelompok Penerima
+            var datanya2 = [];
+                for(var i=0; i < parsing.arr_kelompok.length; i++) {
+                datanya2.push({
+                    name: parsing.arr_kelompok[i],
+                    y: parsing.arr_data_kelompok[i],
+                    // color: parsing.color8[i],
+                    });
+                }
+
+            // console.log(datanya);
+            var chartD2 = 
+            [{
+                name: 'Persentase',
+                colorByPoint: true,
+                innerSize: '60%',
+                data: datanya2,
+            }];
+
+
+
+
+            genPieChart("container-pie1", "", "", chartD1, '', 250);
+            genPieChart("container-pie2", "", "", chartD2, '', 250);
+        }
+    });
+
+    $.post(host+'dashboard-tampil/get_operasional', {[csrf_token]:csrf_hash}, function(resp){
         if(resp){
             var param = {};
             parsing = JSON.parse(resp);
-            var xChart = parsing.arr_bln;
-            var yChart2 = [
+            var xChart = parsing.arr_periode;
+            var xChart2 = parsing.arr_data;
+
+            var yChart = [
             {
-                name: 'Akumulasi Realisasi',
-                type: 'column',
-                color: {
-                    linearGradient: {
-                        x1: 0,
-                        x2: 0,
-                        y1: 1,
-                        y2: 0
-                    },
-                    stops: [
-                    [0, '#cee60b'],
-                    [1, '#ff7c8f']
-                    ]
-                },
-                data: parsing.arr_data_bar,
-            },
-            {
-                name: 'Realisasi Bulanan',
+                name: 'NILAI',
                 type: 'line',
                 color: {
                     linearGradient: {
@@ -197,18 +223,19 @@ $('.tahun').text(tahun);
                         y2: 0
                     },
                     stops: [
-                    [0, '#0bcfe6']
+                    [0, '#e93981'],
+                    [1, '#3058ac']
                     ]
                 },
-                data: parsing.arr_data_line,
+                data: parsing.arr_data,
             }];
 
             
-            genColumnChart("container-aruskas-investasi", "", xChart, yChart2, "", "", "", false);
-            genColumnChart("container-aruskas-operasional", "", xChart, yChart2, "", "", "", false);
-            genColumnChart("container-aruskas-pendanaan", "", xChart, yChart2, "", "", "", false);
+            genColumnChart("container-line", "", xChart, yChart, "", "", "", false);
         }
     });
+
+
 
 
 
