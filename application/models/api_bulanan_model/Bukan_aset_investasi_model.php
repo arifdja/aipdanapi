@@ -112,6 +112,29 @@ class Bukan_aset_investasi_model extends CI_Model {
     
   }
 
+   
+  private function getDetil($user=null,$tahun=null,$bulan=null,$id_investasi=null,$kode_pihak=null)
+  {
+    if (null === $bulan) {
+      $bulan = 0;
+    }
+
+    if (null === $tahun) {
+      $tahun = 0;
+    }
+
+    $bulan = $bulan - 1;
+    
+    $sql = "SELECT a.id_investasi,b.* FROM bln_aset_investasi_header a LEFT JOIN bln_aset_investasi_detail b ON a.id = b.bln_aset_investasi_header_id WHERE b.iduser = ? AND b.tahun = ? AND b.id_bulan = ? AND a.id_investasi = ? AND b.kode_pihak = ?";
+
+    $query = $this->db->query($sql, array($user, $tahun, $bulan,$id_investasi,$kode_pihak));
+
+    $result = $query->row_array();
+
+    return $result;
+    
+  }
+
   
   private function validasi_saldo_awal($id_user,$tahun,$id_bulan,$id_investasi,$detail)
   {
@@ -123,7 +146,7 @@ class Bukan_aset_investasi_model extends CI_Model {
       if($result['saldo_akhir'] != $v->saldo_awal){
         $msg.="<< Saldo awal bulan ".$id_bulan." tahun ".$tahun."  id_investasi ".$id_investasi." kode pihak ".$v->kode_pihak." tidak sama dengan saldo akhir bulan sebelumnya yaitu sebesar ".$result['saldo_akhir']."  >>";
       }
-
+      
       return $msg;
     }
 
@@ -229,11 +252,26 @@ class Bukan_aset_investasi_model extends CI_Model {
           }
 
           $invalid_id_investasi = invalid_id_investasi($id_user);
+          // var_dump($invalid_id_investasi);exit;
           if(in_array($id_investasi,$invalid_id_investasi)){
             $status = 0;
             $res=array();
             $res['error']=true;
-            $res['msg']="Id Investasi tidak valid";
+            $res['msg']="Id Investasi $id_investasi tidak valid";
+            return $res;
+          }
+
+          $invalid_pihak = get_invalid_pihak($id_user,$detail);
+          $list_invalid_pihak = "";
+          if(count($invalid_pihak) > 0){
+
+            foreach ($invalid_pihak as $key => $value) {
+              $list_invalid_pihak.=" $value ";
+            }
+            $status = 0;
+            $res=array();
+            $res['error']=true;
+            $res['msg']="Kode pihak $list_invalid_pihak tidak valid";
             return $res;
           }
 
@@ -246,7 +284,7 @@ class Bukan_aset_investasi_model extends CI_Model {
             $res['msg']=$return;
             return $res;
           }
-
+          
           $cekdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'id_investasi'=>$id_investasi,'id_bulan'=>$id_bulan,'tahun'=>$tahun))->num_rows();
           
           if ($cekdata>0) {

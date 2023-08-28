@@ -132,6 +132,11 @@ class Beban_model extends CI_Model {
       $id_bulan = $value['id_bulan'];
       $id_user = $value['iduser'];
       $tahun = $value['tahun'];
+      $saldo_awal_invest = $value['saldo_awal_invest'];
+      $mutasi_invest = $value['mutasi_invest'];
+      $saldo_akhir_invest = $value['saldo_akhir_invest'];
+      $rka = $value['rka'];
+      $realisasi_rka = $value['realisasi_rka'];
       
 
       // cek data id investasi
@@ -147,7 +152,25 @@ class Beban_model extends CI_Model {
             $status = 0;
             $res=array();
             $res['error']=true;
-            $res['msg']="Id Investasi tidak valid";
+            $res['msg']="Id Investasi $id_investasi tidak valid";
+            return $res;
+          }
+
+          if($saldo_akhir_invest - $mutasi_invest !=  $saldo_awal_invest)
+          {
+            $status = 0;
+            $res=array();
+            $res['error']=true;
+            $res['msg']="Data header Id Investasi $id_investasi tidak valid";
+            return $res;
+          }
+
+          if($saldo_akhir_invest/$rka*100 != $realisasi_rka)
+          {
+            $status = 0;
+            $res=array();
+            $res['error']=true;
+            $res['msg']="Data RKA Id Investasi $id_investasi tidak valid";
             return $res;
           }
 
