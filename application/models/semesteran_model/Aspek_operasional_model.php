@@ -1347,7 +1347,7 @@ class Aspek_operasional_model extends CI_Model {
 						FROM tbl_nilai_tunai_detail
 						WHERE semester = '1'
 						AND iduser ='".$iduser."'
-						AND tahun = '".$tahun_filter."'
+						AND tahun = '".$tahun."'
 					)B ON A.id=B.tbl_nilai_tunai_header_id
 					LEFT JOIN(
 						SELECT tbl_nilai_tunai_header_id,jml_penerima, jml_pembayaran, tahun
@@ -1357,7 +1357,6 @@ class Aspek_operasional_model extends CI_Model {
 						AND tahun = '".$tahun_filter."'
 					)C ON A.id=C.tbl_nilai_tunai_header_id
 					WHERE A.iduser ='".$iduser."'
-					AND A.tahun = '".$tahun_filter."'
 			
 				";
 				 // echo $sql; exit;
@@ -1402,6 +1401,7 @@ class Aspek_operasional_model extends CI_Model {
 					AND A.iduser ='".$iduser."'
 
 				";
+				 // echo $sql; exit;
 			break;
 			case 'tbl_nilai_tunai_header':
 				$sql="

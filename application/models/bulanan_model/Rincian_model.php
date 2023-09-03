@@ -170,6 +170,7 @@ class Rincian_model extends CI_Model {
 						SELECT A.*
 						FROM vw_investasi_perpihak_taspen A  
 						$where2
+						AND A.tahun = '".$tahun."'
 						AND A.id_bulan = '".$id_bulan."'
 					";	
 					 // echo $sql;exit;
@@ -178,6 +179,7 @@ class Rincian_model extends CI_Model {
 						SELECT A.*
 						FROM vw_investasi_perpihak_asabri A
 						$where2
+						AND A.tahun = '".$tahun."'
 						AND A.id_bulan = '".$id_bulan."'
 					";	
 				}else{
@@ -185,6 +187,7 @@ class Rincian_model extends CI_Model {
 						SELECT A.*
 						FROM vw_investasi_perpihak_taspen A  
 						$where2
+						AND A.tahun = '".$tahun."'
 						AND A.id_bulan = '".$id_bulan."'
 					";	
 				}
@@ -197,6 +200,7 @@ class Rincian_model extends CI_Model {
 						SELECT A.*
 						FROM vw_bkn_investasi_perpihak_taspen A  
 						$where2
+						AND A.tahun = '".$tahun."'
 						AND A.id_bulan = '".$id_bulan."'
 					";	
 				}elseif ($iduser == 'ASB003') {
@@ -204,6 +208,7 @@ class Rincian_model extends CI_Model {
 						SELECT A.*
 						FROM vw_bkn_investasi_perpihak_asabri A
 						$where2
+						AND A.tahun = '".$tahun."'
 						AND A.id_bulan = '".$id_bulan."'
 					";	
 				}else{
@@ -211,6 +216,7 @@ class Rincian_model extends CI_Model {
 						SELECT A.*
 						FROM vw_bkn_investasi_perpihak_taspen A  
 						$where2
+						AND A.tahun = '".$tahun."'
 						AND A.id_bulan = '".$id_bulan."'
 					";	
 				}
@@ -249,6 +255,8 @@ class Rincian_model extends CI_Model {
 						AND A.id_bulan = '".$id_bulan."'
 						AND A.tahun = '".$tahun."'
 					";
+
+					// echo $sql;exit;
 				}elseif ($iduser == 'ASB003') {
 					$sql="
 						SELECT A.iduser, A.id_bulan,
