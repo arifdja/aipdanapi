@@ -69,7 +69,7 @@ class Aruskasds_model extends CI_Model {
 					a.nama_bulan,
 					b.jenis_kas,
 					b.tahun,
-					COALESCE (SUM(B.saldo_bulan_berjalan), 0) AS saldo_akhir
+					COALESCE (SUM(b.saldo_bulan_berjalan), 0) AS saldo_akhir
 					FROM
 					t_bulan a
 					LEFT JOIN bln_arus_kas b ON a.id_bulan = b.id_bulan
@@ -91,7 +91,7 @@ class Aruskasds_model extends CI_Model {
 					a.nama_bulan,
 					b.jenis_kas,
 					b.tahun,
-					COALESCE (SUM(B.saldo_bulan_berjalan), 0) AS saldo_akhir
+					COALESCE (SUM(b.saldo_bulan_berjalan), 0) AS saldo_akhir
 					FROM
 					t_bulan a
 					LEFT JOIN bln_arus_kas b ON a.id_bulan = b.id_bulan
