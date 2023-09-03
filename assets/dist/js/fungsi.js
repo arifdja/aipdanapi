@@ -422,7 +422,7 @@ function genColumnChart(divnya, type, xxChart, yyChart, judul, pointformatnya, p
 				}
 			},
 			title:{
-				text:'JUMLAH',
+				text:'JUMLAH (Rp)',
 			}
         },
         {

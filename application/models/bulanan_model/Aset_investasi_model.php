@@ -2765,11 +2765,13 @@ class Aset_investasi_model extends CI_Model {
 				}
 				$sql ="
 					SELECT A.*, B.id_investasi, B.jenis_investasi, B.iduser, B.group, B.parent_id, 
-					B.type_sub_jenis_investasi as type, C.saldo_akhir, D.saldo_akhir_bln_lalu
+					B.type_sub_jenis_investasi as type, 
+					COALESCE((CASE WHEN B.group = 'HASIL INVESTASI' THEN C.mutasi else C.saldo_akhir end), 0) as saldo_akhir,
+					COALESCE((CASE WHEN B.group = 'HASIL INVESTASI' THEN D.mutasi else D.saldo_akhir_bln_lalu end), 0) as saldo_akhir_bln_lalu
 					FROM mst_perubahan_danabersih A
 					LEFT JOIN mst_investasi B ON A.id_perubahan_dana_bersih = B.id_perubahan_dana_bersih
 					LEFT JOIN(
-						SELECT id_investasi,saldo_akhir_invest as saldo_akhir, id_bulan, tahun, iduser
+						SELECT id_investasi,saldo_akhir_invest as saldo_akhir, id_bulan, tahun, iduser, mutasi_invest as mutasi
 						FROM bln_aset_investasi_header
 						WHERE id_bulan = '".$id_bulan."'
 						AND iduser = '".$iduser."'
@@ -2777,7 +2779,7 @@ class Aset_investasi_model extends CI_Model {
 					) C ON B.id_investasi = C.id_investasi
 
 					LEFT JOIN(
-						SELECT id_investasi,saldo_akhir_invest as saldo_akhir_bln_lalu, id_bulan, tahun, iduser
+						SELECT id_investasi,saldo_akhir_invest as saldo_akhir_bln_lalu, id_bulan, tahun, iduser, mutasi_invest as mutasi
 						FROM bln_aset_investasi_header
 						WHERE id_bulan = '".$bln_lalu."'
 						AND iduser = '".$iduser."'

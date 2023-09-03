@@ -186,24 +186,7 @@ $('.tahun').text(tahun);
                 $.LoadingOverlay("hide", true);
                 parsing = JSON.parse(resp);
                 var xChart = parsing.arr_bln;
-                var yChart2 = [
-                {
-                    name: 'Akumulasi Realisasi',
-                    type: 'column',
-                    color: {
-                        linearGradient: {
-                            x1: 0,
-                            x2: 0,
-                            y1: 1,
-                            y2: 0
-                        },
-                        stops: [
-                        [0, '#cee60b'],
-                        [1, '#ff7c8f']
-                        ]
-                    },
-                    data: parsing.arr_data_bar,
-                },
+                var yChart_invest = [
                 {
                     name: 'Realisasi Bulanan',
                     type: 'line',
@@ -218,7 +201,43 @@ $('.tahun').text(tahun);
                         [0, '#0bcfe6']
                         ]
                     },
-                    data: parsing.arr_data_line,
+                    data: parsing.arr_data_line_invest,
+                }];
+                
+                var yChart_operasioanl = [
+                {
+                    name: 'Realisasi Bulanan',
+                    type: 'line',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#0bcfe6']
+                        ]
+                    },
+                    data: parsing.arr_data_line_operasioanl,
+                }];
+
+                var yChart_pendanaan = [
+                {
+                    name: 'Realisasi Bulanan',
+                    type: 'line',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#0bcfe6']
+                        ]
+                    },
+                    data: parsing.arr_data_line_pendanaan,
                 }];
 
 
@@ -230,9 +249,9 @@ $('.tahun').text(tahun);
                 $('#tot-pendanaan').html(pendanaan);
 
                 
-                genColumnChart("container-aruskas-investasi", "", xChart, yChart2, "", "", "", false);
-                genColumnChart("container-aruskas-operasional", "", xChart, yChart2, "", "", "", false);
-                genColumnChart("container-aruskas-pendanaan", "", xChart, yChart2, "", "", "", false);
+                genColumnChart("container-aruskas-investasi", "", xChart, yChart_invest, "", "", "", false);
+                genColumnChart("container-aruskas-operasional", "", xChart, yChart_operasioanl, "", "", "", false);
+                genColumnChart("container-aruskas-pendanaan", "", xChart, yChart_pendanaan, "", "", "", false);
 
                
             }
@@ -252,24 +271,7 @@ $('.tahun').text(tahun);
             $.LoadingOverlay("hide", true);
             parsing = JSON.parse(resp);
             var xChart = parsing.arr_bln;
-            var yChart2 = [
-            {
-                name: 'Akumulasi Realisasi',
-                type: 'column',
-                color: {
-                    linearGradient: {
-                        x1: 0,
-                        x2: 0,
-                        y1: 1,
-                        y2: 0
-                    },
-                    stops: [
-                    [0, '#cee60b'],
-                    [1, '#ff7c8f']
-                    ]
-                },
-                data: parsing.arr_data_bar,
-            },
+            var yChart_invest = [
             {
                 name: 'Realisasi Bulanan',
                 type: 'line',
@@ -284,7 +286,43 @@ $('.tahun').text(tahun);
                     [0, '#0bcfe6']
                     ]
                 },
-                data: parsing.arr_data_line,
+                data: parsing.arr_data_line_invest,
+            }];
+
+            var yChart_operasioanl = [
+            {
+                name: 'Realisasi Bulanan',
+                type: 'line',
+                color: {
+                    linearGradient: {
+                        x1: 0,
+                        x2: 0,
+                        y1: 1,
+                        y2: 0
+                    },
+                    stops: [
+                    [0, '#0bcfe6']
+                    ]
+                },
+                data: parsing.arr_data_line_operasioanl,
+            }];
+
+            var yChart_pendanaan = [
+            {
+                name: 'Realisasi Bulanan',
+                type: 'line',
+                color: {
+                    linearGradient: {
+                        x1: 0,
+                        x2: 0,
+                        y1: 1,
+                        y2: 0
+                    },
+                    stops: [
+                    [0, '#0bcfe6']
+                    ]
+                },
+                data: parsing.arr_data_line_pendanaan,
             }];
 
 
@@ -295,9 +333,9 @@ $('.tahun').text(tahun);
             $('#tot-operasional').html(operasional);
             $('#tot-pendanaan').html(pendanaan);
 
-            genColumnChart("container-aruskas-investasi", "", xChart, yChart2, "", "", "", false);
-            genColumnChart("container-aruskas-operasional", "", xChart, yChart2, "", "", "", false);
-            genColumnChart("container-aruskas-pendanaan", "", xChart, yChart2, "", "", "", false);
+            genColumnChart("container-aruskas-investasi", "", xChart, yChart_invest, "", "", "", false);
+            genColumnChart("container-aruskas-operasional", "", xChart, yChart_operasioanl, "", "", "", false);
+            genColumnChart("container-aruskas-pendanaan", "", xChart, yChart_pendanaan, "", "", "", false);
 
 
         }

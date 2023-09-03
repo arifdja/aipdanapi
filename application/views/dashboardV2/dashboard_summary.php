@@ -63,7 +63,7 @@ if ($level == 'DJA') {
         <div class="small-box colornya">
             <div class="inner">
               <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Aset Investasi</span>
-              <p style="font-size: 20px; font-weight:bold;" id="tot-investasi"></p>
+              <p style="font-size: 18px; font-weight:bold;" id="tot-investasi"></p>
             </div>
         </div>
     </div>
@@ -71,7 +71,7 @@ if ($level == 'DJA') {
         <div class="small-box colornya">
             <div class="inner">
               <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Aset Bukan Investasi</span>
-              <p style="font-size: 20px; font-weight:bold;" id="tot-bukan-investasi"></p>
+              <p style="font-size: 18px; font-weight:bold;" id="tot-bukan-investasi"></p>
             </div>
         </div>
     </div>
@@ -79,7 +79,7 @@ if ($level == 'DJA') {
         <div class="small-box colornya">
             <div class="inner">
               <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Kewajiban</span>
-              <p style="font-size: 20px; font-weight:bold;" id="tot-kewajiban"></p>
+              <p style="font-size: 18px; font-weight:bold;" id="tot-kewajiban"></p>
             </div>
         </div>
     </div>
@@ -87,7 +87,7 @@ if ($level == 'DJA') {
         <div class="small-box colornya">
             <div class="inner">
                <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Dana Bersih</span>
-              <p style="font-size: 20px; font-weight:bold;" id="tot-dana-bersih"></p>
+              <p style="font-size: 18px; font-weight:bold;" id="tot-dana-bersih"></p>
             </div>
         </div>
     </div>
@@ -133,7 +133,7 @@ if ($level == 'DJA') {
                         <div class="small-box colornya2">
                             <div class="inner">
                               <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Jumlah Peserta Aktif</span>
-                              <p style="font-size: 20px; font-weight:bold;" id="tot-peserta"></p>
+                              <p style="font-size: 18px; font-weight:bold;" id="tot-peserta"></p>
                             </div>
                         </div>
                     </div>
@@ -141,7 +141,7 @@ if ($level == 'DJA') {
                         <div class="small-box colornya2">
                             <div class="inner">
                               <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Jumlah Pensiunan</span>
-                              <p style="font-size: 20px; font-weight:bold;" id="tot-pensiunan"></p>
+                              <p style="font-size: 18px; font-weight:bold;" id="tot-pensiunan"></p>
                             </div>
                         </div>
                     </div>
@@ -149,7 +149,7 @@ if ($level == 'DJA') {
                         <div class="small-box colornya2">
                             <div class="inner">
                               <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Jumlah Pembayaran Belanja Pensiun</span>
-                              <p style="font-size: 20px; font-weight:bold;" id="tot-pembayaran"></p>
+                              <p style="font-size: 18px; font-weight:bold;" id="tot-pembayaran"></p>
                             </div>
                         </div>
                     </div>

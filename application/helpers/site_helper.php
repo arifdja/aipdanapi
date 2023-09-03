@@ -670,8 +670,8 @@ function check_access($role_id, $menu_id){
 				case 5:$bulan='Mei';break;
 				case 6:$bulan='Jun';break;
 				case 7:$bulan='Jul';break;
-				case 8:$bulan='Agst';break;
-				case 9:$bulan='Sept';break;
+				case 8:$bulan='Ags';break;
+				case 9:$bulan='Sep';break;
 				case 10:$bulan='Okt';break;
 				case 11:$bulan='Nov';break;
 				case 12:$bulan='Des';break;
