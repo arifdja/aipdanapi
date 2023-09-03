@@ -184,6 +184,7 @@ class Nilai_tunai_model extends CI_Model {
                         'iduser' => $id_user,
                           'semester' => $smt,
                           'tahun' => $tahun,
+                          'no_urut' => escape($v->no_urut),
                           'id_cabang' => escape($v->id_cabang),
                           'jml_penerima' => escape($v->jml_penerima),
                           'jml_pembayaran' => escape($v->jml_pembayaran),
