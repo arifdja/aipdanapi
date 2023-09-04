@@ -605,6 +605,15 @@ function check_access($role_id, $menu_id){
 		return $data;
 	}
 
+	function combo_dashboard2(){
+		$data = array(
+			'0' => array('id'=>'SEMESTERAN','txt'=>'SEMESTERAN'),
+			'1' => array('id'=>'TAHUNAN','txt'=>'TAHUNAN'),
+
+		);
+		return $data;
+	}
+
 
 	function combo_danabersih(){
 		$data = array(

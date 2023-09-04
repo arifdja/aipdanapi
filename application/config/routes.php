@@ -188,11 +188,13 @@ $route['dashboard-index/(:any)'] = 'dashboard/analisis/get_index/$1';
 
 
 $route['dashboard-tampil/(:any)'] = 'dashboard/dashboard/getdisplay/$1';
+$route['dashboard-tampil-operasional/(:any)'] = 'dashboard/aspek_operasional/getdisplay/$1';
+$route['dashboard-tampil-operasional-apbn/(:any)'] = 'dashboard/aspek_operasional_apbn/getdisplay/$1';
 $route['dashboardv2-index/(:any)'] = 'dashboard/dashboard/get_index/$1';
 
 $route['dashboard-executive-summary'] = 'dashboard/dashboard/executive_summary';
 $route['dashboard-danabersih'] = 'dashboard/dashboard/dana_bersih';
 $route['dashboard-perubahan-danabersih'] = 'dashboard/dashboard/perubahan_danabersih';
 $route['dashboard-arus-kas'] = 'dashboard/dashboard/arus_kas';
-$route['dashboard-aspek-operasional'] = 'dashboard/dashboard/aspek_operasional';
-$route['dashboard-operasional-belanja'] = 'dashboard/dashboard/operasional_belanja';
+$route['dashboard-aspek-operasional'] = 'dashboard/aspek_operasional/aspek_operasional';
+$route['dashboard-operasional-belanja'] = 'dashboard/aspek_operasional_apbn/operasional_belanja';
