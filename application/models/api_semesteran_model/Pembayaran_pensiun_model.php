@@ -172,10 +172,10 @@ class Pembayaran_pensiun_model extends CI_Model {
 
         if($status_input == true){
 
-          $cekdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun,'id_penerima'=>$id_penerima,'id_kelompok'=>$id_kelompok))->num_rows();
+          $cekdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun,'id_penerima'=>$id_penerima,'id_kelompok'=>$id_kelompok,'sumber_dana'=>$sd))->num_rows();
           
           if ($cekdata>0) {
-            $getdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun,'id_penerima'=>$id_penerima,'id_kelompok'=>$id_kelompok))->row();
+            $getdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun,'id_penerima'=>$id_penerima,'id_kelompok'=>$id_kelompok,'sumber_dana'=>$sd))->row();
 
             
             // update header
@@ -194,9 +194,9 @@ class Pembayaran_pensiun_model extends CI_Model {
             $this->db->where('id_kelompok',$value['id_kelompok']);
             $this->db->update($this->table , $dataUpdate);
             $jumlahUpdate = $this->db->affected_rows();
-            $cekdataDetail = $this->db->get_where($this->tableDetail,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun,'id_penerima'=>$id_penerima,'id_kelompok'=>$id_kelompok))->num_rows();
+            $cekdataDetail = $this->db->get_where($this->tableDetail,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun,'id_penerima'=>$id_penerima,'id_kelompok'=>$id_kelompok,'sumber_dana'=>$sd))->num_rows();
             if ($cekdataDetail>0) {
-              $del = $this->db->delete($this->tableDetail,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun,'id_penerima'=>$id_penerima,'id_kelompok'=>$id_kelompok));
+              $del = $this->db->delete($this->tableDetail,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun,'id_penerima'=>$id_penerima,'id_kelompok'=>$id_kelompok,'sumber_dana'=>$sd));
               
               
               foreach($detail as $keyDet => $v){
