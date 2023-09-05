@@ -6,8 +6,47 @@ class Master_data_model extends CI_Model {
 	function __construct(){
 		parent::__construct();
 	}
+
+	function approval($approval,$id){
+		$var_status = '';
+		if ($approval == "setuju") {
+			$var_status = 1;
+		} elseif ($approval == "tolak") {
+			$var_status = 2;
+		}
+		
+		$data = array(
+            'status' => $var_status
+        );
+		$this->db->trans_begin();
+		$this->db->update('tmp_mst_pihak',$data, array('id' => $id));
+
+		if ($var_status == 1) {
+			$query = $this->db->get_where('tmp_mst_pihak', array('id' => $id));
+			$data = $query->result_array();
+			$data2 = [];
+			foreach ($data as $key => $value) {
+				$data2['kode_pihak'] = $value['kode_pihak'];
+				$data2['nama_pihak'] = $value['nama_pihak'];
+				$data2['iduser'] = $value['iduser'];
+				$data2['insert_at'] = date('Y-m-d H:i:s');;
+			}
+
+			$this->db->insert('mst_pihak', $data2);
+
+		} 
+
+		if($this->db->trans_status() == false){
+			$this->db->trans_rollback();
+			return false;
+		}else{
+			return $this->db->trans_commit();
+		}
+		
+	}
 	
 	function simpandata($table,$data,$sts_crud){ //$sts_crud --> STATUS INSERT, UPDATE, DELETE
+		// var_dump($data);exit;
 		$this->db->trans_begin();
 
 		if(isset($data['id_investasi'])){
@@ -142,6 +181,9 @@ class Master_data_model extends CI_Model {
 			case 'mst_pihak':
 				$table_data = "mst_pihak";	
 			break;
+			case 'tmp_mst_pihak':
+				$table_data = "tmp_mst_pihak";	
+			break;
 			case 'master_cabang':
 				$table_data = "mst_cabang";	
 			break;
@@ -223,6 +265,8 @@ class Master_data_model extends CI_Model {
 					$this->db->update($table_data,$data, array('id_penerima' => $data['id_penerima']));
 				}if($table == "mst_pihak"){
 					$this->db->update($table_data,$data, array('id' => $data['id']));
+				}if($table == "tmp_mst_pihak"){
+					$this->db->update($table_data,$data, array('id' => $data['id']));
 				}
 
 				if($table_data == "mst_nama_pihak"){
@@ -284,6 +328,8 @@ class Master_data_model extends CI_Model {
 				}else if($table == "master_nama_pihak"){
 					$this->db->delete($table_data, array('kode_pihak'=>$data['tipe'],'group'=>$data['id']) );
 				}else if($table == "mst_pihak"){
+					$this->db->delete($table_data, array('id'=>$data['id']) );
+				}else if($table == "tmp_mst_pihak"){
 					$this->db->delete($table_data, array('id'=>$data['id']) );
 				}
 
@@ -495,6 +541,22 @@ class Master_data_model extends CI_Model {
 					ORDER BY A.id DESC
 				";
 			break;
+
+			case 'tmp_mst_pihak':
+				if($p1 != ""){
+					$where2 .= "
+					AND A.id = '".$p1."'
+					";
+				}
+
+				$sql="
+					SELECT A.* 
+					FROM tmp_mst_pihak A  
+					$where2
+					ORDER BY A.id DESC
+				";
+			break;
+
 			case 'master_cabang':
 				$sql="
 					SELECT A.* 
@@ -606,6 +668,27 @@ class Master_data_model extends CI_Model {
 				";
 
 				// echo $sql;exit;
+			break;
+
+
+			case 'cek_nama_pihak':
+				$sql = "
+					SELECT count(*) as total
+					FROM mst_pihak A  
+					WHERE A.nama_pihak = '".$p1."' 
+					AND A.iduser = '".$p2."' 
+				";
+
+				// echo $sql;exit;
+			break;
+			
+			case 'tmp_mst_pihak':
+				$sql="
+					SELECT A.* 
+					FROM tmp_mst_pihak A  
+					$where2
+					AND A.id = '".$p1."'
+				";
 			break;
 
 		}

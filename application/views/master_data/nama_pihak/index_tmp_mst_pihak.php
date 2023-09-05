@@ -4,12 +4,9 @@
  <div class="row">
  	<div class="col-xs-12">
  		<div class="nav-tabs-custom">
-      <?php if($iduser == 1): ?>
-      <?php $this->load->view('main/nav_tab_nama_pihak'); ?>
-      <?php endif;?>
  			<div class="box box-default">
  				<div class="box-header with-border">
- 					<h3 class="box-title">Nama Pihak</h3>
+ 					<h3 class="box-title">Pengajuan Nama Pihak</h3>
  				</div>
  				<!-- /.box-header -->
  				<div class="box-body" style="overflow-x:auto;">	
@@ -34,7 +31,7 @@
               </div> 
               <div class="col-md-1">
                 <div class="form-group">
-                  <a href="javascript:void(0)" title="Add" class="btn btn-primary btn-sm btn-flat" onClick="gensearch('index-mst-pihak','index-mst-pihak');">
+                  <a href="javascript:void(0)" title="Add" class="btn btn-primary btn-sm btn-flat" onClick="gensearch('index-tmp-mst-pihak','index-tmp-mst-pihak');">
                     <i class="fa fa-search"></i>
                   </a> 
                 </div>
@@ -47,7 +44,7 @@
               <?php endif; ?>
                 <div class="form-group pull-right">
                   <a href="javascript:void(0)" title="Add" class="btn btn-primary btn-sm btn-flat " onClick="
-                  genform('mst_pihak','mst_pihak','mst_pihak','','','','','add');">
+                  genform('tmp_mst_pihak','tmp_mst_pihak','tmp_mst_pihak','','','','','add');">
                   <i class="fa fa-plus"></i>&nbsp;&nbsp;Tambah</a>  
                   <button class="btn btn-sm btn-flat btn-primary" id="excel"><i class="fas fa-excel"></i>Download Excel</button>
                 
@@ -62,9 +59,9 @@
  								<th>Kode Pihak</th>
                 <th>Nama Pihak</th>
  								<th>User</th>
-                <?php if($iduser == 1): ?>
+ 								<th>Keterangan</th>
+ 								<th>Status</th>
  								<th width="100" class='noExl'>#</th>
-                <?php endif; ?>
  							</tr>
  						</thead>
  						<tbody>
@@ -83,14 +80,29 @@
                     }
                   ?>
                   <td style="text-align: left;"><?=$iduser;?></td>
+                  <td style="text-align: left;"><?=$pihak['keterangan']?></td>
+                  <?php
+                  $tampil_status = '';
+                  if ($pihak['status'] == 0) {
+                    $tampil_status = "Menunggu Persetujuan";
+                  } elseif ($pihak['status'] == 2) {
+                    $tampil_status = "Ditolak";
+                  } else {
+                    $tampil_status = "Diterima";
+                  }
+                  
+                  ?>
+                  <td style="text-align: left;"><?=$tampil_status?></td>
                   <td>
-                    <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat adm" onClick="genform('mst_pihak','mst_pihak','mst_pihak','','<?=$pihak['id'] ?>','','','edit');">
+                    <?php if($pihak['status'] == 0): ?>
+                    <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat" onClick="genform('tmp_mst_pihak','tmp_mst_pihak','tmp_mst_pihak','','<?=$pihak['id'] ?>','','','edit');">
                       <i class="fa fa-edit"></i>
                     </a>
                     &nbsp;
-                    <a href="javascript:void(0)" title="Delete" class="btn btn-danger btn-sm btn-flat adm" onClick="genform('delete', 'mst_pihak','mst_pihak','','<?=$pihak['id'] ?>','','','edit');">
+                    <a href="javascript:void(0)" title="Delete" class="btn btn-danger btn-sm btn-flat" onClick="genform('delete', 'tmp_mst_pihak','tmp_mst_pihak','','<?=$pihak['id'] ?>','','','edit');">
                       <i class="fa fa-trash"></i>
                     </a>
+                    <?php endif; ?>
                   </td>
                 </tr>
               <?php endforeach;?>

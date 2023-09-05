@@ -906,6 +906,9 @@ function genform(type, modulnya, submodulnya, stswindow, p1, p2, p3, stscrudmoda
 		case "mst_pihak":
 			var urldelete = host+'master-simpan/'+submodulnya;
 		break;
+		case "tmp_mst_pihak":
+			var urldelete = host+'pengajuan-master-simpan/'+submodulnya;
+		break;
 	}
 
 	
@@ -953,6 +956,11 @@ function genform(type, modulnya, submodulnya, stswindow, p1, p2, p3, stscrudmoda
 								if(submodulnya == 'hasil_investasi'){
 									setTimeout(function(){
 										window.location = host+'bulanan/hasil_investasi'+uri;
+									}, 1000);
+								}
+								if(submodulnya == 'tmp_mst_pihak'){
+									setTimeout(function(){
+										window.location = host+'pengajuan-nama-pihak'+uri;
 									}, 1000);
 								}	
 
@@ -1036,7 +1044,94 @@ function genform(type, modulnya, submodulnya, stswindow, p1, p2, p3, stscrudmoda
 			}
 			
 		break;	
-		
+		case "tmp_mst_pihak":
+
+			if(stscrudmodal == 'add'){
+				var urlpostaddmodal = host+'pengajuan-master-form/'+submodulnya;
+				$.LoadingOverlay("show");
+				$('#modalidnya').html('');
+				$.post(urlpostaddmodal, {'editstatus':'add', 'ts':table, [csrf_token]:csrf_hash  }, function(resp){
+					$('#headernya').html("<b>Master Data</b>");
+					$('#modalidnya').html(resp);
+					$('#pesanModal').modal('show');
+					$.LoadingOverlay("hide", true);
+				});
+			}else if(stscrudmodal == 'edit'){
+				if (type == 'master_nama_pihak') {
+					var urlposteditmodal =  host+'pengajuan-master-form/'+submodulnya+'/'+p1+'/'+p2+'/'+p3;
+				}else{
+					var urlposteditmodal =  host+'pengajuan-master-form/'+submodulnya+'/'+p1;
+				}
+				$.LoadingOverlay("show");
+				$('#modalidnya').html('');
+				$.post(urlposteditmodal, {'editstatus':'edit', 'id':p1, 'kd':p2, 'iduser':p3, 'ts':table, [csrf_token]:csrf_hash  }, function(resp){
+					$('#headernya').html("<b>Master Data</b>");
+					$('#modalidnya').html(resp);
+					$('#pesanModal').modal('show');
+					$.LoadingOverlay("hide", true);
+				});
+				// function genform(type, modulnya, submodulnya, stswindow, p1, p2, p3, stscrudmodal){
+			}else if(stscrudmodal == 'approval'){
+				var urlpostapprovalmodal =  host+'approval-nama-pihak/'+submodulnya+'/'+p1;
+				$.LoadingOverlay("show");
+				$.post(urlpostapprovalmodal, {'editstatus':'edit', 'id':p1, 'kd':p2, 'iduser':p3, 'ts':table, [csrf_token]:csrf_hash  }, function(r){
+					if(r==1){
+						$.LoadingOverlay("hide", true);
+						$.messager.alert('SMART AIP',"Berhasil",'info');
+						setTimeout(function(){
+							window.location = host+'master/master_data/tmp_mst_pihak'+uri;
+						}, 1000);
+					}else{
+						$.LoadingOverlay("hide", true);
+						$.messager.alert('SMART AIP',"Gagal "+r,'error');
+					}
+				});
+				// $.post(urldelete, {'id':p1, 'tipe':p2, 'p3':p3, 'editstatus':'delete', [csrf_token]:csrf_hash }, function(r){
+				// 	if(r==1){
+				// 		$.LoadingOverlay("hide", true);
+				// 		$.messager.alert('SMART AIP',"Data Terhapus",'info');
+				// 		if(submodulnya == 'aset_investasi'){
+				// 			setTimeout(function(){
+				// 				window.location = host+'bulanan/aset_investasi'+uri;
+				// 			}, 1000);
+				// 		}
+				// 		if(submodulnya == 'bukan_investasi'){
+				// 			setTimeout(function(){
+				// 				window.location = host+'bulanan/bukan_investasi'+uri;
+				// 			}, 1000);
+				// 		}
+				// 		if(submodulnya == 'arus_kas'){
+				// 			setTimeout(function(){
+				// 				window.location = host+'bulanan/arus_kas'+uri;
+				// 			}, 1000);
+				// 		}
+				// 		if(submodulnya == 'hasil_investasi'){
+				// 			setTimeout(function(){
+				// 				window.location = host+'bulanan/hasil_investasi'+uri;
+				// 			}, 1000);
+				// 		}
+				// 		if(submodulnya == 'tmp_mst_pihak'){
+				// 			setTimeout(function(){
+				// 				window.location = host+'pengajuan-nama-pihak'+uri;
+				// 			}, 1000);
+				// 		}	
+
+				// 		if(submodulnya == 'master_investasi' || submodulnya == 'master_cabang' 
+				// 			|| submodulnya == 'master_nama_pihak'|| submodulnya == 'master_jenis_penerima'
+				// 			|| submodulnya == 'master_kelompok_penerima'|| submodulnya == 'master_klaim'
+				// 			|| submodulnya == 'master_aruskas' || submodulnya == 'mst_pihak'){
+				// 			setTimeout(function(){
+				// 				window.location = host+'master/master_data/'+submodulnya;
+				// 			}, 1000);
+				// 		}	
+				// 	}else{
+				// 		$.LoadingOverlay("hide", true);
+				// 		$.messager.alert('SMART AIP',"Gagal Menghapus Data "+r,'error');
+				// 	}
+				// });	
+			}
+			
+		break;	
 		case "master_cabang_user":
 			if(stscrudmodal == 'add'){
 				var urlpostaddmodal = host+'master-form/'+submodulnya;

@@ -106,6 +106,17 @@ $route['master-form/(:any)'] = 'master/master_data/get_form/$1';
 $route['master-form/(:any)/(:any)'] = 'master/master_data/get_form/$1/$2';
 $route['master-index/(:any)'] = 'master/master_data/get_index/$1';
 
+$route['pengajuan-nama-pihak'] = 'master/pengajuan_nama_pihak/tmp_mst_pihak';
+$route['pengajuan-master-display/(:any)'] = 'master/pengajuan_nama_pihak/getdisplay/$1';
+$route['pengajuan-master-form/(:any)'] = 'master/pengajuan_nama_pihak/get_form/$1';
+$route['pengajuan-master-form/(:any)/(:any)'] = 'master/pengajuan_nama_pihak/get_form/$1/$2';
+$route['pengajuan-master-form/(:any)/(:any)/(:any)'] = 'master/pengajuan_nama_pihak/get_form/$1/$2/$3';
+$route['pengajuan-master-form/(:any)/(:any)/(:any)/(:any)'] = 'master/pengajuan_nama_pihak/get_form/$1/$2/$3/$4';
+$route['pengajuan-master-simpan/(:any)'] = 'master/pengajuan_nama_pihak/simpandata/$1';
+$route['pengajuan-master-index/(:any)'] = 'master/pengajuan_nama_pihak/get_index/$1';
+
+$route['approval-nama-pihak/(:any)/(:any)'] = 'master/master_data/approval_nama_pihak/$1/$2';
+
 
 // ASPEK OPERASIONAL
 $route['aspek-operasional-display/(:any)'] = 'semesteran/aspek_operasional/getdisplay/$1';
