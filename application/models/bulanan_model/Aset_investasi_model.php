@@ -1909,7 +1909,7 @@ class Aset_investasi_model extends CI_Model {
 			case 'aset_investasi_front_lv2':
 				$sql="
 					SELECT A.parent_id as id_investasi, A.jns_form, A.iduser, B.id_bulan,
-					sum(B.saldo_awal) as saldo_awal, sum(B.mutasi) as mutasi, sum(B.rka) as rka, sum(B.realisasi_rka) as realisasi_rka, 
+					sum(B.saldo_awal) as saldo_awal, sum(B.mutasi) as mutasi, sum(B.rka) as rka, avg(B.realisasi_rka) as realisasi_rka, 
 					sum(B.saldo_akhir) as saldo_akhir, A.id_investasi as parent_id, C.parent_investasi as jenis_investasi, C.type, B.id, B.filedata, B.target_yoi
 					FROM mst_investasi A
 					LEFT JOIN(
@@ -2369,7 +2369,7 @@ class Aset_investasi_model extends CI_Model {
 					C.mutasi_penanaman, C.mutasi_pencairan, C.mutasi_nilai_wajar, C.mutasi_diskonto, C.peringkat, C.tgl_jatuh_tempo,
 					C.r_kupon, C.nama_produk,C.jml_unit_penyertaan,C.cabang, C.bunga, C.nilai_perolehan,
 					C.no_urut, C.nilai_kapitalisasi_pasar, C.nilai_dana_kelolaan,
-					D.nama_pihak, E.nama_cabang, B.filedata
+					D.nama_pihak, E.nama_cabang, B.filedata, C.mutasi_hasil_investasi, C.uraian_hasil_investasi, C.yield_to_maturity
 					FROM mst_investasi A  
 					LEFT JOIN bln_aset_investasi_header B  on B.id_investasi = A.id_investasi
 					LEFT JOIN bln_aset_investasi_detail C  on C.bln_aset_investasi_header_id = B.id
@@ -2750,6 +2750,8 @@ class Aset_investasi_model extends CI_Model {
 					AND B.group = '".$p1."'
 					ORDER BY B.no_urut ASC
 				";
+
+				 // echo $sql;exit;
 			break;
 
 			case 'perubahan_danabersih_lv4':
@@ -2763,11 +2765,13 @@ class Aset_investasi_model extends CI_Model {
 				}
 				$sql ="
 					SELECT A.*, B.id_investasi, B.jenis_investasi, B.iduser, B.group, B.parent_id, 
-					B.type_sub_jenis_investasi as type, C.saldo_akhir, D.saldo_akhir_bln_lalu
+					B.type_sub_jenis_investasi as type, 
+					COALESCE((CASE WHEN B.group = 'HASIL INVESTASI' THEN C.mutasi else C.saldo_akhir end), 0) as saldo_akhir,
+					COALESCE((CASE WHEN B.group = 'HASIL INVESTASI' THEN D.mutasi else D.saldo_akhir_bln_lalu end), 0) as saldo_akhir_bln_lalu
 					FROM mst_perubahan_danabersih A
 					LEFT JOIN mst_investasi B ON A.id_perubahan_dana_bersih = B.id_perubahan_dana_bersih
 					LEFT JOIN(
-						SELECT id_investasi,saldo_akhir_invest as saldo_akhir, id_bulan, tahun, iduser
+						SELECT id_investasi,saldo_akhir_invest as saldo_akhir, id_bulan, tahun, iduser, mutasi_invest as mutasi
 						FROM bln_aset_investasi_header
 						WHERE id_bulan = '".$id_bulan."'
 						AND iduser = '".$iduser."'
@@ -2775,7 +2779,7 @@ class Aset_investasi_model extends CI_Model {
 					) C ON B.id_investasi = C.id_investasi
 
 					LEFT JOIN(
-						SELECT id_investasi,saldo_akhir_invest as saldo_akhir_bln_lalu, id_bulan, tahun, iduser
+						SELECT id_investasi,saldo_akhir_invest as saldo_akhir_bln_lalu, id_bulan, tahun, iduser, mutasi_invest as mutasi
 						FROM bln_aset_investasi_header
 						WHERE id_bulan = '".$bln_lalu."'
 						AND iduser = '".$iduser."'

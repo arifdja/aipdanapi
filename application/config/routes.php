@@ -16,8 +16,12 @@ $route['api-aset-investasi-bulanan'] 	= 'api_bulanan/aset_investasi';
 $route['api-bukan-aset-investasi-bulanan'] 	= 'api_bulanan/bukan_aset_investasi';
 $route['api_update_checkbox'] 	= 'api_bulanan/Api_checkbox';
 $route['api-master-investasi'] 		  	= 'api_referensi/master_investasi';
-$route['api-master-nama-pihak'] 		  	= 'api_referensi/master_nama_pihak';
+$route['api-master-nama-pihak'] 		= 'api_referensi/master_nama_pihak';
 $route['api-master-cabang'] 		  	= 'api_referensi/master_cabang';
+$route['api-master-klaim'] 		  	    = 'api_referensi/master_klaim';
+$route['api-master-aruskas'] 		  	= 'api_referensi/master_aruskas';
+$route['api-master-kelompok-penerima'] 	= 'api_referensi/master_kelompok_penerima';
+$route['api-master-jenis-penerima'] 	= 'api_referensi/master_jenis_penerima';
 
 
 // API SEMESTERAN
@@ -110,6 +114,17 @@ $route['master-form/(:any)'] = 'master/master_data/get_form/$1';
 $route['master-form/(:any)/(:any)'] = 'master/master_data/get_form/$1/$2';
 $route['master-index/(:any)'] = 'master/master_data/get_index/$1';
 
+$route['pengajuan-nama-pihak'] = 'master/pengajuan_nama_pihak/tmp_mst_pihak';
+$route['pengajuan-master-display/(:any)'] = 'master/pengajuan_nama_pihak/getdisplay/$1';
+$route['pengajuan-master-form/(:any)'] = 'master/pengajuan_nama_pihak/get_form/$1';
+$route['pengajuan-master-form/(:any)/(:any)'] = 'master/pengajuan_nama_pihak/get_form/$1/$2';
+$route['pengajuan-master-form/(:any)/(:any)/(:any)'] = 'master/pengajuan_nama_pihak/get_form/$1/$2/$3';
+$route['pengajuan-master-form/(:any)/(:any)/(:any)/(:any)'] = 'master/pengajuan_nama_pihak/get_form/$1/$2/$3/$4';
+$route['pengajuan-master-simpan/(:any)'] = 'master/pengajuan_nama_pihak/simpandata/$1';
+$route['pengajuan-master-index/(:any)'] = 'master/pengajuan_nama_pihak/get_index/$1';
+
+$route['approval-nama-pihak/(:any)/(:any)'] = 'master/master_data/approval_nama_pihak/$1/$2';
+
 
 // ASPEK OPERASIONAL
 $route['aspek-operasional-display/(:any)'] = 'semesteran/aspek_operasional/getdisplay/$1';
@@ -192,8 +207,13 @@ $route['dashboard-index/(:any)'] = 'dashboard/analisis/get_index/$1';
 
 
 $route['dashboard-tampil/(:any)'] = 'dashboard/dashboard/getdisplay/$1';
+$route['dashboard-tampil-operasional/(:any)'] = 'dashboard/aspek_operasional/getdisplay/$1';
+$route['dashboard-tampil-operasional-apbn/(:any)'] = 'dashboard/aspek_operasional_apbn/getdisplay/$1';
+$route['dashboardv2-index/(:any)'] = 'dashboard/dashboard/get_index/$1';
 
 $route['dashboard-executive-summary'] = 'dashboard/dashboard/executive_summary';
 $route['dashboard-danabersih'] = 'dashboard/dashboard/dana_bersih';
 $route['dashboard-perubahan-danabersih'] = 'dashboard/dashboard/perubahan_danabersih';
 $route['dashboard-arus-kas'] = 'dashboard/dashboard/arus_kas';
+$route['dashboard-aspek-operasional'] = 'dashboard/aspek_operasional/aspek_operasional';
+$route['dashboard-operasional-belanja'] = 'dashboard/aspek_operasional_apbn/operasional_belanja';

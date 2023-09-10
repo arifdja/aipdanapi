@@ -605,6 +605,15 @@ function check_access($role_id, $menu_id){
 		return $data;
 	}
 
+	function combo_dashboard2(){
+		$data = array(
+			'0' => array('id'=>'SEMESTERAN','txt'=>'SEMESTERAN'),
+			'1' => array('id'=>'TAHUNAN','txt'=>'TAHUNAN'),
+
+		);
+		return $data;
+	}
+
 
 	function combo_danabersih(){
 		$data = array(
@@ -670,8 +679,8 @@ function check_access($role_id, $menu_id){
 				case 5:$bulan='Mei';break;
 				case 6:$bulan='Jun';break;
 				case 7:$bulan='Jul';break;
-				case 8:$bulan='Agst';break;
-				case 9:$bulan='Sept';break;
+				case 8:$bulan='Ags';break;
+				case 9:$bulan='Sep';break;
 				case 10:$bulan='Okt';break;
 				case 11:$bulan='Nov';break;
 				case 12:$bulan='Des';break;
@@ -783,6 +792,54 @@ function invalid_id_investasi($id_user){
 	}
 	// var_dump($invalid_id);exit;
 	return $invalid_id;
+
+}
+
+
+function get_invalid_pihak($id_user,$detail){
+	$ci = & get_instance();
+	$ci->load->database();
+	$msg_pihak = [];
+	foreach($detail as $keyDet => $v)
+	{
+		$sql = "
+			SELECT kode_pihak, nama_pihak
+			FROM mst_pihak
+			WHERE iduser = '".$id_user."'
+			AND kode_pihak = '".$v->kode_pihak."'
+		";
+
+		$result = $ci->db->query($sql)->row_array();
+		if(empty($result))
+		{
+			$msg_pihak[]= $v->kode_pihak;
+		}
+		
+	}
+
+	return $msg_pihak;
+
+}
+
+function valid_id_aruskas($id_user){
+	$ci = & get_instance();
+	$ci->load->database();
+
+		
+	$sql = "
+		SELECT A.id_aruskas, A.jenis_kas
+		FROM mst_aruskas A
+		WHERE A.iduser = '".$id_user."'
+	";
+	// var_dump($sql);exit;
+	$result = $ci->db->query($sql)->result_array();
+	$valid_id = [];
+	foreach ($result as $row)
+	{
+		$valid_id[] = $row['id_aruskas'];
+	}
+	// var_dump($invalid_id);exit;
+	return $valid_id;
 
 }
 

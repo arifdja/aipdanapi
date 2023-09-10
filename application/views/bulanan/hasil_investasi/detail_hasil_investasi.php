@@ -77,7 +77,7 @@
 																<tr class="form_1" id="tr_inv_<?=$idx;?>" idx="<?=$idx;?>">
 																	<td style="text-align: center"><?= $no++;?></td>
 																	<td style="text-align: left"><?= $detail['nama_pihak'];?></td>
-																	<td style="text-align: left">--seri--</td>
+																	<td style="text-align: left"><?= $detail['uraian_hasil_investasi'];?></td>
 																	<td><?= rupiah($detail['saldo_awal']);?></td>
 																	<td><?= rupiah($detail['mutasi_hasil_investasi']);?></td>
 																	<td><?= rupiah($detail['saldo_akhir']);?></td>
@@ -163,7 +163,7 @@
 																<tr class="form_3" id="tr_inv_<?=$idx;?>" idx="<?=$idx;?>">
 																	<td style="text-align: center"><?= $no++;?></td>
 																	<td style="text-align: left"><?= $detail['nama_pihak'];?></td>
-																	<td style="text-align: left">--uraian--</td>
+																	<td style="text-align: left"><?= $detail['uraian_hasil_investasi'];?></td>
 																	<td><?= rupiah($detail['saldo_awal']);?></td>
 																	<td><?= rupiah($detail['mutasi_hasil_investasi']);?></td>
 																	<td><?= rupiah($detail['saldo_akhir']);?></td>
@@ -207,7 +207,7 @@
 																<tr class="form_4" id="tr_inv_<?=$idx;?>" idx="<?=$idx;?>">
 																	<td style="text-align: center"><?= $no++;?></td>
 																	<td style="text-align: left"><?= $detail['nama_pihak'];?></td>
-																	<td style="text-align: left">--no bilyet--</td>
+																	<td style="text-align: left"><?= $detail['uraian_hasil_investasi'];?></td>
 																	<td><?= rupiah($detail['saldo_awal']);?></td>
 																	<td><?= rupiah($detail['mutasi_hasil_investasi']);?></td>
 																	<td><?= rupiah($detail['saldo_akhir']);?></td>
@@ -252,7 +252,7 @@
 																<tr class="form_5" id="tr_inv_<?=$idx;?>" idx="<?=$idx;?>">
 																	<td style="text-align: center"><?= $no++;?></td>
 																	<td style="text-align: left"><?= $detail['nama_pihak'];?></td>
-																	<td style="text-align: left">--uraian--</td>
+																	<td style="text-align: left"><?= $detail['uraian_hasil_investasi'];?></td>
 																	<td><?= rupiah($detail['saldo_awal']);?></td>
 																	<td><?= rupiah($detail['mutasi_hasil_investasi']);?></td>
 																	<td><?= rupiah($detail['saldo_akhir']);?></td>

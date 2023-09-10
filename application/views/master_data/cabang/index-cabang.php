@@ -70,8 +70,6 @@
                                         <th>ID Cabang</th>
                                         <th>Nama Cabang</th>
                                         <th>User</th>
-                                        <th>Status</th>
-                                        <th>Keterangan</th>
                                         <?php if($iduser == 1): ?>
                                         <th width="10%" class='noExl'>Action</th>
                                         <?php endif ?>
@@ -94,11 +92,8 @@
                                             }
                                             ?>
                                             <td style="text-align: left;"><?=$iduser;?></td>
-                                            <td style="text-align: left;"><?=$cabang['keterangan']?></td>
-                                            <td style="text-align: left;"><?=$cabang['approval']?></td>
-                                            <?php if($iduser == 1): ?>
                                             <td>
-                                                <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat" onClick="genform('master_cabang','master_cabang','master_cabang','','<?=$cabang['id_cabang'] ?>','','','edit');">
+                                                <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat adm" onClick="genform('master_cabang','master_cabang','master_cabang','','<?=$cabang['id_cabang'] ?>','','','edit');">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 &nbsp;
@@ -106,7 +101,6 @@
                                                     <i class="fa fa-trash"></i>
                                                 </a>
                                             </td>
-                                            <?php endif ?>
                                         </tr>
                                     <?php endforeach;?>
                                 <?php endif;?>

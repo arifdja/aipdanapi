@@ -27,12 +27,12 @@
 					<?php foreach($nilai_tunai_detail as $detail):?>
 						<tr>
 							<td style="text-align: left;"><?=$detail['nama_cabang']?></td>
-							<td><?=($header['jml_penerima_smt1'] != 0 ) ? rupiah($header['jml_penerima_smt1']) : '-';?></td>
-							<td><?=($header['jml_pembayaran_smt1'] != 0 ) ? rupiah($header['jml_pembayaran_smt1']) : '-';?></td>
-							<td><?=($header['jml_penerima_smt2'] != 0 ) ? rupiah($header['jml_penerima_smt2']) : '-';?></td>
-							<td><?=($header['jml_pembayaran_smt2'] != 0 ) ? rupiah($header['jml_pembayaran_smt2']) : '-';?></td>
-							<td><?=persen($header['pers_kenaikan_penerima']).'%';?></td>
-							<td><?=persen($header['pers_kenaikan_pembayaran']).'%';?></td>
+							<td><?=($detail['jml_penerima_smt1'] != 0 ) ? rupiah($detail['jml_penerima_smt1']) : '-';?></td>
+							<td><?=($detail['jml_pembayaran_smt1'] != 0 ) ? rupiah($detail['jml_pembayaran_smt1']) : '-';?></td>
+							<td><?=($detail['jml_penerima_smt2'] != 0 ) ? rupiah($detail['jml_penerima_smt2']) : '-';?></td>
+							<td><?=($detail['jml_pembayaran_smt2'] != 0 ) ? rupiah($detail['jml_pembayaran_smt2']) : '-';?></td>
+							<td><?=persen($detail['pers_kenaikan_penerima']).'%';?></td>
+							<td><?=persen($detail['pers_kenaikan_pembayaran']).'%';?></td>
 						</tr>
 					<?php endforeach;?>
 					<?php endif;?>
@@ -64,12 +64,12 @@
 					<?php foreach($nilai_tunai_detail as $detail):?>
 						<tr>
 							<td style="text-align: left;"><?=$detail['nama_cabang']?></td>
-							<td><?=($header['jml_penerima_smt2'] != 0 ) ? rupiah($header['jml_penerima_smt2']) : '-';?></td>
-							<td><?=($header['jml_pembayaran_smt2'] != 0 ) ? rupiah($header['jml_pembayaran_smt2']) : '-';?></td>
-							<td><?=($header['jml_penerima_smt1'] != 0 ) ? rupiah($header['jml_penerima_smt1']) : '-';?></td>
-							<td><?=($header['jml_pembayaran_smt1'] != 0 ) ? rupiah($header['jml_pembayaran_smt1']) : '-';?></td>
-							<td><?=persen($header['pers_kenaikan_penerima']).'%';?></td>
-							<td><?=persen($header['pers_kenaikan_pembayaran']).'%';?></td>
+							<td><?=($detail['jml_penerima_smt2'] != 0 ) ? rupiah($detail['jml_penerima_smt2']) : '-';?></td>
+							<td><?=($detail['jml_pembayaran_smt2'] != 0 ) ? rupiah($detail['jml_pembayaran_smt2']) : '-';?></td>
+							<td><?=($detail['jml_penerima_smt1'] != 0 ) ? rupiah($detail['jml_penerima_smt1']) : '-';?></td>
+							<td><?=($detail['jml_pembayaran_smt1'] != 0 ) ? rupiah($detail['jml_pembayaran_smt1']) : '-';?></td>
+							<td><?=persen($detail['pers_kenaikan_penerima']).'%';?></td>
+							<td><?=persen($detail['pers_kenaikan_pembayaran']).'%';?></td>
 						</tr>
 					<?php endforeach;?>
 					<?php endif;?>

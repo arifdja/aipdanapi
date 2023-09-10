@@ -7,8 +7,8 @@ function genGaugeChart(divnya,judul, datanya) {
 		title: null,
 
 		pane: {
-			center: ['50%', '70%'],
-			size: '90%',
+			center: ['50%', '55%'],
+			size: '100%',
 			startAngle: -90,
 			endAngle: 90,
 			background: {
@@ -44,7 +44,7 @@ function genGaugeChart(divnya,judul, datanya) {
             minorTickInterval: null,
             tickAmount: 2,
             title: {
-            	y: -70
+            	y: -92
             },
             labels: {
             	y: 16
@@ -71,13 +71,19 @@ function genGaugeChart(divnya,judul, datanya) {
 			}
 		},
 
+		navigation: {
+        	buttonOptions: {
+        		enabled: false
+        	}
+        },
+
 		series: [{
 			name: judul,
 			data: [datanya],
 			dataLabels: {
 				format:
 				'<div style="text-align:center">' +
-				'<span style="font-size:25px">{y}</span>%<br/>' +
+				'<span style="font-size:25px">{y}</span>&nbsp;%<br/>' +
 				'<span style="font-size:12px;opacity:0.4">Persentase</span>' +
 				'</div>'
 			},
@@ -105,6 +111,12 @@ function genPieChart(divnya, tipe, judul, data, pointformatnya, p1){
 			// width: '100px',
 			
 		},
+		// disable button contex menu
+		navigation: {
+        	buttonOptions: {
+        		enabled: false
+        	}
+        },
 		legend: {
 			itemStyle: {
 				// color: '#fff'
@@ -158,6 +170,11 @@ function genColumnChart2(divnya, type, xxChart, yyChart, judul, pointformatnya, 
             
             // backgroundColor: 'rgba(0, 0, 0, 0.5)',
         },
+        navigation: {
+        	buttonOptions: {
+        		enabled: false
+        	}
+        },
         title: {
             text: judul,
 			style: {
@@ -270,6 +287,91 @@ function genColumnChart2(divnya, type, xxChart, yyChart, judul, pointformatnya, 
     });
 }
 
+
+function function_name(argument) {
+	Highcharts.chart('container', {
+    chart: {
+        zoomType: 'xy'
+    },
+    title: {
+        text: 'Karasjok weather, 2021',
+        align: 'left'
+    },
+    subtitle: {
+        text: 'Source: ' +
+            '<a href="https://www.yr.no/nb/historikk/graf/5-97251/Norge/Troms%20og%20Finnmark/Karasjok/Karasjok?q=2021"' +
+            'target="_blank">YR</a>',
+        align: 'left'
+    },
+    xAxis: [{
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        crosshair: true
+    }],
+    yAxis: [{ // Primary yAxis
+        labels: {
+            format: '{value}°C',
+            style: {
+                color: Highcharts.getOptions().colors[1]
+            }
+        },
+        title: {
+            text: 'Temperature',
+            style: {
+                color: Highcharts.getOptions().colors[1]
+            }
+        }
+    }, { // Secondary yAxis
+        title: {
+            text: 'Precipitation',
+            style: {
+                color: Highcharts.getOptions().colors[0]
+            }
+        },
+        labels: {
+            format: '{value} mm',
+            style: {
+                color: Highcharts.getOptions().colors[0]
+            }
+        },
+        opposite: true
+    }],
+    tooltip: {
+        shared: true
+    },
+    legend: {
+        align: 'left',
+        x: 80,
+        verticalAlign: 'top',
+        y: 60,
+        floating: true,
+        backgroundColor:
+            Highcharts.defaultOptions.legend.backgroundColor || // theme
+            'rgba(255,255,255,0.25)'
+    },
+    series: [{
+        name: 'Precipitation',
+        type: 'column',
+        yAxis: 1,
+        data: [27.6, 28.8, 21.7, 34.1, 29.0, 28.4, 45.6, 51.7, 39.0,
+            60.0, 28.6, 32.1],
+        tooltip: {
+            valueSuffix: ' mm'
+        }
+
+    }, {
+        name: 'Temperature',
+        type: 'spline',
+        data: [-13.6, -14.9, -5.8, -0.7, 3.1, 13.0, 14.5, 10.8, 5.8,
+            -0.7, -11.0, -16.4],
+        tooltip: {
+            valueSuffix: '°C'
+        }
+    }]
+});
+
+}
+
 function genColumnChart(divnya, type, xxChart, yyChart, judul, pointformatnya, par1, par2){
 	Highcharts.setOptions({
 		lang:{
@@ -283,6 +385,141 @@ function genColumnChart(divnya, type, xxChart, yyChart, judul, pointformatnya, p
             
             // backgroundColor: 'rgba(0, 0, 0, 0.5)',
         },
+        navigation: {
+        	buttonOptions: {
+        		enabled: false
+        	}
+        },
+        title: {
+            text: judul,
+			style: {
+				color: '#FFF',
+				font: '16px Lucida Grande, Lucida Sans Unicode,' +
+					' Verdana, Arial, Helvetica, sans-serif'
+			}
+        },
+        xAxis: {
+            categories: xxChart,
+            reversed : par2,
+            labels: {
+				style: {
+					color: '#000'
+				}
+			}
+        },
+        scrollbar: {
+            enabled: false
+        },
+
+        rangeSelector: {
+            selected: 1
+        },
+        yAxis: [{
+        	labels: {
+				overflow: 'justify',
+				style: {
+					color: '#000'
+				}
+			},
+			title:{
+				text:'JUMLAH (Rp)',
+			}
+        },
+        {
+            min: 0,
+            title: {
+                text: ''
+            },
+        }, {
+            title: {
+                text: ''
+            },
+            opposite: true
+        }],
+        legend: {
+            shadow: false,
+            enabled: true,//(type == "pratut-tiga" ? false : true)
+        },
+        credits: {
+        	enabled: false
+        },
+        tooltip: {
+            shared:true,
+			// pointFormat: ponitformatnya
+        },
+
+        plotOptions: {
+	        column: {
+	            pointPadding: 0.1,
+	            borderWidth: 0
+	        },
+	        series: {
+				cursor: (type == 'ctwna' ? 'pointer' : ""),
+	        	dataLabels: {
+	        		enabled: true,
+	        		color: 'black',
+	        		style: {fontWeight: 'bolder'},
+	        		// formatter: function() {return this.x + ' : ' + this.y},
+	        		inside: false,
+	        		// rotation: 270
+	        	},
+				point: {
+					events: {
+						click: function () {
+							if(type == "ctwna"){
+								$.blockUI({ message: '<img width="100px" src="'+host+'__assets/images/loader.gif"><br/> Proses Data' });
+								par1['idnya_wna'] = par1['id'][this.index];
+								var negara = par1['negara'][this.index];
+								
+								// console.log(par1['idnya_wna']);
+								$('#modalencuk').html('');
+								$.post(host+'wna-detail/detail-wna-chart', par1, function (resp){
+									 $('#headernya').html( "DETAIL CHART "+negara );
+									 $('#modalencuk').html(resp);
+									 $('#pesanModal').modal('show');
+									 $.unblockUI();
+								});
+							}
+
+							if(type == "spdp"){
+								$.blockUI({ message: '<img width="100px" src="'+host+'__assets/images/loader.gif"><br/> Proses Data' });
+								par1['idnya_jenis'] = par1['id_jenis'][this.index];
+								par1['nama_jenis'] = this.category;
+								
+								$('#kotakan_spdp').hide();
+								$('#tablean_spdp').html('');
+								$.post(host+'pidana-umum3-dataperkara-table', par1, function (resp){
+									$('#tablean_spdp').html(resp).show();
+									$.unblockUI();
+								});
+							}
+							
+						}
+					}
+				 }
+	        }
+	    },
+        series: yyChart,
+        
+    });
+}	
+
+
+
+
+function genColumnChartWithLine(divnya, type="", xxChart, yyChart, judul, pointformatnya, par1, par2){
+	Highcharts.setOptions({
+		lang:{
+			thousandsSep: ','
+		},
+	});
+
+	Highcharts.chart(divnya, {
+        // chart: {
+        //     type: 'column',
+            
+        //     // backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        // },
         title: {
             text: judul,
 			style: {
@@ -393,7 +630,7 @@ function genColumnChart(divnya, type, xxChart, yyChart, judul, pointformatnya, p
 	    },
         series: yyChart
     });
-}	
+}
 
 function genLineChart(divnya, type, xxChart, yyChart, judul, pointformatnya, par1, par2){
 	Highcharts.setOptions({
@@ -669,6 +906,9 @@ function genform(type, modulnya, submodulnya, stswindow, p1, p2, p3, stscrudmoda
 		case "mst_pihak":
 			var urldelete = host+'master-simpan/'+submodulnya;
 		break;
+		case "tmp_mst_pihak":
+			var urldelete = host+'pengajuan-master-simpan/'+submodulnya;
+		break;
 	}
 
 	
@@ -716,6 +956,11 @@ function genform(type, modulnya, submodulnya, stswindow, p1, p2, p3, stscrudmoda
 								if(submodulnya == 'hasil_investasi'){
 									setTimeout(function(){
 										window.location = host+'bulanan/hasil_investasi'+uri;
+									}, 1000);
+								}
+								if(submodulnya == 'tmp_mst_pihak'){
+									setTimeout(function(){
+										window.location = host+'pengajuan-nama-pihak'+uri;
 									}, 1000);
 								}	
 
@@ -799,7 +1044,94 @@ function genform(type, modulnya, submodulnya, stswindow, p1, p2, p3, stscrudmoda
 			}
 			
 		break;	
-		
+		case "tmp_mst_pihak":
+
+			if(stscrudmodal == 'add'){
+				var urlpostaddmodal = host+'pengajuan-master-form/'+submodulnya;
+				$.LoadingOverlay("show");
+				$('#modalidnya').html('');
+				$.post(urlpostaddmodal, {'editstatus':'add', 'ts':table, [csrf_token]:csrf_hash  }, function(resp){
+					$('#headernya').html("<b>Master Data</b>");
+					$('#modalidnya').html(resp);
+					$('#pesanModal').modal('show');
+					$.LoadingOverlay("hide", true);
+				});
+			}else if(stscrudmodal == 'edit'){
+				if (type == 'master_nama_pihak') {
+					var urlposteditmodal =  host+'pengajuan-master-form/'+submodulnya+'/'+p1+'/'+p2+'/'+p3;
+				}else{
+					var urlposteditmodal =  host+'pengajuan-master-form/'+submodulnya+'/'+p1;
+				}
+				$.LoadingOverlay("show");
+				$('#modalidnya').html('');
+				$.post(urlposteditmodal, {'editstatus':'edit', 'id':p1, 'kd':p2, 'iduser':p3, 'ts':table, [csrf_token]:csrf_hash  }, function(resp){
+					$('#headernya').html("<b>Master Data</b>");
+					$('#modalidnya').html(resp);
+					$('#pesanModal').modal('show');
+					$.LoadingOverlay("hide", true);
+				});
+				// function genform(type, modulnya, submodulnya, stswindow, p1, p2, p3, stscrudmodal){
+			}else if(stscrudmodal == 'approval'){
+				var urlpostapprovalmodal =  host+'approval-nama-pihak/'+submodulnya+'/'+p1;
+				$.LoadingOverlay("show");
+				$.post(urlpostapprovalmodal, {'editstatus':'edit', 'id':p1, 'kd':p2, 'iduser':p3, 'ts':table, [csrf_token]:csrf_hash  }, function(r){
+					if(r==1){
+						$.LoadingOverlay("hide", true);
+						$.messager.alert('SMART AIP',"Berhasil",'info');
+						setTimeout(function(){
+							window.location = host+'master/master_data/tmp_mst_pihak'+uri;
+						}, 1000);
+					}else{
+						$.LoadingOverlay("hide", true);
+						$.messager.alert('SMART AIP',"Gagal "+r,'error');
+					}
+				});
+				// $.post(urldelete, {'id':p1, 'tipe':p2, 'p3':p3, 'editstatus':'delete', [csrf_token]:csrf_hash }, function(r){
+				// 	if(r==1){
+				// 		$.LoadingOverlay("hide", true);
+				// 		$.messager.alert('SMART AIP',"Data Terhapus",'info');
+				// 		if(submodulnya == 'aset_investasi'){
+				// 			setTimeout(function(){
+				// 				window.location = host+'bulanan/aset_investasi'+uri;
+				// 			}, 1000);
+				// 		}
+				// 		if(submodulnya == 'bukan_investasi'){
+				// 			setTimeout(function(){
+				// 				window.location = host+'bulanan/bukan_investasi'+uri;
+				// 			}, 1000);
+				// 		}
+				// 		if(submodulnya == 'arus_kas'){
+				// 			setTimeout(function(){
+				// 				window.location = host+'bulanan/arus_kas'+uri;
+				// 			}, 1000);
+				// 		}
+				// 		if(submodulnya == 'hasil_investasi'){
+				// 			setTimeout(function(){
+				// 				window.location = host+'bulanan/hasil_investasi'+uri;
+				// 			}, 1000);
+				// 		}
+				// 		if(submodulnya == 'tmp_mst_pihak'){
+				// 			setTimeout(function(){
+				// 				window.location = host+'pengajuan-nama-pihak'+uri;
+				// 			}, 1000);
+				// 		}	
+
+				// 		if(submodulnya == 'master_investasi' || submodulnya == 'master_cabang' 
+				// 			|| submodulnya == 'master_nama_pihak'|| submodulnya == 'master_jenis_penerima'
+				// 			|| submodulnya == 'master_kelompok_penerima'|| submodulnya == 'master_klaim'
+				// 			|| submodulnya == 'master_aruskas' || submodulnya == 'mst_pihak'){
+				// 			setTimeout(function(){
+				// 				window.location = host+'master/master_data/'+submodulnya;
+				// 			}, 1000);
+				// 		}	
+				// 	}else{
+				// 		$.LoadingOverlay("hide", true);
+				// 		$.messager.alert('SMART AIP',"Gagal Menghapus Data "+r,'error');
+				// 	}
+				// });	
+			}
+			
+		break;	
 		case "master_cabang_user":
 			if(stscrudmodal == 'add'){
 				var urlpostaddmodal = host+'master-form/'+submodulnya;
@@ -1456,6 +1788,32 @@ function gentahunansearch(modulnya, submodulnya, stswindow, p1, p2, p3, stscrudm
 			});
 		break;
 		
+	}
+}
+
+function gendashboardv2search(modulnya, submodulnya, stswindow, p1, p2, p3, stscrudmodal){
+	var iduser= $('#iduser').val();
+	var id_bulan= $('#id_bulan').val();
+	var smt= $('#semester').val();
+	var group= $('#group').val();
+	var audit= $('#audit').val();
+	var ds= $('#dashboard').val();
+
+	var bln_awal= $('#bln_awal').val();
+	var tahun_awal= $('#tahun_awal').val();
+	var bln_akhir= $('#bln_akhir').val();
+	var tahun_akhir= $('#tahun_akhir').val();
+	var detail_invest= $('#detail_invest').val();
+	var jns_lap= $('#jns_lap').val();
+	switch(modulnya){
+		case "index-aruskas" :
+			$.LoadingOverlay("show");
+			var urlpost = host+'dashboardv2-index/'+modulnya;
+			$.post(urlpost, {'iduser':iduser,'dashboard':ds,'id_bulan':id_bulan, [csrf_token]:csrf_hash  }, function(resp){
+				$('.content').html(resp);
+				$.LoadingOverlay("hide", true);
+			});
+		break;
 	}
 }
 

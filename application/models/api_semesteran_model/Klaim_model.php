@@ -107,6 +107,8 @@ class Klaim_model extends CI_Model {
   public function insert($data)
   {
 
+    // var_dump($data);exit;
+
     $dataInsert =array();
     $dataUpdate =array();
     $arrSmt = array(1,2);
@@ -170,7 +172,6 @@ class Klaim_model extends CI_Model {
             $getdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun))->row();
             $idDetail = $getdata->id;
 
-            
             // update header
             $detail = $value['detail'];
             unset($data[$key]['detail']);
@@ -185,25 +186,28 @@ class Klaim_model extends CI_Model {
             $this->db->where('tahun',$value['tahun']);
             $this->db->update($this->table , $dataUpdate);
             $jumlahUpdate = $this->db->affected_rows();
-            // $cekdataDetail = $this->db->get_where($this->tableDetail,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun,'tbl_nilai_tunai_header_id'=>$idDetail))->num_rows();
 
-            // if ($cekdataDetail>0) {
+            $cekdataDetail = $this->db->get_where($this->tableDetail,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun,'tbl_lkob_klaim_header_id'=>$idDetail))->num_rows();
+
+            if ($cekdataDetail>0) {
               $del = $this->db->delete($this->tableDetail,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun,'tbl_lkob_klaim_header_id'=>$idDetail));
               
               foreach($detail as $keyDet => $v){
 
                       $dataInsertDetail = array(
                         'tbl_lkob_klaim_header_id'=>$idDetail,
-                        'no_urut' => $no_urut,
+                        'no_urut' => escape($v->id_cabang),
                         'iduser' => $id_user,
                           'semester' => $smt,
                           'tahun' => $tahun,
                           'id_cabang' => escape($v->id_cabang),
-                          'jml_penerima' => escape($v->jml_penerima),
+                          'jml_klaim' => escape($v->jml_klaim),
                           'jml_pembayaran' => escape($v->jml_pembayaran),
                           'insert_at' => $getdata->insert_at,
                           'update_at' => $insert_at,
                       );
+
+                      // var_dump($dataInsertDetail);exit;
                       
               
                       $this->db->insert($this->tableDetail, $dataInsertDetail);
@@ -213,7 +217,7 @@ class Klaim_model extends CI_Model {
                     }
             
 
-            // }
+            }
             if ($jumlahUpdate>0) {
               $msg.= '<< Data Header ke-'.$noHeader.' Berhasil Diperbarui >>';
             }

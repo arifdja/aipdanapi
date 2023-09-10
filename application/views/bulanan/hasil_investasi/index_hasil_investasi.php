@@ -73,7 +73,7 @@
                                         <th>Saldo Akhir</th>
                                         <th width="8%">(%) Realisasi RIT</th>
                                         <th width="8%">(%) Target YOI</th>
-                                        <th class="user-bln" width="18%">Action</th>
+                                        <th width="18%">Action</th>
 									</tr>
 								
                                 </thead>
@@ -91,13 +91,13 @@
                                                 <td><?=($hasil['saldo_akhir'] != 0 ) ? rupiah($hasil['saldo_akhir']) : '-';?></td>
                                                 <td><?=($hasil['realisasi_rka'] != 0 ) ? persen($hasil['realisasi_rka']).'%' : '-';?></td>
                                                 <td><?=($hasil['target_yoi'] != 0 ) ? persen($hasil['target_yoi']).'%' : '-';?></td>
-                                                <td class="user-bln">
+                                                <td>
                                                     <?php if($hasil['id'] != ""):?>
-                                                    <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat" onClick="genform('addhasil_investasi', 'hasil_investasi','hasil_investasi','','<?=$hasil['id'] ?>','','','edit');">
+                                                    <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat user-bln" onClick="genform('addhasil_investasi', 'hasil_investasi','hasil_investasi','','<?=$hasil['id'] ?>','','','edit');">
                                                         <i class="fa fa-edit"></i>
                                                     </a> 
                                                     &nbsp;
-                                                    <a href="javascript:void(0)" title="Delete" class="btn btn-danger btn-sm btn-flat" onClick="genform('delete', 'hasil_investasi','hasil_investasi','','<?=$hasil['id'] ?>','');">
+                                                    <a href="javascript:void(0)" title="Delete" class="btn btn-danger btn-sm btn-flat user-bln" onClick="genform('delete', 'hasil_investasi','hasil_investasi','','<?=$hasil['id'] ?>','');">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
                                                      &nbsp;
@@ -124,7 +124,7 @@
                                                     <td><?=($child['saldo_akhir'] != 0 ) ? rupiah($child['saldo_akhir']) : '-';?></td>
                                                     <td><?=($child['realisasi_rka'] != 0 ) ? persen($child['realisasi_rka']).'%' : '-';?></td>
                                                     <td><?=($child['target_yoi'] != 0 ) ? persen($child['target_yoi']).'%' : '-';?></td>
-                                                    <td class="user-bln"></td>
+                                                    <td></td>
                                                 </tr>
                                             <?php endif;?>
                                             <?php foreach($child['subchild'] as $subchild):?>
@@ -138,13 +138,13 @@
                                                         <td><?=($subchild['saldo_akhir'] != 0 ) ? rupiah($subchild['saldo_akhir']) : '-';?></td>
                                                         <td><?=($subchild['realisasi_rka'] != 0 ) ? persen($subchild['realisasi_rka']).'%' : '-';?></td>
                                                         <td><?=($subchild['target_yoi'] != 0 ) ? persen($subchild['target_yoi']).'%' : '-';?></td>
-                                                        <td class="user-bln">
+                                                        <td>
                                                             <?php if($subchild['id'] != ""):?>
-                                                               <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat" onClick="genform('addhasil_investasi', 'hasil_investasi','hasil_investasi','','<?=$subchild['id'] ?>','','','edit');">
+                                                               <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat user-bln" onClick="genform('addhasil_investasi', 'hasil_investasi','hasil_investasi','','<?=$subchild['id'] ?>','','','edit');">
                                                                 <i class="fa fa-edit"></i>
                                                                 </a> 
                                                                 &nbsp;
-                                                                <a href="javascript:void(0)" title="Delete" class="btn btn-danger btn-sm btn-flat" onClick="genform('delete', 'hasil_investasi','hasil_investasi','','<?=$subchild['id'] ?>','');">
+                                                                <a href="javascript:void(0)" title="Delete" class="btn btn-danger btn-sm btn-flat user-bln" onClick="genform('delete', 'hasil_investasi','hasil_investasi','','<?=$subchild['id'] ?>','');">
                                                                     <i class="fa fa-trash"></i>
                                                                 </a>
 
@@ -172,7 +172,7 @@
                                     <td></td>
                                     <td>Nilai YOI</td>
                                     <td colspan="6" style="font-size: 13pt"><?=($yoi['yoi'] != 0 ) ? persen($yoi['yoi']).'%' : '-';?></td>
-                                    <td class="user-bln"></td>
+                                    <td></td>
                                 </tfoot> 
                                  <tfoot style="background-color: #d8d8d8; font-weight: bold;">
                                     <tr></tr>
@@ -184,7 +184,7 @@
                                     <td><?=($sum['saldo_akhir'] != 0 ) ? rupiah($sum['saldo_akhir']) : '-';?></td>
                                     <td></td>
                                     <td></td>
-                                    <td class="user-bln"></td>
+                                    <td></td>
                                 </tfoot>    
                             </table>
                             <br>

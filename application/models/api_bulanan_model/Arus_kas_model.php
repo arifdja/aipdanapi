@@ -111,6 +111,16 @@ class Arus_kas_model extends CI_Model {
 
         if($status_input == true){
 
+
+          $valid_id_aruskas = valid_id_aruskas($id_user);
+          if(!in_array($id_aruskas,$valid_id_aruskas)){
+            $status = 0;
+            $res=array();
+            $res['error']=true;
+            $res['msg']="Id Aruskas $id_aruskas tidak valid";
+            return $res;
+          }
+
           $cekdata = $this->db->get_where($this->table,array('iduser'=>$id_user,'id_aruskas'=>$id_aruskas,'id_bulan'=>$id_bulan,'tahun'=>$tahun))->num_rows();
         
           if ($cekdata>0) {

@@ -63,7 +63,7 @@
           </div> 
           <div class="col-md-1">
             <div class="form-group">
-              <a href="javascript:void(0)" title="Add" class="btn btn-primary btn-sm btn-flat tombol_cari" onClick="gendashboardsearch('index-dashboard-analisis','index-dashboard-analisis');">
+              <a href="javascript:void(0)" title="search" class="btn btn-primary btn-sm btn-flat filter_data">
                 <i class="fa fa-search"></i>
               </a> 
             </div>
@@ -81,7 +81,7 @@
                     <div class="small-box colornya">
                         <div class="inner">
                           <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Hasil Investasi </span>
-                          <p style="font-size: 20px; font-weight:bold;">Rp 200.000.000.000.000,-</p>
+                          <p style="font-size: 20px; font-weight:bold;" id="tot-hasil-investasi"></p>
                         </div>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
                     <div class="small-box colornya">
                         <div class="inner">
                           <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Premi Iuran</span>
-                          <p style="font-size: 20px; font-weight:bold;">Rp 1.000.000.000.000,-</p>
+                          <p style="font-size: 20px; font-weight:bold;" id="tot-iuran"></p>
                         </div>
                     </div>
                 </div>
@@ -118,7 +118,7 @@
                     <div class="small-box colornya">
                         <div class="inner">
                           <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Fee Pengelolaan AIP</span>
-                          <p style="font-size: 20px; font-weight:bold;">Rp 340.000.000.000.000,-</p>
+                          <p style="font-size: 20px; font-weight:bold;" id="tot-pengelolaan"></p>
                       </div>
                     </div>
                 </div>
@@ -135,7 +135,7 @@
                     <div class="small-box colornya">
                         <div class="inner">
                            <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Beban Operasional</span>
-                          <p style="font-size: 20px; font-weight:bold;">Rp 147.000.000.000.000,-</p>
+                          <p style="font-size: 20px; font-weight:bold;" id="tot-beban"></p>
                         </div>
                     </div>
                 </div>
@@ -155,7 +155,7 @@
                     <div class="small-box colornya" style="height:30%;">
                         <div class="inner">
                            <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Nilai Tunai Iuran Pensiun (NTIP)</span>
-                          <p style="font-size: 20px; font-weight:bold;">Rp 147.000.000.000.000,-</p>
+                          <p style="font-size: 20px; font-weight:bold;" id="tot-nilai-tunai"></p>
                         </div>
                     </div>
                 </div>
@@ -172,7 +172,7 @@
                     <div class="small-box colornya" style="height:30%;">
                         <div class="inner">
                          <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Kenaikan/Penurunan Nilai Pasar Aset Investasi</span>
-                         <p style="font-size: 20px; font-weight:bold;">Rp 147.000.000.000.000,-</p>
+                         <p style="font-size: 20px; font-weight:bold;" id="tot-nilai-pasar"></p>
                         </div>
                     </div>
                 </div>
@@ -184,7 +184,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    $('.bln').hide();
+  $('.bln').hide();
   $('.smt').hide();
   $('.thn').hide();
 
@@ -218,10 +218,15 @@ $('.tahun').text(tahun);
 </script>
 <script type="text/javascript">
     
-
-    $.post(host+'dashboard-tampil/get_perubahan_dana_bersih', {[csrf_token]:csrf_hash}, function(resp){
+    var par = {};
+    par['iduser'] = "";
+    par['ds'] = 'BULANAN';
+    par['id_bulan'] = "";
+    par[csrf_token] = csrf_hash;
+    $.LoadingOverlay("show");
+    $.post(host+'dashboard-tampil/get_perubahan_dana_bersih', par, function(resp){
         if(resp){
-            var param = {};
+            $.LoadingOverlay("hide", true);
             parsing = JSON.parse(resp);
             var xChart = parsing.arr_bln;
 
@@ -334,6 +339,20 @@ $('.tahun').text(tahun);
                 data: parsing.arr_data_line,
             }];
 
+
+            var hasil_investasi = 'Rp '+parsing.tot_hasil_investasi+',-';
+            var iuran = 'Rp '+parsing.tot_iuran+',-';
+            var pengelolaan = 'Rp '+parsing.tot_pengelolaan+',-';
+            var beban = 'Rp '+parsing.tot_beban+',-';
+            var nilai_tunai = 'Rp '+parsing.tot_nilai_tunai+',-';
+            var nilai_pasar = 'Rp '+parsing.tot_nilai_pasar+',-';
+            $('#tot-hasil-investasi').html(hasil_investasi);
+            $('#tot-iuran').html(iuran);
+            $('#tot-pengelolaan').html(pengelolaan);
+            $('#tot-beban').html(beban);
+            $('#tot-nilai-tunai').html(nilai_tunai);
+            $('#tot-nilai-pasar').html(nilai_pasar);
+
             genColumnChart("container-hasil-investasi", "", xChart, yChart2, "", "", "", false);
             genColumnChart("container-iuran", "", xChart, yChart2, "", "", "", false);
             genColumnChart("container-pengelolaan", "", xChart, yChart3, "", "", "", false);
@@ -344,7 +363,162 @@ $('.tahun').text(tahun);
     });
 
 
+    $('.filter_data').on('click', function(){
+
+        if ($('#iduser').val() == "") {
+            $.messager.alert('SMART AIP','Pilih user terlebih dahulu !','warning');
+            return false;
+        }
+
+        if ($('#dashboard').val() == "") {
+            $.messager.alert('SMART AIP','Pilih jenis laporan terlebih dahulu !','warning');
+            return false;
+        }
+
+        var param = {};
+        param['iduser'] = $('#iduser').val();
+        param['ds'] = $('#dashboard').val();
+        param['id_bulan'] = $('#id_bulan').val();
+        param[csrf_token] = csrf_hash;
+        $.LoadingOverlay("show");
+
+        $.post(host+'dashboard-tampil/get_perubahan_dana_bersih', param, function(resp){
+            if(resp){
+                $.LoadingOverlay("hide", true);
+                parsing = JSON.parse(resp);
+                var xChart = parsing.arr_bln;
+
+                var yChart2 = [
+                {
+                    name: 'Akumulasi Realisasi',
+                    type: 'column',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#cee60b'],
+                        [1, '#ff7c8f']
+                        ]
+                    },
+                    data: parsing.arr_data_bar,
+                },
+                {
+                    name: 'Realisasi Bulanan',
+                    type: 'line',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#0bcfe6']
+                        ]
+                    },
+                    data: parsing.arr_data_line,
+                }];
 
 
 
+
+                var yChart3 = [
+                {
+                    name: 'Akumulasi Realisasi',
+                    type: 'column',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#cee60b'],
+                        [1, '#0bcfe6']
+                        ]
+                    },
+                    data: parsing.arr_data_bar,
+                },
+                {
+                    name: 'Realisasi Bulanan',
+                    type: 'line',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#ff7c8f']
+                        ]
+                    },
+                    data: parsing.arr_data_line,
+                }];
+
+
+                var yChart4 = [
+                {
+                    name: 'Akumulasi Realisasi',
+                    type: 'column',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#0bcfe6'],
+                        [1, '#ff7c8f']
+                        ]
+                    },
+                    data: parsing.arr_data_bar,
+                },
+                {
+                    name: 'Realisasi Bulanan',
+                    type: 'line',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#cee60b']
+                        ]
+                    },
+                    data: parsing.arr_data_line,
+                }];
+
+                var hasil_investasi = 'Rp '+parsing.tot_hasil_investasi+',-';
+                var iuran = 'Rp '+parsing.tot_iuran+',-';
+                var pengelolaan = 'Rp '+parsing.tot_pengelolaan+',-';
+                var beban = 'Rp '+parsing.tot_beban+',-';
+                var nilai_tunai = 'Rp '+parsing.tot_nilai_tunai+',-';
+                var nilai_pasar = 'Rp '+parsing.tot_nilai_pasar+',-';
+
+                $('#tot-hasil-investasi').html(hasil_investasi);
+                $('#tot-iuran').html(iuran);
+                $('#tot-pengelolaan').html(pengelolaan);
+                $('#tot-beban').html(beban);
+                $('#tot-nilai-tunai').html(nilai_tunai);
+                $('#tot-nilai-pasar').html(nilai_pasar);
+
+                genColumnChart("container-hasil-investasi", "", xChart, yChart2, "", "", "", false);
+                genColumnChart("container-iuran", "", xChart, yChart2, "", "", "", false);
+                genColumnChart("container-pengelolaan", "", xChart, yChart3, "", "", "", false);
+                genColumnChart("container-beban-operasional", "", xChart, yChart3, "", "", "", false);
+                genColumnChart("container-ntip", "", xChart, yChart4, "", "", "", false);
+                genColumnChart("container-nilai-pasar", "", xChart, yChart4, "", "", "", false);
+            }
+        });
+
+    });
 </script>

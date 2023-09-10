@@ -178,7 +178,7 @@ class Beban_investasi_model extends CI_Model {
               $status = 0;
               $res=array();
               $res['error']=true;
-              $res['msg']="Id Investasi tidak valid";
+              $res['msg']="Id Investasi $id_investasi tidak valid";
               return $res;
             }
             

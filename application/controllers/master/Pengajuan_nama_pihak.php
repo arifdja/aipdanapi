@@ -1,12 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Master_data extends CI_Controller {
+class Pengajuan_nama_pihak extends CI_Controller {
 	function __construct() {
 		parent::__construct();
 		date_default_timezone_set('Asia/Jakarta');
         $this->load->model('master_data_model/master_data_model');
-		$this->load->model('bulanan_model/aset_investasi_model');
 		
         $this->load->library('form_validation');
         $this->load->library('user_agent');
@@ -18,8 +17,8 @@ class Master_data extends CI_Controller {
         $iduser= $this->session->userdata('idusergroup');
 
 		//cek akses route
-		if($level != 'DJA') show_error('Error 403 Access Denied', 403);
-		
+		if($level == 'DJA') show_error('Error 403 Access Denied', 403);
+
 		$this->page_limit = 10;
 		
 	}
@@ -27,18 +26,9 @@ class Master_data extends CI_Controller {
     public function tmp_mst_pihak(){
         $data['data_mst_pihak'] = $this->master_data_model->getdata('tmp_mst_pihak', 'result_array');
         $data['opt_user'] = dtuser();
-        $data['bread'] = array('header'=>'Master Data', 'subheader'=>'Approval Pengajuan Nama Pihak');
-        $data['view']  = "master_data/nama_pihak/approval_tmp_mst_pihak";
+        $data['bread'] = array('header'=>'Master Data', 'subheader'=>'Pengajuan Nama Pihak');
+        $data['view']  = "master_data/nama_pihak/index_tmp_mst_pihak";
         $this->load->view('main/utama', $data);
-    }
-
-    public function approval_nama_pihak($approval, $id){
-        $data['approval'] = $this->master_data_model->approval($approval, $id);
-        if($data['approval']){
-            echo "1";
-        } else {
-            echo "2";
-        }
     }
 
     public function master_nama_pihak(){
@@ -391,6 +381,13 @@ class Master_data extends CI_Controller {
                 $kode_pihak = $this->input->post('kode_pihak');
                 $iduser = $this->input->post('iduser');
                 $data = $this->master_data_model->getdata('cek_kode_pihak', 'row_array', $kode_pihak, $iduser);
+                
+                echo json_encode($data);
+            break;
+            case "cek_nama_pihak":
+                $nama_pihak = $this->input->post('nama_pihak');
+                $iduser = $this->input->post('iduser');
+                $data = $this->master_data_model->getdata('cek_nama_pihak', 'row_array', $nama_pihak, $iduser);
                 
                 echo json_encode($data);
             break;
