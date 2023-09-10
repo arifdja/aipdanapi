@@ -1,7 +1,9 @@
 <ul class="nav nav-tabs">
 	<li role="presentation" <?php if($this->uri->segment(2)=="pendahuluan" && $this->uri->segment(3)=="" ||  $this->uri->segment(2)=="index-pendahuluan"){echo 'class="active"';}?>><a href="<?php echo site_url('bulanan/pendahuluan').get_uri();?>"><input type="checkbox" id="CbPendahuluan" name="testx" value="Lap_Pendahuluan"/>&nbsp;Pendahuluan</a></li>
 
-	<li role="presentation" <?php if($this->uri->segment(2)=="ikhtisar_kinerja" && $this->uri->segment(3)=="" ||  $this->uri->segment(2)=="index-ikhtisar_kinerja"){echo 'class="active"';}?>><a href="<?php echo site_url('bulanan/ikhtisar_kinerja').get_uri();?>"><input type="checkbox" id="CbIkhtisarKinerjaa" name="testx" value="Lap_IkhtisarKinerja"/>&nbsp;Ikhtisar Kinerja</a></li>
+	<li role="presentation" <?php if($this->uri->segment(2)=="ikhtisar_kinerja" && $this->uri->segment(3)=="" ||  $this->uri->segment(2)=="index-ikhtisar_kinerja"){echo 'class="active"';}?>><a href="<?php echo site_url('bulanan/ikhtisar_kinerja').get_uri();?>">
+    <!-- <input type="checkbox" id="CbIkhtisarKinerjaa" name="testx" value="Lap_IkhtisarKinerja"/>&nbsp; -->
+    Ikhtisar Kinerja</a></li>
 
 	<li role="presentation" <?php if($this->uri->segment(2)=="aset_investasi" ||  $this->uri->segment(2)=="index-investasi"){echo 'class="active"';}?>><a href="<?php echo site_url('bulanan/aset_investasi').get_uri();?>"><input type="checkbox" id="CbAsetInvestasi" name="testx" value="Lap_AsetInvestasi"/>&nbsp;Aset Investasi</a></li>
 
@@ -19,9 +21,11 @@
 
 	<li role="presentation" <?php if($this->uri->segment(2)=="rincian" ||  $this->uri->segment(2)=="index-rincian"){echo 'class="active"';}?>><a href="<?php echo site_url('bulanan/rincian').get_uri();?>"><input type="checkbox" id="CbRincian" name="testx" value="Lap_Rincian"/>&nbsp;Rincian</a></li>
 
-	<li role="presentation" <?php if($this->uri->segment(3)=="pernyataan_direksi" || $this->uri->segment(2)=="index-pernyataan"){echo 'class="active"';}?>><a href="<?php echo site_url('bulanan/pendahuluan/pernyataan_direksi').get_uri();?>"><input type="checkbox" id="CbPernyataan" name="testx" value="Lap_Pernyataan"/>&nbsp;Pernyataan</a></li>
+	<li role="presentation" <?php if($this->uri->segment(3)=="pernyataan_direksi" || $this->uri->segment(2)=="index-pernyataan"){echo 'class="active"';}?>><a href="<?php echo site_url('bulanan/pendahuluan/pernyataan_direksi').get_uri();?>">
+    <!-- <input type="checkbox" id="CbPernyataan" name="testx" value="Lap_Pernyataan"/>&nbsp; -->
+    Pernyataan</a></li>
 
-	<li role="presentation"><a href="<?php echo site_url('bulanan/pendahuluan/pernyataan_direksi').get_uri();?>" class="btn btn-danger btn-sm btn-flat" style="background-color:red;color:white;">Print All</a></li>
+	<li role="presentation" <?php if($this->uri->segment(2)=="printall" && $this->uri->segment(3)=="" ||  $this->uri->segment(2)=="index-print_all"){echo 'class="active"';}?>><a href="<?php echo site_url('bulanan/printall').get_uri();?>">Print All</a></li>
 
 </ul>
 

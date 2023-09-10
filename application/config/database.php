@@ -65,9 +65,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '10.242.77.179',
+	'hostname' => 'localhost',
 	'username' => 'root',
-	'password' => 'gajahterbang',
+	'password' => '',
 	'database' => 'db_ag_smartaip',
 	// 'hostname' => '203.175.8.104',
 	// 'username' => 'matr4633_smartaip_dev',

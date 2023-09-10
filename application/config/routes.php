@@ -88,6 +88,12 @@ $route['pendahuluan-thn-cetak/(:any)/(:any)'] = 'tahunan/pendahuluan/cetak/$1/$2
 $route['ikhtisar_kinerja-index/(:any)'] = 'bulanan/ikhtisar_kinerja/get_index/$1';
 $route['ikhtisar_kinerja-cetak/(:any)/(:any)'] = 'bulanan/ikhtisar_kinerja/cetak/$1/$2';
 
+// PRINT ALL - BULANAN
+$route['print_all-index/(:any)'] = 'bulanan/printall/get_index/$1';
+$route['print_all-cetak/(:any)/(:any)'] = 'bulanan/printall/cetak/$1/$2';
+$route['generate_AllPDF_Preview'] = 'bulanan/printall/generate_AllPDF_Preview';
+
+
 // $route['pendahuluan-semester-index/(:any)'] = 'semesteran/get_index/$1';
 // $route['pendahuluan-semester-cetak/(:any)/(:any)'] = 'semesteran/pendahuluan/cetak/$1/$2';
 
