@@ -427,7 +427,7 @@ class Operasional_belanja_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi,saldo_akhir_invest as saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan = '12'
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 					) C ON B.id_investasi = C.id_investasi
@@ -435,7 +435,7 @@ class Operasional_belanja_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi,saldo_akhir_invest as saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan = '12'
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 					) D ON B.id_investasi = D.id_investasi
@@ -460,7 +460,7 @@ class Operasional_belanja_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi,saldo_akhir_invest as saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 					) C ON B.id_investasi = C.id_investasi
@@ -468,7 +468,7 @@ class Operasional_belanja_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi,saldo_akhir_invest as saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 					) D ON B.id_investasi = D.id_investasi
@@ -485,7 +485,7 @@ class Operasional_belanja_th_model extends CI_Model {
 			case 'dana_bersih_lv3':
 				$tahun_filter = $tahun - 1;
 
-				$sql="
+				$sql= "
 					SELECT A.*, B.id_investasi, B.jenis_investasi, B.iduser, B.type_sub_jenis_investasi, C.id_bulan, 
 					COALESCE(SUM(C.saldo_akhir), 0) as saldo_akhir_thn,
 					COALESCE(SUM(D.saldo_akhir), 0) as saldo_akhir_thn_lalu
@@ -494,15 +494,15 @@ class Operasional_belanja_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi,saldo_akhir_invest as saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 6
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
-						AND tahun = '".$tahun."'
+						AND tahun = '".$tahun. "'
 					) C ON B.id_investasi = C.id_investasi
 
 					LEFT JOIN(
 						SELECT id_investasi,saldo_akhir_invest as saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 7 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 					) D ON B.id_investasi = D.id_investasi
@@ -520,7 +520,7 @@ class Operasional_belanja_th_model extends CI_Model {
 			case 'dana_bersih_lv4':
 				$tahun_filter = $tahun - 1;
 
-				$sql="
+				$sql= "
 					SELECT A.*, B.id_investasi, B.jenis_investasi, B.iduser, B.type_sub_jenis_investasi, C.id_bulan, 
 					COALESCE(SUM(C.saldo_akhir), 0) as saldo_akhir_thn,
 					COALESCE(SUM(D.saldo_akhir), 0) as saldo_akhir_thn_lalu
@@ -529,15 +529,15 @@ class Operasional_belanja_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi,saldo_akhir_invest as saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
-						AND tahun = '".$tahun."'
+						AND tahun = '".$tahun. "'
 					) C ON B.id_investasi = C.id_investasi
 
 					LEFT JOIN(
 						SELECT id_investasi,saldo_akhir_invest as saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 					) D ON B.id_investasi = D.id_investasi
@@ -567,7 +567,7 @@ class Operasional_belanja_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 						GROUP BY id_investasi
@@ -576,7 +576,7 @@ class Operasional_belanja_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 						GROUP BY id_investasi
@@ -602,7 +602,7 @@ class Operasional_belanja_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan  BETWEEN 1 AND 12
+						WHERE id_bulan  = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 						GROUP BY id_investasi
@@ -611,7 +611,7 @@ class Operasional_belanja_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan  BETWEEN 1 AND 12
+						WHERE id_bulan  = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 						GROUP BY id_investasi
@@ -639,7 +639,7 @@ class Operasional_belanja_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 						GROUP BY id_investasi
@@ -648,7 +648,7 @@ class Operasional_belanja_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 						GROUP BY id_investasi
@@ -675,7 +675,7 @@ class Operasional_belanja_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 						GROUP BY id_investasi
@@ -684,7 +684,7 @@ class Operasional_belanja_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 						GROUP BY id_investasi
@@ -762,15 +762,15 @@ class Operasional_belanja_th_model extends CI_Model {
 				$sql = "
 					SELECT
 					A.jenis_kas,A.arus_kas, 
-					SUM(B.saldo_bulan_berjalan) as saldo_thn,
-					SUM(C.saldo_bulan_berjalan) as saldo_thn_lalu
+					(SUM(IF(A.flag = 'plus', B.saldo_bulan_berjalan,0)) - SUM(IF(A.flag = 'min', B.saldo_bulan_berjalan,0))) as saldo_thn,
+					(SUM(IF(A.flag = 'plus', C.saldo_bulan_berjalan,0)) - SUM(IF(A.flag = 'min', C.saldo_bulan_berjalan,0))) as saldo_thn_lalu
 					FROM mst_aruskas A
 					LEFT JOIN (
 						SELECT
 						id_aruskas,id_bulan,iduser,saldo_bulan_berjalan, tahun
 						FROM
 						bln_arus_kas
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 					) B ON A.id_aruskas = B.id_aruskas
@@ -780,7 +780,7 @@ class Operasional_belanja_th_model extends CI_Model {
 						id_aruskas,id_bulan,iduser,saldo_bulan_berjalan, tahun 
 						FROM
 						bln_arus_kas
-						WHERE id_bulan  BETWEEN 1 AND 12
+						WHERE id_bulan  = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 					) C ON A.id_aruskas = C.id_aruskas
@@ -809,13 +809,13 @@ class Operasional_belanja_th_model extends CI_Model {
 					SELECT
 					A.id_aruskas, A.jenis_kas,A.arus_kas,
 					B.saldo_bulan_berjalan, C.saldo_bulan_lalu, 
-					COALESCE(SUM(B.saldo_bulan_berjalan), 0) as saldo_thn,
-					COALESCE(SUM(C.saldo_bulan_lalu), 0) as saldo_thn_lalu
+					(SUM(IF(A.flag = 'plus', B.saldo_bulan_berjalan,0)) - SUM(IF(A.flag = 'min', B.saldo_bulan_berjalan,0))) as saldo_thn,
+					(SUM(IF(A.flag = 'plus', C.saldo_bulan_lalu,0)) - SUM(IF(A.flag = 'min', C.saldo_bulan_lalu,0))) as saldo_thn_lalu
 					FROM mst_aruskas A
 					LEFT JOIN (
 						SELECT id_aruskas,saldo_bulan_berjalan,id_bulan,iduser, tahun
 						FROM bln_arus_kas
-						WHERE  id_bulan  BETWEEN 1 AND 12
+						WHERE  id_bulan  = '13'
 							AND id_aruskas ='".$p1."'	
 							AND iduser = '".$iduser."'
 							AND tahun = '".$tahun."'
@@ -824,7 +824,7 @@ class Operasional_belanja_th_model extends CI_Model {
 					LEFT JOIN (
 						SELECT id_aruskas,saldo_bulan_berjalan as saldo_bulan_lalu,id_bulan,iduser, tahun
 						FROM bln_arus_kas
-						WHERE  id_bulan  BETWEEN 1 AND 12
+						WHERE  id_bulan  = '13'
 							AND iduser = '".$iduser."'
 							AND tahun = '".$tahun_filter."'
 					) C ON A.id_aruskas = C.id_aruskas
@@ -850,7 +850,7 @@ class Operasional_belanja_th_model extends CI_Model {
 						SELECT id_investasi, saldo_awal_invest as saldo_awal, mutasi_invest as mutasi, rka, realisasi_rka,
 						saldo_akhir_invest as saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 					)B ON A.id_investasi=B.id_investasi
@@ -858,7 +858,7 @@ class Operasional_belanja_th_model extends CI_Model {
 						SELECT id_investasi, saldo_awal_invest as saldo_awal, mutasi_invest as mutasi, rka, realisasi_rka,
 						saldo_akhir_invest as saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 					)C ON A.id_investasi=C.id_investasi
@@ -866,7 +866,7 @@ class Operasional_belanja_th_model extends CI_Model {
 						SELECT id_investasi, saldo_awal_invest as saldo_awal, mutasi_invest as mutasi, rka, realisasi_rka,
 						saldo_akhir_invest as saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 					)D ON A.id_investasi=D.id_investasi
