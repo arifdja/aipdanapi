@@ -14,6 +14,7 @@ $route['api-nilai-investasi-bulanan'] 	= 'api_bulanan/nilai_investasi';
 $route['api-arus-kas-bulanan'] 			= 'api_bulanan/arus_kas';
 $route['api-aset-investasi-bulanan'] 	= 'api_bulanan/aset_investasi';
 $route['api-bukan-aset-investasi-bulanan'] 	= 'api_bulanan/bukan_aset_investasi';
+$route['api_update_checkbox'] 	= 'api_bulanan/Api_checkbox';
 $route['api-master-investasi'] 		  	= 'api_referensi/master_investasi';
 $route['api-master-nama-pihak'] 		= 'api_referensi/master_nama_pihak';
 $route['api-master-cabang'] 		  	= 'api_referensi/master_cabang';
@@ -21,6 +22,7 @@ $route['api-master-klaim'] 		  	    = 'api_referensi/master_klaim';
 $route['api-master-aruskas'] 		  	= 'api_referensi/master_aruskas';
 $route['api-master-kelompok-penerima'] 	= 'api_referensi/master_kelompok_penerima';
 $route['api-master-jenis-penerima'] 	= 'api_referensi/master_jenis_penerima';
+
 
 // API SEMESTERAN
 $route['api-pembayaran-pensiun-semesteran'] 		= 'api_semesteran/pembayaran_pensiun';
@@ -89,6 +91,12 @@ $route['pendahuluan-thn-cetak/(:any)/(:any)'] = 'tahunan/pendahuluan/cetak/$1/$2
 // IKHTISAR KINERJA - BULANAN
 $route['ikhtisar_kinerja-index/(:any)'] = 'bulanan/ikhtisar_kinerja/get_index/$1';
 $route['ikhtisar_kinerja-cetak/(:any)/(:any)'] = 'bulanan/ikhtisar_kinerja/cetak/$1/$2';
+
+// PRINT ALL - BULANAN
+$route['print_all-index/(:any)'] = 'bulanan/printall/get_index/$1';
+$route['print_all-cetak/(:any)/(:any)'] = 'bulanan/printall/cetak/$1/$2';
+$route['generate_AllPDF_Preview'] = 'bulanan/printall/generate_AllPDF_Preview';
+
 
 // $route['pendahuluan-semester-index/(:any)'] = 'semesteran/get_index/$1';
 // $route['pendahuluan-semester-cetak/(:any)/(:any)'] = 'semesteran/pendahuluan/cetak/$1/$2';
