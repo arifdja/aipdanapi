@@ -329,8 +329,11 @@ $('.tahun').text(tahun);
             if(resp){
                 $.LoadingOverlay("hide", true);
                 parsing = JSON.parse(resp);
-                var xChart = parsing.arr_bln;
-
+                var xChart1 = parsing.arr_bln;
+                var xChart2 = parsing.arr_bln;
+                var xChart3 = parsing.arr_bln;
+                var xChart4 = parsing.arr_bln;
+                //investasi
                 var yChart1 = [
                 {
                     name: 'NILAI',
@@ -347,7 +350,7 @@ $('.tahun').text(tahun);
                         [1, '#ff7c8f']
                         ]
                     },
-                    data: parsing.arr_data_line,
+                    data: parsing.arr_data_line_invest,
                 }];
 
                 var yChart2 = [
@@ -366,7 +369,45 @@ $('.tahun').text(tahun);
                         [1, '#0bcfe6']
                         ]
                     },
-                    data: parsing.arr_data_line,
+                    data: parsing.arr_data_line_bukan_invest,
+                }];
+
+                var yChart3 = [
+                {
+                    name: 'NILAI',
+                    type: 'line',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#cee60b'],
+                        [1, '#0bcfe6']
+                        ]
+                    },
+                    data: parsing.arr_data_line_kewajiban,
+                }];
+
+                var yChart4 = [
+                {
+                    name: 'NILAI',
+                    type: 'line',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#cee60b'],
+                        [1, '#0bcfe6']
+                        ]
+                    },
+                    data: parsing.arr_data_line_dana_bersih,
                 }];
 
                 // PIE CHART
@@ -385,8 +426,6 @@ $('.tahun').text(tahun);
                     data: datanya,
                 }];
 
-
-
                 var investasi = 'Rp '+parsing.tot_investasi+',-';
                 var bukan_investasi = 'Rp '+parsing.tot_bukan_investasi+',-';
                 var kewajiban = 'Rp '+parsing.tot_kewajiban+',-';
@@ -398,10 +437,10 @@ $('.tahun').text(tahun);
                 $('#tot-dana-bersih').html(dana_bersih);
 
                 genPieChart("container-portofolio", "", "", chartD1, '', 250);
-                genColumnChart("container-investasi", "", xChart, yChart1, "", "", "", false);
-                genColumnChart("container-bukan-investasi", "", xChart, yChart1, "", "", "", false);
-                genColumnChart("container-kewajiban", "", xChart, yChart2, "", "", "", false);
-                genColumnChart("container-dana-bersih", "", xChart, yChart2, "", "", "", false);
+                genColumnChart("container-investasi", "", xChart1, yChart1, "", "", "", false);
+                genColumnChart("container-bukan-investasi", "", xChart2, yChart2, "", "", "", false);
+                genColumnChart("container-kewajiban", "", xChart3, yChart3, "", "", "", false);
+                genColumnChart("container-dana-bersih", "", xChart4, yChart4, "", "", "", false);
                 
             }
         });
