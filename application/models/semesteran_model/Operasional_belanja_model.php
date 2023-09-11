@@ -1010,17 +1010,17 @@ class Operasional_belanja_model extends CI_Model {
 				$sql = "
 					SELECT
 					A.jenis_kas,A.arus_kas, 
-					SUM(B.saldo_bulan_berjalan) as saldo_smt1,
-					SUM(C.saldo_bulan_berjalan) as saldo_smt2
+					(SUM(IF(A.flag = 'plus', B.saldo_bulan_berjalan,0)) - SUM(IF(A.flag = 'min', B.saldo_bulan_berjalan,0))) as saldo_smt1,
+					(SUM(IF(A.flag = 'plus', C.saldo_bulan_berjalan,0)) - SUM(IF(A.flag = 'min', C.saldo_bulan_berjalan,0))) as saldo_smt2
 					FROM mst_aruskas A
 					LEFT JOIN (
 						SELECT
 						id_aruskas,id_bulan,iduser,saldo_bulan_berjalan, tahun
 						FROM
 						bln_arus_kas
-						WHERE id_bulan BETWEEN 1 AND 6
+						WHERE id_bulan = '6'
 						AND iduser = '".$iduser."'
-						AND tahun = '".$tahun."'
+						AND tahun = '".$tahun. "'
 					) B ON A.id_aruskas = B.id_aruskas
 
 					LEFT JOIN (
@@ -1028,7 +1028,7 @@ class Operasional_belanja_model extends CI_Model {
 						id_aruskas,id_bulan,iduser,saldo_bulan_berjalan, tahun 
 						FROM
 						bln_arus_kas
-						WHERE id_bulan  BETWEEN 7 AND 12
+						WHERE id_bulan = '12'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 					) C ON A.id_aruskas = C.id_aruskas
@@ -1066,22 +1066,22 @@ class Operasional_belanja_model extends CI_Model {
 					SELECT
 					A.id_aruskas, A.jenis_kas,A.arus_kas,
 					B.saldo_bulan_berjalan, C.saldo_bulan_lalu, 
-					COALESCE(SUM(B.saldo_bulan_berjalan), 0) as saldo_smt1,
-					COALESCE(SUM(C.saldo_bulan_lalu), 0) as saldo_smt2
+					(SUM(IF(A.flag = 'plus', B.saldo_bulan_berjalan,0)) - SUM(IF(A.flag = 'min', B.saldo_bulan_berjalan,0))) as saldo_smt1,
+					(SUM(IF(A.flag = 'plus', C.saldo_bulan_lalu,0)) - SUM(IF(A.flag = 'min', C.saldo_bulan_lalu,0))) as saldo_smt2
 					FROM mst_aruskas A
 					LEFT JOIN (
 						SELECT id_aruskas,saldo_bulan_berjalan,id_bulan,iduser, tahun
 						FROM bln_arus_kas
-						WHERE  id_bulan  BETWEEN 1 AND 6
+						WHERE  id_bulan = '6'
 							AND id_aruskas ='".$p1."'	
 							AND iduser = '".$iduser."'
-							AND tahun = '".$tahun."'
+							AND tahun = '".$tahun. "'
 					) B ON A.id_aruskas = B.id_aruskas
 
 					LEFT JOIN (
 						SELECT id_aruskas,saldo_bulan_berjalan as saldo_bulan_lalu,id_bulan,iduser, tahun
 						FROM bln_arus_kas
-						WHERE  id_bulan  BETWEEN 7 AND 12
+						WHERE  id_bulan  = '12'
 							AND iduser = '".$iduser."'
 							AND tahun = '".$tahun_filter."'
 					) C ON A.id_aruskas = C.id_aruskas

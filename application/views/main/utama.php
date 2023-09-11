@@ -1,124 +1,155 @@
 <!DOCTYPE html>
 <html>
+
 <head><?php $this->load->view('main/utama_link'); ?></head>
-<!-- <?php $side=''; if ( $this->session->userdata('kdusergroup')=='999' ) $side='sidebar-collapse'; ?> -->
-<body class="skin-blue fixed sidebar-mini <?php //echo $side ?>">
-    <style>
-		.table td{
+<!-- <?php $side = '';
+		if ($this->session->userdata('kdusergroup') == '999') $side = 'sidebar-collapse'; ?> -->
+
+<body class="skin-blue fixed sidebar-mini <?php //echo $side 
+											?>">
+	<style>
+		.table td {
 			border: 1px solid #b8b8b8 !important;
 			text-align: right;
 		}
+
 		.table th {
-		border: 1px solid #b8b8b8 !important;
-		background-color: #4f7184 !important;
-		color: #fff !important;
-		text-align: center;
-		}
-		.foot{
-			background-color: #f8f8f8 !important;
+			border: 1px solid #b8b8b8 !important;
+			background-color: #4f7184 !important;
+			color: #fff !important;
 			text-align: center;
-			font-weight:bold;
-		}
-		.skin-blue .sidebar-menu > li.header {
-		  color: #9fa6aa;
-		  background: #434d53;
 		}
 
-		td.dataTables_empty{
+		.foot {
+			background-color: #f8f8f8 !important;
+			text-align: center;
+			font-weight: bold;
+		}
+
+		.skin-blue .sidebar-menu>li.header {
+			color: #9fa6aa;
+			background: #434d53;
+		}
+
+		td.dataTables_empty {
 			text-align: center;
 		}
+
 		/*.odd*/
 
 		<?php
-			$iduser= $this->session->userdata('idusergroup');
-			if($iduser == "1"){
-				echo '
+		$iduser = $this->session->userdata('idusergroup');
+		if ($iduser == "1") {
+			echo '
 					.user{
 						display: none;
 					}
 				';
-				echo '
+			echo '
 					.user-bln{
 						display: none;
 						pointer-events:none;
 					}
 				';
-			}
+		}
 
-			if($iduser == "2" || $iduser == "3" ){
-				echo '
+		if ($iduser == "2" || $iduser == "3") {
+			echo '
 					.adm{
 						display: none;
 					}
 				';
-				
-				$sts_bln=pendahuluan_bln();
-				if ($sts_bln['status'] == 'Selesai'){
-					echo '
+
+			$sts_bln = pendahuluan_bln();
+			if ($sts_bln['status'] == 'Selesai') {
+				echo '
 					.user-bln{
 						pointer-events:none;
 						opacity: 0.6 !important;
 					}
 					';
-				}
+			}
 
 
-				$sts_smt1=pendahuluan_smt('1');
-				if ($sts_smt1['status'] == 'Selesai'){
-					echo '
+			$sts_smt1 = pendahuluan_smt('1');
+			if ($sts_smt1['status'] == 'Selesai') {
+				echo '
 					.user-smt1{
 						pointer-events:none;
 						opacity: 0.6 !important;
 					}
 					';
-				}
+			}
 
 
-				$sts_smt2=pendahuluan_smt('2');
-				if ($sts_smt2['status'] == 'Selesai'){
-					echo '
+			$sts_smt2 = pendahuluan_smt('2');
+			if ($sts_smt2['status'] == 'Selesai') {
+				echo '
 					.user-smt2{
 						pointer-events:none;
 						opacity: 0.6 !important;
 					}
 					';
-				}
-				
-// 				print_r($sts_bln['status']);exit();
 			}
+
+			// 				print_r($sts_bln['status']);exit();
+		}
 
 
 
 		?>
 	</style>
+	<?php
+	$level = $this->session->userdata('level');
+	$tahun = $this->session->userdata('tahun');
+	if ($level == 'DJA') {
+		$foto_profile = "files/profiles/TASPEN.png";
+	} elseif ($level == 'TASPEN') {
+		$foto_profile = "files/profiles/TASPEN.png";
+	} elseif ($level == 'ASABRI') {
+		$foto_profile = "files/profiles/logo-asabri-v2.png";
+	}
+	?>
 	<div class="wrapper">
-        <?php $this->load->view('main/utama_topmenu'); ?>
-        <?php $this->load->view('main/utama_sidebar'); ?>
-		
-        <div class="content-wrapper">
-            <section class="content-header">
-            <h1><?php echo $bread['header'] ?></h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                <li class="active"><?php echo $bread['subheader'] ?></li>
-            </ol>
-            </section>
+		<?php $this->load->view('main/utama_topmenu'); ?>
+		<?php $this->load->view('main/utama_sidebar'); ?>
 
-            <section class="content">
-                <?php $this->load->view( $view ); ?>
-            </section>
-        </div>
+		<div class="content-wrapper">
+			<section class="content-header">
+				<?php if ($bread['header'] ==  'Executive Summary') : ?>
+					<h1> <img src="<?php echo site_url($foto_profile); ?>" id="image-nya" class="img" style="width: auto; height: 35px;" /> <br><?php echo $bread['header'] ?></h1>
 
-        <footer class="main-footer"><!-- 
+					<ol class="breadcrumb">
+						<li><a href="#"><i class="fa fa-dashboard"></i><?php echo $bread['subheader'] ?></a></li>
+						<li class="active">
+							<p class="box-title pull-right" style="margin-right:20px; font-weight: bold;"><?php echo (isset($bulan[0]->nama_bulan) ? $bulan[0]->nama_bulan : '') . ' - ' . $tahun; ?></p>
+						</li>
+					</ol>
+				<?php else : ?>
+					<h1><?php echo $bread['header'] ?></h1>
+
+					<ol class="breadcrumb">
+						<li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+						<li class="active"><?php echo $bread['subheader'] ?></li>
+					</ol>
+				<?php endif ?>
+			</section>
+
+			<section class="content">
+				<?php $this->load->view($view); ?>
+			</section>
+		</div>
+
+		<footer class="main-footer"><!-- 
             <div class="pull-right hidden-xs small">
                 <p></p>
             </div> -->
-            <div class="small">
-            <a href="http://www.anggaran.kemenkeu.go.id">Copyright &copy; 2018 Kementerian Keuangan RI</a>
-            </div>
-        </footer>
-    </div>
-	<!-- Modal Popup untuk delete--> 
+			<div class="small">
+				<a href="http://www.anggaran.kemenkeu.go.id">Copyright &copy; 2023 Kementerian Keuangan RI</a>
+			</div>
+		</footer>
+	</div>
+	<!-- Modal Popup untuk delete-->
 	<div id="modal_delete" class="modal fade modal-info" data-refresh="true" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-md">
 			<div class="modal-content" style="margin-top:100px;">
@@ -134,7 +165,7 @@
 				</div>
 			</div>
 		</div>
-	</div>	
+	</div>
 	<!--end modal-->
 	<!-- Modal -->
 	<!-- <div style='overflow:hidden;' class="modal fade" id="pesanModal" role="dialog" data-refresh="true" aria-hidden="true"> -->
@@ -154,4 +185,5 @@
 	</div>
 	<!-- END Modal -->
 </body>
+
 </html>
