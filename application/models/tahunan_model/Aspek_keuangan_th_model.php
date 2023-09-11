@@ -561,7 +561,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi,saldo_akhir_invest as saldo_akhir_thn, id_bulan, iduser,rka, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan = '12'
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 					) C ON B.id_investasi = C.id_investasi
@@ -569,7 +569,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi,saldo_akhir_invest as saldo_akhir_thn_lalu, id_bulan, iduser, rka, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan = '12'
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 					) D ON B.id_investasi = D.id_investasi
@@ -593,7 +593,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi,saldo_akhir_invest as saldo_akhir_thn, id_bulan, iduser,rka, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan = '12'
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 					) C ON B.id_investasi = C.id_investasi
@@ -601,7 +601,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi,saldo_akhir_invest as saldo_akhir_thn_lalu, id_bulan, iduser, rka, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan = '12'
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 					) D ON B.id_investasi = D.id_investasi
@@ -628,7 +628,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi,saldo_akhir_invest as saldo_akhir_thn, id_bulan, iduser, rka, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan = '12'
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 					) C ON B.id_investasi = C.id_investasi
@@ -636,7 +636,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi,saldo_akhir_invest as saldo_akhir_thn_lalu, id_bulan, iduser, rka, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan = '12'
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 					) D ON B.id_investasi = D.id_investasi
@@ -664,7 +664,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi,saldo_akhir_invest as saldo_akhir_thn, id_bulan, iduser,rka, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan = '12'
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 					) C ON B.id_investasi = C.id_investasi
@@ -672,7 +672,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi,saldo_akhir_invest as saldo_akhir_thn_lalu, id_bulan, iduser, rka, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan = '12'
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 					) D ON B.id_investasi = D.id_investasi
@@ -701,7 +701,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 						GROUP BY id_investasi
@@ -710,7 +710,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 						GROUP BY id_investasi
@@ -737,7 +737,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 						GROUP BY id_investasi
@@ -746,7 +746,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 						GROUP BY id_investasi
@@ -774,7 +774,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 						GROUP BY id_investasi
@@ -783,7 +783,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 						GROUP BY id_investasi
@@ -812,7 +812,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 						GROUP BY id_investasi
@@ -821,7 +821,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 						GROUP BY id_investasi
@@ -903,7 +903,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan = '12'
+						WHERE id_bulan = '13'
 						AND iduser = '" . $iduser . "'
 						AND tahun = '" . $tahun . "'
 						GROUP BY id_investasi
@@ -911,7 +911,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan = '12'
+						WHERE id_bulan = '13'
 						AND iduser = '" . $iduser . "'
 						AND tahun = '" . $tahun_filter . "'
 						GROUP BY id_investasi
@@ -936,7 +936,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 						SELECT id_investasi, saldo_awal_invest as saldo_awal, mutasi_invest as mutasi, rka, realisasi_rka, tahun,
 						saldo_akhir_invest as saldo_akhir, id_bulan, iduser
 						FROM bln_aset_investasi_header
-						WHERE id_bulan = '12'
+						WHERE id_bulan = '13'
 						AND iduser = '" . $iduser . "'
 						AND tahun = '" . $tahun . "'
 					)B ON A.id_investasi=B.id_investasi
@@ -944,7 +944,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 						SELECT id_investasi, saldo_awal_invest as saldo_awal, mutasi_invest as mutasi, rka, realisasi_rka, tahun,
 						saldo_akhir_invest as saldo_akhir, id_bulan, iduser
 						FROM bln_aset_investasi_header
-						WHERE id_bulan = '12'
+						WHERE id_bulan = '13'
 						AND iduser = '" . $iduser . "'
 						AND tahun = '" . $tahun_filter . "'
 					)C ON A.id_investasi=C.id_investasi
@@ -977,7 +977,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					WHERE A.iduser = '" . $iduser . "'
 					AND A.tahun = '" . $tahun . "'
 					AND B.`group` = 'INVESTASI'
-					AND A.id_bulan = '12'
+					AND A.id_bulan = '13'
 					GROUP BY A.id_bulan
 				";
 				// echo $sql;exit();
@@ -1002,7 +1002,7 @@ class Aspek_keuangan_th_model extends CI_Model {
 					WHERE A.iduser = '" . $iduser . "'
 					AND A.tahun = '" . $tahun_filter . "'
 					AND B.`group` = 'INVESTASI'
-					AND A.id_bulan = '12'
+					AND A.id_bulan = '13'
 					GROUP BY A.id_bulan
 				";
 

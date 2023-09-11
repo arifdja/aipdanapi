@@ -395,29 +395,58 @@ class Aspek_operasional_th_model extends CI_Model {
 			case 'aset_investasi_front':
 				$tahun_filter = $tahun - 1;
 
-				if ($p1 == 'INVESTASI') {
+				// if ($p1 == 'INVESTASI') {
+				// 	$where_sm1 .= "
+				// 		AND id_bulan = '6'
+				// 	";
+
+				// 	$where_sm2 .= "
+				// 		AND id_bulan = '12'
+				// 	";
+				// }else if ($p1 == 'HASIL INVESTASI') {
+				// 	$where_sm1 .= "
+				// 		AND id_bulan BETWEEN 1 AND 6
+				// 	";
+
+				// 	$where_sm2 .= "
+				// 		AND id_bulan BETWEEN 7 AND 12
+				// 	";
+				// }else{
+				// 	$where_sm1 .= "
+				// 		AND id_bulan BETWEEN 1 AND 12
+				// 	";
+
+				// 	$where_sm2 .= "
+				// 		AND id_bulan BETWEEN 1 AND 12
+				// 	";
+				// }
+
+
+
+				if ($p1 == 'INVESTASI'
+				) {
 					$where_sm1 .= "
 						AND id_bulan = '6'
 					";
 
 					$where_sm2 .= "
-						AND id_bulan = '12'
+						AND id_bulan = '13'
 					";
-				}else if ($p1 == 'HASIL INVESTASI') {
+				} else if ($p1 == 'HASIL INVESTASI') {
 					$where_sm1 .= "
-						AND id_bulan BETWEEN 1 AND 6
+						AND id_bulan = '6'
 					";
 
 					$where_sm2 .= "
-						AND id_bulan BETWEEN 7 AND 12
+						AND id_bulan = '13'
 					";
-				}else{
+				} else {
 					$where_sm1 .= "
-						AND id_bulan BETWEEN 1 AND 12
+						AND id_bulan = '13'
 					";
 
 					$where_sm2 .= "
-						AND id_bulan BETWEEN 1 AND 12
+						AND id_bulan = '13'
 					";
 				}
 
@@ -443,7 +472,7 @@ class Aspek_operasional_th_model extends CI_Model {
 						FROM bln_aset_investasi_header
 						$where_sm2
 						AND iduser= '".$iduser."'
-						AND tahun = '".$tahun_filter."'
+						AND tahun = '".$tahun_filter. "'
 						GROUP BY id_investasi
 					) C ON A.id_investasi = C.id_investasi
 					LEFT JOIN (
@@ -455,7 +484,7 @@ class Aspek_operasional_th_model extends CI_Model {
 							(COALESCE(sum(mutasi_penjualan), 0)+COALESCE(sum(mutasi_pencairan), 0)) as mutasi_pengurangan,
 							id_bulan, iduser, tahun
 						FROM bln_aset_investasi_detail
-						WHERE id_bulan BETWEEN 7 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 					) D ON B.id = D.bln_aset_investasi_header_id
@@ -499,29 +528,60 @@ class Aspek_operasional_th_model extends CI_Model {
 			case 'aset_investasi_front_lv3':
 				$tahun_filter = $tahun - 1;
 
-				if ($p1 == 'INVESTASI') {
+				// if ($p1 == 'INVESTASI') {
+				// 	$where_sm1 .= "
+				// 		AND id_bulan = '6'
+				// 	";
+
+				// 	$where_sm2 .= "
+				// 		AND id_bulan = '12'
+				// 	";
+				// }else if ($p1 == 'HASIL INVESTASI') {
+				// 	$where_sm1 .= "
+				// 		AND id_bulan BETWEEN 1 AND 6
+				// 	";
+
+				// 	$where_sm2 .= "
+				// 		AND id_bulan BETWEEN 7 AND 12
+				// 	";
+				// }else{
+				// 	$where_sm1 .= "
+				// 		AND id_bulan BETWEEN 1 AND 12
+				// 	";
+
+				// 	$where_sm2 .= "
+				// 		AND id_bulan BETWEEN 1 AND 12
+				// 	";
+				// }
+
+
+
+				if (
+					$p1 == 'INVESTASI'
+				) {
 					$where_sm1 .= "
 						AND id_bulan = '6'
 					";
 
 					$where_sm2 .= "
-						AND id_bulan = '12'
+						AND id_bulan = '13'
 					";
-				}else if ($p1 == 'HASIL INVESTASI') {
+				} else if ($p1 == 'HASIL INVESTASI'
+				) {
 					$where_sm1 .= "
-						AND id_bulan BETWEEN 1 AND 6
+						AND id_bulan = '6'
 					";
 
 					$where_sm2 .= "
-						AND id_bulan BETWEEN 7 AND 12
+						AND id_bulan = '13'
 					";
-				}else{
+				} else {
 					$where_sm1 .= "
-						AND id_bulan BETWEEN 1 AND 12
+						AND id_bulan = '13'
 					";
 
 					$where_sm2 .= "
-						AND id_bulan BETWEEN 1 AND 12
+						AND id_bulan = '13'
 					";
 				}
 
@@ -560,7 +620,7 @@ class Aspek_operasional_th_model extends CI_Model {
 							(COALESCE(sum(mutasi_penjualan), 0)+COALESCE(sum(mutasi_pencairan), 0)) as mutasi_pengurangan,
 							id_bulan, iduser, tahun
 						FROM bln_aset_investasi_detail
-						WHERE id_bulan BETWEEN 7 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 					) D ON B.id = D.bln_aset_investasi_header_id
@@ -592,23 +652,23 @@ class Aspek_operasional_th_model extends CI_Model {
 					";
 
 					$where_sm2 .= "
-						AND id_bulan = '12'
+						AND id_bulan = '13'
 					";
 				}else if ($p1 == 'HASIL INVESTASI') {
 					$where_sm1 .= "
-						AND id_bulan BETWEEN 1 AND 6
+						AND id_bulan = '6'
 					";
 
 					$where_sm2 .= "
-						AND id_bulan BETWEEN 7 AND 12
+						AND id_bulan = '13'
 					";
 				}else{
 					$where_sm1 .= "
-						AND id_bulan BETWEEN 1 AND 12
+						AND id_bulan = '13'
 					";
 
 					$where_sm2 .= "
-						AND id_bulan BETWEEN 1 AND 12
+						AND id_bulan = '13'
 					";
 				}
 
@@ -636,7 +696,7 @@ class Aspek_operasional_th_model extends CI_Model {
 						FROM bln_aset_investasi_header
 						$where_sm2
 						AND iduser = '".$iduser."'
-						AND tahun = '".$tahun_filter."'
+						AND tahun = '".$tahun_filter. "'
 						GROUP BY id_investasi
 					) C ON A.id_investasi = C.id_investasi
 					LEFT JOIN (
@@ -648,7 +708,7 @@ class Aspek_operasional_th_model extends CI_Model {
 							(COALESCE(sum(mutasi_penjualan), 0)+COALESCE(sum(mutasi_pencairan), 0)) as mutasi_pengurangan,
 							id_bulan, iduser
 						FROM bln_aset_investasi_detail
-						WHERE id_bulan BETWEEN 7 AND 12
+						WHERE id_bulan = '13'
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 					) D ON B.id = D.bln_aset_investasi_header_id
