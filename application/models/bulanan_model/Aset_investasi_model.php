@@ -2047,22 +2047,22 @@ class Aset_investasi_model extends CI_Model {
 
 		switch($type){
 			case 'yoi_hasil_investasi':
-				$sql="
-					SELECT A.id_investasi, A.jenis_investasi, A.iduser, A.`group`, 
-					COALESCE(SUM(CASE WHEN A.group = 'HASIL INVESTASI' THEN B.mutasi else B.saldo_akhir end), 0) as saldo_akhir,
-					COALESCE(B.rka, 0) as rka
-					FROM mst_investasi A 
-					LEFT JOIN(
-						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
-						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND '".$id_bulan."'
-						AND iduser = '".$iduser."'
-						AND tahun = '".$tahun."'
-						GROUP BY id_investasi
-					)B ON A.id_investasi=B.id_investasi
-					$where2
-					AND A.`group`='HASIL INVESTASI'
-
+				$sql = "
+					SELECT
+					A.id_bulan,
+					A.tahun,
+					B.`group`,
+					COALESCE(sum(A.saldo_akhir_invest), 0) as saldo_akhir,
+					COALESCE(A.rka, 0) as rka,
+					COALESCE(sum(A.mutasi_invest), 0) as mutasi,
+					A.iduser
+					FROM
+					bln_aset_investasi_header A
+					LEFT JOIN mst_investasi B ON A.id_investasi = B.id_investasi
+					WHERE A.iduser = '" . $iduser . "'
+					AND A.tahun = '" . $tahun . "'
+					AND B.`group` = 'HASIL INVESTASI'
+					AND A.id_bulan = '" . $id_bulan . "'
 				";
 				// echo $sql;exit();
 			break;

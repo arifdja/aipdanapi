@@ -1076,36 +1076,36 @@ class Aspek_keuangan_model extends CI_Model {
 				//  kondisi untuk YOI sem1 : 1-6
 				//  kondisi untuk YOI sem2 : 1-12
 				$semester = $this->input->post('semester');
-				if($semester != ""){
+				if ($semester != "") {
 					if ($semester == 1) {
 						$tahun_filter = $tahun - 1;
-					}else{
+					} else {
 						$tahun_filter = $tahun;
 					}
-				}else{
+				} else {
 					$tahun_filter = $tahun;
 				}
 
-				$sql="
+				$sql = "
 					SELECT A.id_investasi, A.jenis_investasi, A.iduser, A.`group`, 
-					COALESCE(SUM(CASE WHEN A.group = 'HASIL INVESTASI' THEN B.mutasi else B.saldo_akhir end), 0) as saldo_akhir_smt1,
-					COALESCE(SUM(CASE WHEN A.group = 'HASIL INVESTASI' THEN C.mutasi else C.saldo_akhir end), 0) as saldo_akhir_smt2,
+					COALESCE(SUM(B.saldo_akhir), 0) as saldo_akhir_smt1,
+					COALESCE(SUM(C.saldo_akhir), 0) as saldo_akhir_smt2,
 					COALESCE(B.rka, 0) as rka_smt1
 					FROM mst_investasi A 
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 6
-						AND iduser = '".$iduser."'
-						AND tahun = '".$tahun."'
+						WHERE id_bulan = '6'
+						AND iduser = '" . $iduser . "'
+						AND tahun = '" . $tahun . "'
 						GROUP BY id_investasi
 					)B ON A.id_investasi=B.id_investasi
 					LEFT JOIN(
 						SELECT id_investasi, sum(saldo_awal_invest) AS saldo_awal, sum(mutasi_invest) AS mutasi, rka, realisasi_rka, sum(saldo_akhir_invest) AS saldo_akhir, id_bulan, iduser, tahun
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 7 AND 12
-						AND iduser = '".$iduser."'
-						AND tahun = '".$tahun_filter."'
+						WHERE id_bulan  = '12'
+						AND iduser = '" . $iduser . "'
+						AND tahun = '" . $tahun_filter . "'
 						GROUP BY id_investasi
 					)C ON A.id_investasi=C.id_investasi
 					$where2
@@ -1137,7 +1137,7 @@ class Aspek_keuangan_model extends CI_Model {
 						SELECT id_investasi, saldo_awal_invest as saldo_awal, mutasi_invest as mutasi, rka, realisasi_rka, tahun,
 						saldo_akhir_invest as saldo_akhir, id_bulan, iduser
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 1 AND 6
+						WHERE id_bulan = 6
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun."'
 					)B ON A.id_investasi=B.id_investasi
@@ -1145,7 +1145,7 @@ class Aspek_keuangan_model extends CI_Model {
 						SELECT id_investasi, saldo_awal_invest as saldo_awal, mutasi_invest as mutasi, rka, realisasi_rka, tahun,
 						saldo_akhir_invest as saldo_akhir, id_bulan, iduser
 						FROM bln_aset_investasi_header
-						WHERE id_bulan BETWEEN 7 AND 12
+						WHERE id_bulan = 12
 						AND iduser = '".$iduser."'
 						AND tahun = '".$tahun_filter."'
 					)C ON A.id_investasi=C.id_investasi
@@ -1171,8 +1171,8 @@ class Aspek_keuangan_model extends CI_Model {
 				}else{
 					$tahun_filter = $tahun;
 				}
-				
-				$sql="
+
+				$sql = "
 					SELECT
 					A.id_bulan,
 					A.tahun,
@@ -1184,10 +1184,10 @@ class Aspek_keuangan_model extends CI_Model {
 					FROM
 					bln_aset_investasi_header A
 					LEFT JOIN mst_investasi B ON A.id_investasi = B.id_investasi
-					WHERE A.iduser = '".$iduser."'
-					AND A.tahun = '".$tahun_filter."'
+					WHERE A.iduser = '" . $iduser . "'
+					AND A.tahun = '" . $tahun . "'
 					AND B.`group` = 'INVESTASI'
-					AND A.id_bulan BETWEEN 1 AND 6
+					AND A.id_bulan = '6'
 					GROUP BY A.id_bulan
 				";
 				// echo $sql;exit();
@@ -1206,7 +1206,7 @@ class Aspek_keuangan_model extends CI_Model {
 					$tahun_filter = $tahun;
 				}
 
-				$sql="
+				$sql = "
 					SELECT
 					A.id_bulan,
 					A.tahun,
@@ -1218,10 +1218,10 @@ class Aspek_keuangan_model extends CI_Model {
 					FROM
 					bln_aset_investasi_header A
 					LEFT JOIN mst_investasi B ON A.id_investasi = B.id_investasi
-					WHERE A.iduser = '".$iduser."'
-					AND A.tahun = '".$tahun_filter."'
+					WHERE A.iduser = '" . $iduser . "'
+					AND A.tahun = '" . $tahun_filter . "'
 					AND B.`group` = 'INVESTASI'
-					AND A.id_bulan BETWEEN 7 AND 12
+					AND A.id_bulan = '12'
 					GROUP BY A.id_bulan
 				";
 				

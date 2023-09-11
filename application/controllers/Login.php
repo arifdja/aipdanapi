@@ -16,7 +16,8 @@ class Login extends CI_Controller {
 
         if($isLoggedIn) {
             // redirect('/home');
-            redirect('bulanan/lihat_laporan_bulan');
+            // redirect('bulanan/lihat_laporan_bulan');
+            redirect('/dashboard-executive-summary');
         }
         else {
             $this->show_login(false);
