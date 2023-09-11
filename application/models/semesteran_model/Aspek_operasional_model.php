@@ -1407,7 +1407,8 @@ class Aspek_operasional_model extends CI_Model {
 				$sql="
 					SELECT A.*
 					FROM tbl_nilai_tunai_header A
-					WHERE A.semester = '".$p2."'
+					$where2 
+					AND  A.semester = '".$p2."'
 					AND tahun = '".$tahun."'
 				";
 			break;
@@ -1416,7 +1417,8 @@ class Aspek_operasional_model extends CI_Model {
 				$sql="
 					SELECT A.*
 					FROM tbl_nilai_tunai_detail A
-					WHERE A.semester = '".$p2."'
+					$where2 
+					AND A.semester = '".$p2."'
 					AND tahun = '".$tahun."'
 				";
 			break;
