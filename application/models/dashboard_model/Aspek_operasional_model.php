@@ -96,44 +96,44 @@ class Aspek_operasional_model extends CI_Model
 				break;
 
 			case 'dashboard-smt-jenis':
-				// $sql = "
-				// select tlppd.iduser, tlppd.tahun, tlppd.semester, tlppd.id_penerima, mjp.jenis_penerima, tlppd.sumber_dana, sum(tlppd.jml_penerima) as jml_penerima ,
-				// sum(tlppd.jml_pembayaran) as jml_pembayaran  from tbl_lkao_pembayaran_pensiun_detail tlppd left join mst_jenis_penerima mjp on (tlppd.id_penerima = mjp.id_penerima)
-				// $where
-				// $where2
-				// group by tlppd.iduser, tlppd.tahun, tlppd.sumber_dana, tlppd.id_penerima
-				// ";
-
 				$sql = "
-				select a.id_penerima, a.jenis_penerima , IFNULL(b.jml_penerima, 0) as jml_penerima, IFNULL(b.jml_pembayaran, 0) as jml_pembayaran from mst_jenis_penerima a left join (
-					select tlppd.iduser, tlppd.tahun, tlppd.semester, tlppd.id_penerima, tlppd.sumber_dana, sum(tlppd.jml_penerima) as jml_penerima , 
-					sum(tlppd.jml_pembayaran) as jml_pembayaran  from tbl_lkao_pembayaran_pensiun_detail tlppd left join mst_jenis_penerima mjp on (tlppd.id_penerima = mjp.id_penerima)
-					$where
-					$where2
-					group by tlppd.iduser, tlppd.tahun, tlppd.sumber_dana, tlppd.id_penerima
-					) b on (a.id_penerima = b.id_penerima)
+				select tlppd.iduser, tlppd.tahun, tlppd.semester, tlppd.id_penerima, mjp.jenis_penerima, tlppd.sumber_dana, sum(tlppd.jml_penerima) as jml_penerima ,
+				sum(tlppd.jml_pembayaran) as jml_pembayaran  from tbl_lkao_pembayaran_pensiun_detail tlppd left join mst_jenis_penerima mjp on (tlppd.id_penerima = mjp.id_penerima)
+				$where
+				$where2
+				group by tlppd.iduser, tlppd.tahun, tlppd.sumber_dana, tlppd.id_penerima
 				";
+
+				// $sql = "
+				// select a.id_penerima, a.jenis_penerima , IFNULL(b.jml_penerima, 0) as jml_penerima, IFNULL(b.jml_pembayaran, 0) as jml_pembayaran from mst_jenis_penerima a left join (
+				// 	select tlppd.iduser, tlppd.tahun, tlppd.semester, tlppd.id_penerima, tlppd.sumber_dana, sum(tlppd.jml_penerima) as jml_penerima , 
+				// 	sum(tlppd.jml_pembayaran) as jml_pembayaran  from tbl_lkao_pembayaran_pensiun_detail tlppd left join mst_jenis_penerima mjp on (tlppd.id_penerima = mjp.id_penerima)
+				// 	$where
+				// 	$where2
+				// 	group by tlppd.iduser, tlppd.tahun, tlppd.sumber_dana, tlppd.id_penerima
+				// 	) b on (a.id_penerima = b.id_penerima)
+				// ";
 
 				// echo $sql;exit;
 				break;
 
 			case 'dashboard-smt-kelompok':
-				// $sql = "
-				// select tlppd.iduser, tlppd.tahun, tlppd.semester, tlppd.id_kelompok, mkp.kelompok_penerima, tlppd.sumber_dana, sum(tlppd.jml_penerima) as jml_penerima , 
-				// sum(tlppd.jml_pembayaran) as jml_pembayaran  from tbl_lkao_pembayaran_pensiun_detail tlppd left join mst_kelompok_penerima mkp on (tlppd.id_kelompok = mkp.id_kelompok)
-				// $where
-				// $where2
-				// group by tlppd.iduser, tlppd.tahun, tlppd.sumber_dana, tlppd.id_kelompok
-				// ";
 				$sql = "
-				select a.id_kelompok,a.kelompok_penerima ,IFNULL(b.jml_penerima, 0) as jml_penerima, IFNULL(b.jml_pembayaran, 0) as jml_pembayaran from mst_kelompok_penerima a left join (
-					select tlppd.iduser, tlppd.tahun, tlppd.semester, tlppd.id_kelompok, tlppd.sumber_dana, sum(tlppd.jml_penerima) as jml_penerima , 
-					sum(tlppd.jml_pembayaran) as jml_pembayaran  from tbl_lkao_pembayaran_pensiun_detail tlppd 
-					$where
-					$where2
-					group by tlppd.iduser, tlppd.tahun, tlppd.sumber_dana, tlppd.id_kelompok
-				) b on (a.id_kelompok = b.id_kelompok)
+				select tlppd.iduser, tlppd.tahun, tlppd.semester, tlppd.id_kelompok, mkp.kelompok_penerima, tlppd.sumber_dana, sum(tlppd.jml_penerima) as jml_penerima , 
+				sum(tlppd.jml_pembayaran) as jml_pembayaran  from tbl_lkao_pembayaran_pensiun_detail tlppd left join mst_kelompok_penerima mkp on (tlppd.id_kelompok = mkp.id_kelompok)
+				$where
+				$where2
+				group by tlppd.iduser, tlppd.tahun, tlppd.sumber_dana, tlppd.id_kelompok
 				";
+				// $sql = "
+				// select a.id_kelompok,a.kelompok_penerima ,IFNULL(b.jml_penerima, 0) as jml_penerima, IFNULL(b.jml_pembayaran, 0) as jml_pembayaran from mst_kelompok_penerima a left join (
+				// 	select tlppd.iduser, tlppd.tahun, tlppd.semester, tlppd.id_kelompok, tlppd.sumber_dana, sum(tlppd.jml_penerima) as jml_penerima , 
+				// 	sum(tlppd.jml_pembayaran) as jml_pembayaran  from tbl_lkao_pembayaran_pensiun_detail tlppd 
+				// 	$where
+				// 	$where2
+				// 	group by tlppd.iduser, tlppd.tahun, tlppd.sumber_dana, tlppd.id_kelompok
+				// ) b on (a.id_kelompok = b.id_kelompok)
+				// ";
 				// echo $sql;exit;
 				break;
 		}
