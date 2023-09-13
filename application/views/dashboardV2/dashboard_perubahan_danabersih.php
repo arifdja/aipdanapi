@@ -230,7 +230,7 @@ $('.tahun').text(tahun);
             parsing = JSON.parse(resp);
             var xChart = parsing.arr_bln;
 
-            var yChart2 = [
+            var yChart1 = [
             {
                 name: 'Akumulasi Realisasi',
                 type: 'column',
@@ -246,7 +246,7 @@ $('.tahun').text(tahun);
                     [1, '#ff7c8f']
                     ]
                 },
-                data: parsing.arr_data_bar,
+                data: parsing.arr_data_bar_hasil_invest,
             },
             {
                 name: 'Realisasi Bulanan',
@@ -262,13 +262,13 @@ $('.tahun').text(tahun);
                     [0, '#0bcfe6']
                     ]
                 },
-                data: parsing.arr_data_line,
+                data: parsing.arr_data_line_hasil_invest,
             }];
 
 
 
 
-            var yChart3 = [
+            var yChart2 = [
             {
                 name: 'Akumulasi Realisasi',
                 type: 'column',
@@ -284,7 +284,7 @@ $('.tahun').text(tahun);
                     [1, '#0bcfe6']
                     ]
                 },
-                data: parsing.arr_data_bar,
+                data: parsing.arr_data_bar_iuran,
             },
             {
                 name: 'Realisasi Bulanan',
@@ -300,9 +300,44 @@ $('.tahun').text(tahun);
                     [0, '#ff7c8f']
                     ]
                 },
-                data: parsing.arr_data_line,
+                data: parsing.arr_data_line_iuran,
             }];
 
+
+            var yChart3 = [
+            {
+                name: 'Akumulasi Realisasi',
+                type: 'column',
+                color: {
+                    linearGradient: {
+                        x1: 0,
+                        x2: 0,
+                        y1: 1,
+                        y2: 0
+                    },
+                    stops: [
+                    [0, '#0bcfe6'],
+                    [1, '#ff7c8f']
+                    ]
+                },
+                data: parsing.arr_data_bar_pengelolaan,
+            },
+            {
+                name: 'Realisasi Bulanan',
+                type: 'line',
+                color: {
+                    linearGradient: {
+                        x1: 0,
+                        x2: 0,
+                        y1: 1,
+                        y2: 0
+                    },
+                    stops: [
+                    [0, '#cee60b']
+                    ]
+                },
+                data: parsing.arr_data_line_pengelolaan,
+            }];
 
             var yChart4 = [
             {
@@ -320,7 +355,7 @@ $('.tahun').text(tahun);
                     [1, '#ff7c8f']
                     ]
                 },
-                data: parsing.arr_data_bar,
+                data: parsing.arr_data_bar_beban,
             },
             {
                 name: 'Realisasi Bulanan',
@@ -336,7 +371,77 @@ $('.tahun').text(tahun);
                     [0, '#cee60b']
                     ]
                 },
-                data: parsing.arr_data_line,
+                data: parsing.arr_data_line_beban,
+            }];
+
+            var yChart5 = [
+            {
+                name: 'Akumulasi Realisasi',
+                type: 'column',
+                color: {
+                    linearGradient: {
+                        x1: 0,
+                        x2: 0,
+                        y1: 1,
+                        y2: 0
+                    },
+                    stops: [
+                    [0, '#0bcfe6'],
+                    [1, '#ff7c8f']
+                    ]
+                },
+                data: parsing.arr_data_bar_nilai_tunai,
+            },
+            {
+                name: 'Realisasi Bulanan',
+                type: 'line',
+                color: {
+                    linearGradient: {
+                        x1: 0,
+                        x2: 0,
+                        y1: 1,
+                        y2: 0
+                    },
+                    stops: [
+                    [0, '#cee60b']
+                    ]
+                },
+                data: parsing.arr_data_line_nilai_tunai,
+            }];
+
+            var yChart6 = [
+            {
+                name: 'Akumulasi Realisasi',
+                type: 'column',
+                color: {
+                    linearGradient: {
+                        x1: 0,
+                        x2: 0,
+                        y1: 1,
+                        y2: 0
+                    },
+                    stops: [
+                    [0, '#0bcfe6'],
+                    [1, '#ff7c8f']
+                    ]
+                },
+                data: parsing.arr_data_bar_nilai_pasar,
+            },
+            {
+                name: 'Realisasi Bulanan',
+                type: 'line',
+                color: {
+                    linearGradient: {
+                        x1: 0,
+                        x2: 0,
+                        y1: 1,
+                        y2: 0
+                    },
+                    stops: [
+                    [0, '#cee60b']
+                    ]
+                },
+                data: parsing.arr_data_line_nilai_pasar,
             }];
 
 
@@ -353,12 +458,12 @@ $('.tahun').text(tahun);
             $('#tot-nilai-tunai').html(nilai_tunai);
             $('#tot-nilai-pasar').html(nilai_pasar);
 
-            genColumnChart("container-hasil-investasi", "", xChart, yChart2, "", "", "", false);
+            genColumnChart("container-hasil-investasi", "", xChart, yChart1, "", "", "", false);
             genColumnChart("container-iuran", "", xChart, yChart2, "", "", "", false);
             genColumnChart("container-pengelolaan", "", xChart, yChart3, "", "", "", false);
-            genColumnChart("container-beban-operasional", "", xChart, yChart3, "", "", "", false);
-            genColumnChart("container-ntip", "", xChart, yChart4, "", "", "", false);
-            genColumnChart("container-nilai-pasar", "", xChart, yChart4, "", "", "", false);
+            genColumnChart("container-beban-operasional", "", xChart, yChart4, "", "", "", false);
+            genColumnChart("container-ntip", "", xChart, yChart5, "", "", "", false);
+            genColumnChart("container-nilai-pasar", "", xChart, yChart6, "", "", "", false);
         }
     });
 
@@ -388,7 +493,7 @@ $('.tahun').text(tahun);
                 parsing = JSON.parse(resp);
                 var xChart = parsing.arr_bln;
 
-                var yChart2 = [
+                var yChart1 = [
                 {
                     name: 'Akumulasi Realisasi',
                     type: 'column',
@@ -404,7 +509,7 @@ $('.tahun').text(tahun);
                         [1, '#ff7c8f']
                         ]
                     },
-                    data: parsing.arr_data_bar,
+                    data: parsing.arr_data_bar_hasil_invest,
                 },
                 {
                     name: 'Realisasi Bulanan',
@@ -420,13 +525,11 @@ $('.tahun').text(tahun);
                         [0, '#0bcfe6']
                         ]
                     },
-                    data: parsing.arr_data_line,
+                    data: parsing.arr_data_line_hasil_invest,
                 }];
 
 
-
-
-                var yChart3 = [
+                var yChart2 = [
                 {
                     name: 'Akumulasi Realisasi',
                     type: 'column',
@@ -442,7 +545,7 @@ $('.tahun').text(tahun);
                         [1, '#0bcfe6']
                         ]
                     },
-                    data: parsing.arr_data_bar,
+                    data: parsing.arr_data_bar_iuran,
                 },
                 {
                     name: 'Realisasi Bulanan',
@@ -458,9 +561,44 @@ $('.tahun').text(tahun);
                         [0, '#ff7c8f']
                         ]
                     },
-                    data: parsing.arr_data_line,
+                    data: parsing.arr_data_line_iuran,
                 }];
 
+
+                var yChart3 = [
+                {
+                    name: 'Akumulasi Realisasi',
+                    type: 'column',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#0bcfe6'],
+                        [1, '#ff7c8f']
+                        ]
+                    },
+                    data: parsing.arr_data_bar_pengelolaan,
+                },
+                {
+                    name: 'Realisasi Bulanan',
+                    type: 'line',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#cee60b']
+                        ]
+                    },
+                    data: parsing.arr_data_line_pengelolaan,
+                }];
 
                 var yChart4 = [
                 {
@@ -478,7 +616,7 @@ $('.tahun').text(tahun);
                         [1, '#ff7c8f']
                         ]
                     },
-                    data: parsing.arr_data_bar,
+                    data: parsing.arr_data_bar_beban,
                 },
                 {
                     name: 'Realisasi Bulanan',
@@ -494,7 +632,77 @@ $('.tahun').text(tahun);
                         [0, '#cee60b']
                         ]
                     },
-                    data: parsing.arr_data_line,
+                    data: parsing.arr_data_line_beban,
+                }];
+
+                var yChart5 = [
+                {
+                    name: 'Akumulasi Realisasi',
+                    type: 'column',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#0bcfe6'],
+                        [1, '#ff7c8f']
+                        ]
+                    },
+                    data: parsing.arr_data_bar_nilai_tunai,
+                },
+                {
+                    name: 'Realisasi Bulanan',
+                    type: 'line',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#cee60b']
+                        ]
+                    },
+                    data: parsing.arr_data_line_nilai_tunai,
+                }];
+
+                var yChart6 = [
+                {
+                    name: 'Akumulasi Realisasi',
+                    type: 'column',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#0bcfe6'],
+                        [1, '#ff7c8f']
+                        ]
+                    },
+                    data: parsing.arr_data_bar_nilai_pasar,
+                },
+                {
+                    name: 'Realisasi Bulanan',
+                    type: 'line',
+                    color: {
+                        linearGradient: {
+                            x1: 0,
+                            x2: 0,
+                            y1: 1,
+                            y2: 0
+                        },
+                        stops: [
+                        [0, '#cee60b']
+                        ]
+                    },
+                    data: parsing.arr_data_line_nilai_pasar,
                 }];
 
                 var hasil_investasi = 'Rp '+parsing.tot_hasil_investasi+',-';
@@ -511,12 +719,12 @@ $('.tahun').text(tahun);
                 $('#tot-nilai-tunai').html(nilai_tunai);
                 $('#tot-nilai-pasar').html(nilai_pasar);
 
-                genColumnChart("container-hasil-investasi", "", xChart, yChart2, "", "", "", false);
+                genColumnChart("container-hasil-investasi", "", xChart, yChart1, "", "", "", false);
                 genColumnChart("container-iuran", "", xChart, yChart2, "", "", "", false);
                 genColumnChart("container-pengelolaan", "", xChart, yChart3, "", "", "", false);
-                genColumnChart("container-beban-operasional", "", xChart, yChart3, "", "", "", false);
-                genColumnChart("container-ntip", "", xChart, yChart4, "", "", "", false);
-                genColumnChart("container-nilai-pasar", "", xChart, yChart4, "", "", "", false);
+                genColumnChart("container-beban-operasional", "", xChart, yChart4, "", "", "", false);
+                genColumnChart("container-ntip", "", xChart, yChart5, "", "", "", false);
+                genColumnChart("container-nilai-pasar", "", xChart, yChart6, "", "", "", false);
             }
         });
 
