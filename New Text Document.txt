@@ -1,0 +1,7 @@
+vpn pakai rforti client
+
+username : kemenkeu\smart.aip pass : Sinergi#123
+
+kemudian remote ke ip
+
+10.242.237.27

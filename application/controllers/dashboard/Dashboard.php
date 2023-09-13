@@ -8,6 +8,7 @@ class Dashboard extends CI_Controller {
 		date_default_timezone_set('Asia/Jakarta');
         $this->load->model('dashboard_model/aruskasds_model');
 				$this->load->model('dashboard_model/danabersihds_model');
+				$this->load->model('dashboard_model/perubahandanabersihds_model');
         $this->load->model('dashboard_model/executivesummary_model', 'executivesummary');
 		
 	}
@@ -198,31 +199,38 @@ class Dashboard extends CI_Controller {
 
 				$level = $this->session->userdata("level");
 				if ($level == 'DJA') {
-					$iduser = $this->input->post('iduser');
+					$idusernya = $this->input->post('iduser');
 				}else{
-					$iduser = $this->session->userdata('iduser');
+					$idusernya = $this->session->userdata('iduser');
+				}
+				$param_bln = intval(date('m'));
+				if ($param_bln > 1 && $param_bln <= 6) {
+					$semester = 1;
+				}else if ($param_bln > 7 && $param_bln <= 12) {
+					$semester = 2;
 				}
 
 				$data_bln = array();
 				$bulan = array(1,2,3,4,5,6,7,8,9,10,11,12);
-				$jenis = array('INVESTASI', 'BUKAN INVESTASI', 'KEWAJIBAN');
+				$jenis = array('INVESTASI', 'BUKAN INVESTASI', 'KEWAJIBAN', 'HASIL INVESTASI');
 				foreach ($bulan as $key => $bln) {
 					foreach ($jenis as $k => $jns) {
 						$data_bln[$jns]['arr_bln'][$key] = konversi_bln($bln);
 						$datanya = $this->executivesummary->getdata('summary-bulanan', 'result_array', $bln, $jns);
 						foreach ($datanya as $ky => $value) {
-							$data_bln[$jns]['arr_data'][$key] = (float)$value['saldo_akhir'];
+							$data_bln[$jns]['arr_data'][$bln] = (float)$value['saldo_akhir'];
+							$data_bln[$jns]['arr_persen'][$bln] = (float)$value['persen_rka'];
 						}
 					}
 				}
 
-				// echo "<pre>";
-				// print_r($data_bln);exit;
+				$datanya_operasional = $this->executivesummary->getdata('aspek_operasional', 'row_array', $semester);
+				$pertumbuhan_invest = $this->executivesummary->getdata('nilai_pertumbuhan_investasi', 'row_array', $param_bln);
 
-				$array['nil_invest'] = 98.73;
-				$array['nil_hasil'] = 101.64;
-				$array['nil_yoi'] = 103.14;
-				$array['nil_pertumbuhan'] = 90.14;
+				$array['nil_invest'] = $data_bln['INVESTASI']['arr_persen'][$param_bln];
+				$array['nil_hasil'] = $data_bln['HASIL INVESTASI']['arr_persen'][$param_bln];
+				$array['nil_yoi'] = $this->nilai_yoi($idusernya, $param_bln);
+				$array['nil_pertumbuhan'] = round($pertumbuhan_invest['pertumbuhan'],2); 
 
 				$array['div_invest'] = "container-invest";
 				$array['div_hasil'] = "container-hasil";
@@ -232,18 +240,19 @@ class Dashboard extends CI_Controller {
 				$array['judul_hasil'] = "Hasil Investasi";
 				$array['judul_yoi'] = "Yield On Investment (YOI)";
 				$array['judul_pertumbuhan'] = "Pertumbuhan Nilai Aset Investasi";
+				$array['semester'] = $semester;
 				// print($array);exit();
 				// TOTAL
-				$array['tot_investasi'] = rupiah(array_sum($data_bln['INVESTASI']['arr_data']));
-				$array['tot_bukan_investasi'] = rupiah(array_sum($data_bln['BUKAN INVESTASI']['arr_data']));
-				$array['tot_kewajiban'] = rupiah(array_sum($data_bln['KEWAJIBAN']['arr_data']));
-				
-				$danabersih = (array_sum($data_bln['INVESTASI']['arr_data']) + array_sum($data_bln['BUKAN INVESTASI']['arr_data']) + array_sum($data_bln['KEWAJIBAN']['arr_data']));
+				$array['tot_investasi'] = rupiah($data_bln['INVESTASI']['arr_data'][$param_bln]);
+				$array['tot_bukan_investasi'] = rupiah($data_bln['BUKAN INVESTASI']['arr_data'][$param_bln]);
+				$array['tot_kewajiban'] = rupiah($data_bln['KEWAJIBAN']['arr_data'][$param_bln]);
+
+				$danabersih = ($data_bln['INVESTASI']['arr_data'][$param_bln]) + ($data_bln['BUKAN INVESTASI']['arr_data'][$param_bln]) - ($data_bln['KEWAJIBAN']['arr_data'][$param_bln]);
 				$array['tot_dana_bersih'] = rupiah($danabersih);
 
-				$array['tot_peserta'] = "1.870.980";
-				$array['tot_pensiunan'] = "798.432";
-				$array['tot_pembayaran'] = "340.000.000.000.000";
+				$array['tot_peserta'] = "-";
+				$array['tot_pensiunan'] = rupiah($datanya_operasional['jml_penerima']);
+				$array['tot_pembayaran'] = rupiah($datanya_operasional['jml_pembayaran']);
 
 				echo json_encode($array);
 			break;
@@ -280,6 +289,9 @@ class Dashboard extends CI_Controller {
 										}
 									}
 								}
+								$array['arr_bln'] = array('Jan',
+								'Feb','Mar','Apr','May','Jun','Jul',
+								'Aug','Sep','Oct','Nov','Dec');
             		$array['arr_data_line_invest'] = $data_bln['INVESTASI']['arr_data'];
             		$array['arr_data_line_bukan_invest'] = $data_bln['BUKAN INVESTASI']['arr_data'];
 								$array['arr_data_line_kewajiban'] = $data_bln['KEWAJIBAN']['arr_data'];
@@ -373,6 +385,8 @@ class Dashboard extends CI_Controller {
 			break;
 
 			case 'get_perubahan_dana_bersih':
+
+				// IURAN - INVESTASI -
 				$level = $this->session->userdata("level");
 				if ($level == 'DJA') {
 					$iduser = $this->input->post('iduser');
@@ -390,6 +404,21 @@ class Dashboard extends CI_Controller {
 
             	if ($param == 'BULANAN') {
 
+								$data_bln = array('Jan',
+								'Feb','Mar','Apr','May','Jun','Jul',
+								'Aug','Sep','Oct','Nov','Dec');
+
+								$bulan = array(1,2,3,4,5,6,7,8,9,10,11,12);
+								$jenis = array('HASIL INVESTASI', 'IURAN', 'BEBAN', 'BEBAN INVESTASI', 'NILAI INVESTASI', 'INVESTASI');
+								foreach ($bulan as $key => $bln) {
+									foreach ($jenis as $k => $jns) {
+										$data_bln[$jns]['arr_bln'][$key] = konversi_bln($bln);
+										$datanya = $this->perubahandanabersihds_model->getdata('dashboard-perubahandanabersih', 'result_array', $bln, $jns);
+										foreach ($datanya as $ky => $value) {
+											$data_bln[$jns]['arr_data'][$key] = (float)$value['saldo_akhir'];
+										}
+									}
+								}
 
             		$array['arr_bln'] = array(
             			'Jan',
@@ -404,41 +433,123 @@ class Dashboard extends CI_Controller {
             			'Oct',
             			'Nov',
             			'Dec');
-            		$array['arr_data_bar'] = array(49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4);
-            		$array['arr_data_line'] = array(29.9, 74.5, 106.4, 120.2, 144.0, 126.0, 105.6, 148.5, 216.4, 154.1, 95.6, 54.4);
 
-            		$array['tot_hasil_investasi'] = "200.000.000.000.000";
-            		$array['tot_iuran'] = "130.000.000.000.000";
-            		$array['tot_pengelolaan'] = "223.000.000.000.000";
-            		$array['tot_beban'] = "998.000.000.000.000";
-            		$array['tot_nilai_tunai'] = "200.000.000.000.000";
-            		$array['nilai_pasar'] = "870.000.000.000.000";
+            		$array['arr_data_bar_hasil_invest'] = $data_bln['HASIL INVESTASI']['arr_data'];
+            		$array['arr_data_line_hasil_invest'] = $data_bln['HASIL INVESTASI']['arr_data'];
+
+								$array['arr_data_bar_iuran'] = $data_bln['IURAN']['arr_data'];
+            		$array['arr_data_line_iuran'] = $data_bln['IURAN']['arr_data'];
+
+								$array['arr_data_bar_pengelolaan'] = $data_bln['BEBAN']['arr_data'];
+            		$array['arr_data_line_pengelolaan'] = $data_bln['BEBAN']['arr_data'];
+
+								$array['arr_data_bar_beban'] = $data_bln['BEBAN INVESTASI']['arr_data'];
+            		$array['arr_data_line_beban'] = $data_bln['BEBAN INVESTASI']['arr_data'];
+
+								$array['arr_data_bar_nilai_tunai'] = $data_bln['NILAI INVESTASI']['arr_data'];
+            		$array['arr_data_line_nilai_tunai'] = $data_bln['NILAI INVESTASI']['arr_data'];
+
+								$array['arr_data_bar_nilai_pasar'] = $data_bln['INVESTASI']['arr_data'];
+            		$array['arr_data_line_nilai_pasar'] = $data_bln['INVESTASI']['arr_data'];
+
+            		$array['tot_hasil_investasi'] = rupiah(array_sum($data_bln['HASIL INVESTASI']['arr_data']));
+            		$array['tot_iuran'] = rupiah(array_sum($data_bln['IURAN']['arr_data']));
+            		$array['tot_pengelolaan'] = rupiah(array_sum($data_bln['BEBAN']['arr_data']));
+            		$array['tot_beban'] = rupiah(array_sum($data_bln['BEBAN INVESTASI']['arr_data']));
+            		$array['tot_nilai_tunai'] = rupiah(array_sum($data_bln['NILAI INVESTASI']['arr_data']));
+            		$array['tot_nilai_pasar'] = rupiah(array_sum($data_bln['INVESTASI']['arr_data']));
 
             	}elseif ($param == 'SEMESTERAN') {
-            		$array['arr_bln'] = array('Semester 1 - 2023', 'Semester 2 - 2023','Semester 1 - 2023', 'Semester 2 - 2023', 'Semester 1 - 2022', 'Semester 2 - 2022', 'Semester 1 - 2021', 'Semester 2 - 2021');
-            		$array['arr_data_bar'] = array(49.9, 71.5, 123.4, 87.7, 65.9,120.1);
-            		$array['arr_data_line'] = array(29.9, 74.5, 49.9, 71.5, 106.4, 129.2);
-            		
 
-            		$array['tot_hasil_investasi'] = "200.000.000.000.000";
-            		$array['tot_iuran'] = "130.000.000.000.000";
-            		$array['tot_pengelolaan'] = "223.000.000.000.000";
-            		$array['tot_beban'] = "998.000.000.000.000";
-            		$array['tot_nilai_tunai'] = "200.000.000.000.000";
-            		$array['nilai_pasar'] = "870.000.000.000.000";
+								$data_bln = array();
+								$current_year = date('Y');
+								$year = range($current_year, $current_year-2);
 
-            	}else {
+								$smt = array('Semester I', 'Semester II');
+								$jenis = array('HASIL INVESTASI', 'IURAN', 'BEBAN', 'BEBAN INVESTASI', 'NILAI INVESTASI', 'INVESTASI');
+								foreach ($year as $key => $thn) {
+									foreach ($smt as $k => $sem) {
+										foreach ($jenis as $ky => $jns) {
+											$data_bln[$jns]['arr_bln'][] = $sem.'-'.$thn;
+											if ($sem == "Semester I") {
+												$blnnya = 6 ;
+											}else{
+												$blnnya = 12 ;
+											}
+											$datanya = $this->perubahandanabersihds_model->getdata('dashboard-smt-perubahandanabersih', 'result_array', $thn, $jns, $blnnya);
+											foreach ($datanya as $ky => $value) {
+												$data_bln[$jns]['arr_data'][] = (float)$value['saldo_akhir'];
+											}
+										}
+									}
+								}
+
+            		$array['arr_data_bar_hasil_invest'] = $data_bln['HASIL INVESTASI']['arr_data'];
+            		$array['arr_data_line_hasil_invest'] = $data_bln['HASIL INVESTASI']['arr_data'];
+
+								$array['arr_data_bar_iuran'] = $data_bln['IURAN']['arr_data'];
+            		$array['arr_data_line_iuran'] = $data_bln['IURAN']['arr_data'];
+
+								$array['arr_data_bar_pengelolaan'] = $data_bln['BEBAN']['arr_data'];
+            		$array['arr_data_line_pengelolaan'] = $data_bln['BEBAN']['arr_data'];
+
+								$array['arr_data_bar_beban'] = $data_bln['BEBAN INVESTASI']['arr_data'];
+            		$array['arr_data_line_beban'] = $data_bln['BEBAN INVESTASI']['arr_data'];
+
+								$array['arr_data_bar_nilai_tunai'] = $data_bln['NILAI INVESTASI']['arr_data'];
+            		$array['arr_data_line_nilai_tunai'] = $data_bln['NILAI INVESTASI']['arr_data'];
+
+								$array['arr_data_bar_nilai_pasar'] = $data_bln['INVESTASI']['arr_data'];
+            		$array['arr_data_line_nilai_pasar'] = $data_bln['INVESTASI']['arr_data'];
+
+            		$array['tot_hasil_investasi'] = rupiah(array_sum($data_bln['HASIL INVESTASI']['arr_data']));
+            		$array['tot_iuran'] = rupiah(array_sum($data_bln['IURAN']['arr_data']));
+            		$array['tot_pengelolaan'] = rupiah(array_sum($data_bln['BEBAN']['arr_data']));
+            		$array['tot_beban'] = rupiah(array_sum($data_bln['BEBAN INVESTASI']['arr_data']));
+            		$array['tot_nilai_tunai'] = rupiah(array_sum($data_bln['NILAI INVESTASI']['arr_data']));
+            		$array['tot_nilai_pasar'] = rupiah(array_sum($data_bln['INVESTASI']['arr_data']));
+
+            	} else {
+
+								$data_bln = array();
+								$current_year = date('Y');
+								$year = range($current_year, $current_year-4);
+								$jenis = array('HASIL INVESTASI', 'IURAN', 'BEBAN', 'BEBAN INVESTASI', 'NILAI INVESTASI', 'INVESTASI');
+								foreach ($year as $key => $thn) {
+									foreach ($jenis as $ky => $jns) {
+										$data_bln[$jns]['arr_bln'][] = $thn;
+										$datanya = $this->perubahandanabersihds_model->getdata('dashboard-thn-perubahandanabersih', 'result_array', $thn, $jns, '13');
+										foreach ($datanya as $ky => $value) {
+											$data_bln[$jns]['arr_data'][] = (float)$value['saldo_akhir'];
+										}
+									}
+								}
+
             		$array['arr_bln'] = array('Tahun 2023', 'Tahun 2022', 'Tahun 2021', 'Tahun 2020', 'Tahun 2019');
-            		$array['arr_data_bar'] = array(49.9, 71.5, 29.9, 74.5, 106.4);
-            		$array['arr_data_line'] = array(29.9, 74.5, 106.4, 45.6, 32.5);
+            		$array['arr_data_bar_hasil_invest'] = $data_bln['HASIL INVESTASI']['arr_data'];
+            		$array['arr_data_line_hasil_invest'] = $data_bln['HASIL INVESTASI']['arr_data'];
 
+								$array['arr_data_bar_iuran'] = $data_bln['IURAN']['arr_data'];
+            		$array['arr_data_line_iuran'] = $data_bln['IURAN']['arr_data'];
 
-            		$array['tot_hasil_investasi'] = "200.000.000.000.000";
-            		$array['tot_iuran'] = "130.000.000.000.000";
-            		$array['tot_pengelolaan'] = "223.000.000.000.000";
-            		$array['tot_beban'] = "998.000.000.000.000";
-            		$array['tot_nilai_tunai'] = "200.000.000.000.000";
-            		$array['nilai_pasar'] = "870.000.000.000.000";
+								$array['arr_data_bar_pengelolaan'] = $data_bln['BEBAN']['arr_data'];
+            		$array['arr_data_line_pengelolaan'] = $data_bln['BEBAN']['arr_data'];
+
+								$array['arr_data_bar_beban'] = $data_bln['BEBAN INVESTASI']['arr_data'];
+            		$array['arr_data_line_beban'] = $data_bln['BEBAN INVESTASI']['arr_data'];
+
+								$array['arr_data_bar_nilai_tunai'] = $data_bln['NILAI INVESTASI']['arr_data'];
+            		$array['arr_data_line_nilai_tunai'] = $data_bln['NILAI INVESTASI']['arr_data'];
+
+								$array['arr_data_bar_nilai_pasar'] = $data_bln['INVESTASI']['arr_data'];
+            		$array['arr_data_line_nilai_pasar'] = $data_bln['INVESTASI']['arr_data'];
+
+            		$array['tot_hasil_investasi'] = rupiah(array_sum($data_bln['HASIL INVESTASI']['arr_data']));
+            		$array['tot_iuran'] = rupiah(array_sum($data_bln['IURAN']['arr_data']));
+            		$array['tot_pengelolaan'] = rupiah(array_sum($data_bln['BEBAN']['arr_data']));
+            		$array['tot_beban'] = rupiah(array_sum($data_bln['BEBAN INVESTASI']['arr_data']));
+            		$array['tot_nilai_tunai'] = rupiah(array_sum($data_bln['NILAI INVESTASI']['arr_data']));
+            		$array['tot_nilai_pasar'] = rupiah(array_sum($data_bln['INVESTASI']['arr_data']));
             		
             	}
 
@@ -637,11 +748,48 @@ class Dashboard extends CI_Controller {
 	}
 
 
-	// public function test($value='')
-	// {
-	// 	$bulan = array(1,2,3,4,5,6,7,8,9,10,11,12);
- //        $bln_indo = konversi_bln($bulan[0], 'fullbulan');
- //        echo $bln_indo;exit;
-	// }
+	public function nilai_yoi($param="", $bln=""){
+		error_reporting(0);
+        if ($param != "") {
+            $idusernya = $param;
+        }else{ 
+            $idusernya = $this->session->userdata('iduser');
+        }
+
+        $hasil_investasi = $this->executivesummary->getdata('yoi_hasil_investasi','row_array', $bln);
+        $array1a = array();
+        $array1b = array();
+
+        
+        $investasi = $this->executivesummary->getdata('yoi_investasi','result_array', $bln);
+        foreach ($investasi as $ky => $vy) {
+            $array1a[$ky] = $vy['saldo_akhir'];
+            $array1b[$ky] = $vy['rka'];
+        }
+
+        
+        
+        if($this->level == 'DJA'){
+            if($param != ""){
+                $saldo_akhir = geometric_average($array1a);
+
+            }else{
+                $saldo_akhir = 0;
+            }
+        }else{
+            $saldo_akhir = geometric_average($array1a);
+
+        }
+
+        // echo "<pre>";
+        // print_r($investasi);exit();
+        // print_r(geometric_average($array2a));exit;
+
+        $yoi= ($saldo_akhir!=0)?($hasil_investasi['saldo_akhir']/$saldo_akhir)*100:0;
+        $data = round($yoi,2);
+        
+
+        return $data;
+    }
 
 }
