@@ -70,23 +70,24 @@ class Perubahandanabersihds_model extends CI_Model {
 					$bln_lalu = $id_bulan -1;
 					$tahun_lalu = $tahun;
 				}
-				$sql="SELECT
-							b.id_bulan,
-							b.tahun,
-							b.iduser,
-							a.`group`,
-							b.id_investasi,
-							a.jenis_investasi,
-							MAX(b.mutasi_invest) AS mutasi_invest,
-							MAX(b.realisasi_rka) AS realisasi_rka,
-							MAX(b.rka) AS rka,
-							COALESCE (SUM(b.saldo_awal_invest), 0) AS saldo_awal,
-							COALESCE (SUM(b.saldo_akhir_invest), 0) AS saldo_akhir,
-							a.id_dana_besih
-						FROM
-							mst_investasi a
-						LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
-						$where
+				$sql = "SELECT
+					b.id_bulan,
+					b.tahun,
+					b.iduser,
+					a.`group`,
+					b.id_investasi,
+					a.jenis_investasi,
+					MAX(b.mutasi_invest) AS mutasi_invest,
+					MAX(b.realisasi_rka) AS realisasi_rka,
+					MAX(b.rka) AS rka,
+					COALESCE (SUM(b.saldo_awal_invest), 0) AS saldo_awal,
+					COALESCE (SUM(b.saldo_akhir_invest), 0) AS saldo_akhir,
+					ROUND(COALESCE ((SUM(b.saldo_akhir_invest)/SUM(b.rka))*100, 0),2) AS persen_rka,
+					a.id_dana_besih
+				FROM
+					mst_investasi a
+				LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
+				$where
 						AND a.`group` = '".$p2."'
 						AND CAST(b.id_bulan AS UNSIGNED) = '".$p1."'
 						ORDER BY
