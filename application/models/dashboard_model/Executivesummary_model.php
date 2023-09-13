@@ -1,57 +1,54 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-class Executivesummary_model extends CI_Model
-{
+class Executivesummary_model extends CI_Model {
 
-	function __construct()
-	{
+	function __construct(){
 		parent::__construct();
 		$this->tahun = $this->session->userdata('tahun');
 		$this->iduser = $this->session->userdata('iduser');
 	}
 
+	
 
-
-	function getdata($type = "", $balikan = "", $p1 = "", $p2 = "", $p3 = "", $p4 = "")
-	{
+	function getdata($type="", $balikan="", $p1="", $p2="",$p3="",$p4=""){
 
 		// print_r($_POST);exit;
 		$array = array();
 		$where  = " WHERE 1=1 ";
 		$where2  = " WHERE 1=1 ";
 		$where3 = "";
-
+		
 		$dbdriver = $this->db->dbdriver;
-		if ($dbdriver == "postgre") {
+		if($dbdriver == "postgre"){
 			$select = " ROW_NUMBER() OVER (ORDER BY A.id DESC) as rowID, ";
-		} else {
+		}else{
 			$select = "";
 		}
-
-		if ($this->input->post('key')) {
+		
+		if($this->input->post('key')){
 			$key = $this->input->post('key');
 			$kat = $this->input->post('kat');
-			$where .= " AND LOWER(" . $kat . ") like '%" . strtolower(trim($key)) . "%' ";
+			$where .= " AND LOWER(".$kat.") like '%".strtolower(trim($key))."%' ";
 		}
-
+		
 
 		$level = $this->session->userdata('level');
 		$tahun = $this->session->userdata('tahun');
 		$id_bulan = $this->session->userdata('id_bulan');
 
-		if ($level == 'DJA') {
+		if($level == 'DJA'){
 			$iduser = $this->input->post('iduser');
 			if ($iduser != "") {
 				$iduser = $iduser;
 				$where .= "
-					AND b.iduser =  '" . $iduser . "'
+					AND b.iduser =  '".$iduser."'
 				";
 				$where2 .= "
-					AND A.iduser =  '" . $iduser . "'
+					AND A.iduser =  '".$iduser."'
 				";
-			} else {
+			}else{
 				$iduser = 'TSN002';
 				$where .= "
 					AND b.iduser =  'TSN002'
@@ -60,22 +57,25 @@ class Executivesummary_model extends CI_Model
 					AND A.iduser =  'TSN002'
 				";
 			}
+			
 		}
 
-		if ($level == 'TASPEN' || $level == 'ASABRI') {
+		if($level == 'TASPEN' || $level == 'ASABRI'){
 			$iduser = $this->session->userdata('iduser');
 			$where .= "
-				AND b.iduser = '" . $iduser . "'
+				AND b.iduser = '".$iduser."'
 			";
 
 			$where2 .= "
-				AND A.iduser =  '" . $iduser . "'
+				AND A.iduser =  '".$iduser."'
 			";
+
+
 		}
 
-		switch ($type) {
+		switch($type){
 			case 'nilai_pertumbuhan_investasi':
-				$tahun_filter = $tahun - 1;
+				$tahun_filter = $tahun -1;
 				$sql = "
 					SELECT A.iduser, A.`group`,
 						B.id_bulan, COALESCE(sum(B.saldo_akhir), 0) AS saldo_akhir, 
@@ -86,24 +86,24 @@ class Executivesummary_model extends CI_Model
 							SELECT id_investasi, id, keterangan, filedata, tahun,
 							saldo_akhir_invest as saldo_akhir, rka, id_bulan, iduser
 							FROM bln_aset_investasi_header
-							WHERE id_bulan = '" . $p1 . "'
-							AND iduser =  '" . $iduser . "'
-							AND tahun =  '" . $tahun . "'
+							WHERE id_bulan = '".$p1."'
+							AND iduser =  '".$iduser."'
+							AND tahun =  '".$tahun."'
 						) B ON A.id_investasi = B.id_investasi
 						LEFT JOIN(
 							SELECT id_investasi, tahun,
 							saldo_akhir_invest as saldo_akhir, rka, id_bulan, iduser
 							FROM bln_aset_investasi_header
 							WHERE id_bulan = '12'
-							AND iduser =  '" . $iduser . "'
-							AND tahun =  '" . $tahun_filter . "'
+							AND iduser =  '".$iduser."'
+							AND tahun =  '".$tahun_filter."'
 						) C ON A.id_investasi = C.id_investasi
 					WHERE 1=1
 					AND A.`group`='INVESTASI'
-					AND A.iduser = '" . $iduser . "'
+					AND A.iduser = '".$iduser."'
 					ORDER BY A.no_urut ASC
 				";
-				break;
+			break;
 			case 'aspek_operasional':
 				$sql = "
 					SELECT
@@ -115,13 +115,13 @@ class Executivesummary_model extends CI_Model
 					tbl_lkao_pembayaran_pensiun_detail A
 					$where2
 					AND A.sumber_dana = '1'
-					AND A.tahun = '" . $tahun . "'
-					AND A.semester = '" . $p1 . "'
+					AND A.tahun = '".$tahun."'
+					AND A.semester = '".$p1."'
 				";
 				// echo $sql;exit();
-				break;
+			break;
 			case 'yoi_hasil_investasi':
-				$sql = "
+				$sql="
 					SELECT
 					A.id_bulan,
 					A.tahun,
@@ -134,15 +134,15 @@ class Executivesummary_model extends CI_Model
 					bln_aset_investasi_header A
 					LEFT JOIN mst_investasi B ON A.id_investasi = B.id_investasi
 					$where2
-					AND A.tahun = '" . $tahun . "'
+					AND A.tahun = '".$tahun."'
 					AND B.`group` = 'HASIL INVESTASI'
-					AND A.id_bulan = '" . $p1 . "'
+					AND A.id_bulan = '".$p1."'
 				";
 				// echo $sql;exit();
-				break;
+			break;
 			case 'yoi_investasi':
-
-				$sql = "
+				
+				$sql="
 					SELECT
 					A.id_bulan,
 					A.tahun,
@@ -155,13 +155,13 @@ class Executivesummary_model extends CI_Model
 					bln_aset_investasi_header A
 					LEFT JOIN mst_investasi B ON A.id_investasi = B.id_investasi
 					$where2
-					AND A.tahun = '" . $tahun . "'
+					AND A.tahun = '".$tahun."'
 					AND B.`group` = 'INVESTASI'
-					AND A.id_bulan BETWEEN 1 AND '" . $p1 . "'
+					AND A.id_bulan BETWEEN 1 AND '".$p1."'
 					GROUP BY A.id_bulan
 				";
 				// echo $sql;exit();
-				break;
+			break;
 
 			case 'summary-bulanan':
 				$sql = "SELECT
@@ -182,14 +182,14 @@ class Executivesummary_model extends CI_Model
 					mst_investasi a
 				LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
 				$where
-				AND a.`group` = '" . $p2 . "'
-				AND CAST(b.id_bulan AS UNSIGNED) = '" . $p1 . "'
-				AND b.tahun = '" . $tahun . "'
+				AND a.`group` = '".$p2."'
+				AND CAST(b.id_bulan AS UNSIGNED) = '".$p1."'
+				AND b.tahun = '".$tahun."'
 				ORDER BY
 				a.id_dana_besih ASC 
 				";
 				// echo $sql;exit();
-				break;
+			break;
 			case 'dashboard-aruskas':
 				$sql = "
 					SELECT
@@ -204,13 +204,13 @@ class Executivesummary_model extends CI_Model
 					LEFT JOIN bln_arus_kas b ON a.id_bulan = b.id_bulan
 					LEFT JOIN mst_aruskas c ON b.id_aruskas = c.id_aruskas
 					$where
-					AND b.tahun = '" . $tahun . "'
-					AND CAST(b.id_bulan AS UNSIGNED) = '" . $p1 . "'
-					AND b.jenis_kas = '" . $p2 . "'
+					AND b.tahun = '".$tahun."'
+					AND CAST(b.id_bulan AS UNSIGNED) = '".$p1."'
+					AND b.jenis_kas = '".$p2."'
 				";
 
 				// echo $sql;exit;
-				break;
+			break;
 
 			case 'dashboard-smt-aruskas':
 				$sql = "
@@ -226,32 +226,37 @@ class Executivesummary_model extends CI_Model
 					LEFT JOIN bln_arus_kas b ON a.id_bulan = b.id_bulan
 					LEFT JOIN mst_aruskas c ON b.id_aruskas = c.id_aruskas
 					$where
-					AND b.tahun = '" . $p1 . "'
-					AND CAST(b.id_bulan AS UNSIGNED) = '" . $p3 . "'
-					AND b.jenis_kas = '" . $p2 . "'
+					AND b.tahun = '".$p1."'
+					AND CAST(b.id_bulan AS UNSIGNED) = '".$p3."'
+					AND b.jenis_kas = '".$p2."'
 				";
 
 				// echo $sql;exit;
-				break;
+			break;
+
+			
+			
+
 		}
 
-		if ($balikan == 'json') {
-			return $this->lib->json_grid($sql, $type);
-		} elseif ($balikan == 'row_array') {
+		if($balikan == 'json'){
+			return $this->lib->json_grid($sql,$type);
+		}elseif($balikan == 'row_array'){
 			return $this->db->query($sql)->row_array();
-		} elseif ($balikan == 'result') {
+		}elseif($balikan == 'result'){
 			return $this->db->query($sql)->result();
-		} elseif ($balikan == 'result_array') {
+		}elseif($balikan == 'result_array'){
 			return $this->db->query($sql)->result_array();
-		} elseif ($balikan == 'json_variable') {
+		}elseif($balikan == 'json_variable'){
 			return json_encode($array);
-		} elseif ($balikan == 'json_encode') {
-			$data = $this->db->query($sql)->result_array();
+		}elseif($balikan == 'json_encode'){
+			$data = $this->db->query($sql)->result_array(); 
 			return json_encode($data);
-		} elseif ($balikan == 'variable') {
+		}elseif($balikan == 'variable'){
 			return $array;
-		} elseif ($balikan == 'json_datatable') {
+		}elseif($balikan == 'json_datatable'){
 			return $this->lib->json_datatable($sql, $type);
 		}
 	}
+
 }
