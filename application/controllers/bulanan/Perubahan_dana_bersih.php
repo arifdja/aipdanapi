@@ -83,7 +83,8 @@ class Perubahan_dana_bersih extends CI_Controller {
         }
         
     }
-    
+
+
     function hasil_output($p1,$mod,$data_detail,$data,$filename="",$ukuran="A4",$template="",$footer="", $header=""){
         switch($p1){
             case "pdf":
