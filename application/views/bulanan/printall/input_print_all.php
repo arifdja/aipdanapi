@@ -13,7 +13,7 @@
         <?php $this->load->view('main/nav_tab_view'); ?>
         <div class="box box-default">
           <div class="box-header with-border">
-            <h3 class="box-title">Print All</h3>
+            <h3 class="box-title"></h3>
             <p class="box-title pull-right" style="margin-right:40px"><i class="fa fa-calendar"></i>&nbsp;&nbsp;<?php echo (isset($bulan[0]->nama_bulan) ? $bulan[0]->nama_bulan : '').' - '. $tahun;?></p>
           </div>
           <br>
@@ -56,31 +56,56 @@
 
             <form class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo site_url('bulanan/printall/generate_all_reports');?>">
               <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" style="display: none">
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-md-12">
                   <div class="col-md-12" style="background-color: #dae7ef;">
-                    <div class="form-group" style="margin-left: 20px;">
-                      <label for="keterangan" class="lebel">Print All Report</label>
-                      <!-- <br>
-                      <a href="javascript:void(0)" title="Add" class="btn btn-danger btn-sm btn-flat" onClick="genform('print-all', 'printall_cetak','printall_cetak');">
-                        <i class="fa fa-file-pdf-o"></i>&nbsp;&nbsp;Cetak PDF
-                      </a>  -->
-                      <br>
-                      <a type="submit" href="<?php echo base_url('bulanan/printall/generate_all_reports'); ?>" class="btn btn-danger btn-sm btn-flat" target="_blank">
-                        <i class="fa fa-file-pdf-o"></i>&nbsp;&nbsp;Generate Preview PDF
-                      </a>
-                    </div>
+                    
                   </div>
                 </div>
+              </div> -->
+              <div class="col-md-12" style="background-color: #dae7ef;">
+                    <div class="form-group" style="margin-left: 20px;">
+                      <br>
+                      <fieldset>      
+                          <legend>Pilih report:</legend>   
+                          <div style="float:left">
+                            <input type="checkbox" name="templates[]" value="pendahuluan"/>&nbsp;Pendahuluan
+                          </div> 
+                          <div style="float:left">
+                            &nbsp;&nbsp;<input type="checkbox" name="templates[]" value="asetinvest"/>&nbsp;Aset Investasi
+                          </div>  
+                          <div style="float:left">
+                            &nbsp;&nbsp;<input type="checkbox" name="templates[]" value="hasilinvest"/>&nbsp;Hasil Investasi
+                          </div> 
+                          <div style="float:left">
+                            &nbsp;&nbsp;<input type="checkbox" name="templates[]" value="bebaninvest"/>&nbsp;Beban Investasi
+                          </div> 
+                          <div style="float:left">
+                            &nbsp;&nbsp;<input type="checkbox" name="templates[]" value="bukaninvest"/>&nbsp;Aset Bukan Investasi
+                          </div> 
+                          <div style="float:left">
+                            &nbsp;&nbsp;<input type="checkbox" name="templates[]" value="danabersih"/>&nbsp;Dana Bersih
+                          </div>  
+                          <div style="float:left">
+                            &nbsp;&nbsp;<input type="checkbox" name="templates[]" value="perubahandanabersih"/>&nbsp;Perubahan Dana Bersih
+                          </div>  
+                          <div style="float:left">
+                            &nbsp;&nbsp;<input type="checkbox" name="templates[]" value="aruskas"/>&nbsp;Arus Kas
+                          </div>   
+                          <div style="float:left">
+                            &nbsp;&nbsp;<input type="checkbox" name="templates[]" value="rincian"/>&nbsp;Rincian
+                          </div>  
+                          <br>      
+                          <br>
+                          <!-- <input type="submit" value="Submit now" />    -->
+                          <a type="submit" href="<?php echo base_url('bulanan/printall/generate_all_reports'); ?>" class="btn btn-danger btn-sm btn-flat" target="_blank">
+                              <i class="fa fa-file-pdf-o"></i>&nbsp;&nbsp;Generate PDF
+                          </a>
+                      </fieldset>
+                    </div>
               </div>
-          </form>
-          <br>
-          <center>
-            <embed type="application/pdf" src="<?php echo site_url('files/file_bulanan/ikhtisar_kinerja/'.(isset($data_ikhtisar_kinerja[0]->file_lap) ? $data_ikhtisar_kinerja[0]->file_lap : 'x'));?>" width="100%" height="700">
-              <!-- <p>Unable to display PDF file. <a href="/uploads/media/default/0001/01/540cb75550adf33f281f29132dddd14fded85bfc.pdf">Download</a> instead.</p> -->
-            </embed>
-            
-          </center>
+            </form>
+            <br>
         </div>
         <!-- /.col -->
 
