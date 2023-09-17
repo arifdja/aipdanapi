@@ -94,8 +94,8 @@ $route['ikhtisar_kinerja-cetak/(:any)/(:any)'] = 'bulanan/ikhtisar_kinerja/cetak
 
 // PRINT ALL - BULANAN
 $route['print_all-index/(:any)'] = 'bulanan/printall/get_index/$1';
-$route['print_all-cetak/(:any)/(:any)'] = 'bulanan/printall/cetak/$1/$2';
-$route['generate_AllPDF_Preview'] = 'bulanan/printall/generate_AllPDF_Preview';
+$route['printall-cetak/(:any)/(:any)'] = 'bulanan/printall_cetak/cetak/$1/$2';
+$route['print_all/generate_AllPDF_Preview'] = 'bulanan/printall/generate_all_reports';
 
 
 // $route['pendahuluan-semester-index/(:any)'] = 'semesteran/get_index/$1';

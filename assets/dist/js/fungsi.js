@@ -894,6 +894,16 @@ function genform(type, modulnya, submodulnya, stswindow, p1, p2, p3, stscrudmoda
 		case "rincian_cetak":
 			var urlcetakpdfall = host+'rincian-cetak/'+submodulnya+'/pdf';
 		break;
+		case "printall_cetak":
+			var urlcetakpdfall = host+'pendahuluan-cetak/'+submodulnya+'/pdf';
+			var urlcetakpdfall = host+'investasi-cetak/'+submodulnya+'/pdf';
+			var urlcetakpdfall = host+'hasil-investasi-cetak/'+submodulnya+'/pdf';
+			var urlcetakpdfall = host+'bukan-investasi-cetak/'+submodulnya+'/pdf';
+			var urlcetakpdfall = host+'danabersih-cetak/'+submodulnya+'/pdf';
+			var urlcetakpdfall = host+'perubahan-danabersih-cetak/'+submodulnya+'/pdf';
+			var urlcetakpdfall = host+'aruskas-cetak/'+submodulnya+'/pdf';
+			var urlcetakpdfall = host+'rincian-cetak/'+submodulnya+'/pdf';
+		break;
 
 
 		case "master_jenis_penerima":

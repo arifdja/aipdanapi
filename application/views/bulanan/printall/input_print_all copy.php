@@ -39,8 +39,8 @@
                 </div> 
                 <div class="col-md-1">
                   <div class="form-group adm">
-                    <a href="javascript:void(0)" title="Add" class="btn btn-primary btn-sm btn-flat" onClick="gensearch('index-print_all','index-print_all');">
-                      <i class="fa fa-search"></i>
+                    <a href="javascript:void(0)" title="Generate" class="btn btn-primary btn-sm btn-flat" onClick="gensearch('index-print_all','index-print_all');">
+                      <i class="fa fa-file-pdf-o"></i>
                     </a> 
                   </div>
                 </div>
@@ -60,15 +60,16 @@
                 <div class="col-md-12">
                   <div class="col-md-12" style="background-color: #dae7ef;">
                     <div class="form-group" style="margin-left: 20px;">
-                      <label for="keterangan" class="lebel">Print All Report</label>
-                      <!-- <br>
-                      <a href="javascript:void(0)" title="Add" class="btn btn-danger btn-sm btn-flat" onClick="genform('print-all', 'printall_cetak','printall_cetak');">
-                        <i class="fa fa-file-pdf-o"></i>&nbsp;&nbsp;Cetak PDF
-                      </a>  -->
-                      <br>
-                      <a type="submit" href="<?php echo base_url('bulanan/printall/generate_all_reports'); ?>" class="btn btn-danger btn-sm btn-flat" target="_blank">
+                      <!-- <label for="keterangan" class="lebel">Generate PDF</label> -->
+                      <br><button class="btn btn-primary btn-flat pull-left user-bln" type="submit" style="margin-right:50px">
+                        Generate
+                      </button>
+                      <a href="<?php echo base_url('generate_AllPDF_Preview'); ?>" class="btn btn-danger btn-sm btn-flat" target="_blank">
                         <i class="fa fa-file-pdf-o"></i>&nbsp;&nbsp;Generate Preview PDF
                       </a>
+                      <!-- <a href="javascript:void(0)" title="Add" class="btn btn-danger btn-sm btn-flat" onClick="genform('print-all', 'perubahan_danabersih_cetak','perubahan_danabersih_cetak');">
+                        <i class="fa fa-file-pdf-o"></i>&nbsp;&nbsp;Cetak PDF
+                      </a>  -->
                     </div>
                   </div>
                 </div>
@@ -79,7 +80,6 @@
             <embed type="application/pdf" src="<?php echo site_url('files/file_bulanan/ikhtisar_kinerja/'.(isset($data_ikhtisar_kinerja[0]->file_lap) ? $data_ikhtisar_kinerja[0]->file_lap : 'x'));?>" width="100%" height="700">
               <!-- <p>Unable to display PDF file. <a href="/uploads/media/default/0001/01/540cb75550adf33f281f29132dddd14fded85bfc.pdf">Download</a> instead.</p> -->
             </embed>
-            
           </center>
         </div>
         <!-- /.col -->

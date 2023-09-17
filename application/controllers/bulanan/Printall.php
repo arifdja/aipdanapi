@@ -5,7 +5,7 @@ class Printall extends CI_Controller {
 	function __construct() {
 		parent::__construct();
 		date_default_timezone_set('Asia/Jakarta');
-		$this->load->model('bulanan_model/Printall_model');
+		$this->load->model('bulanan_model/printall_model');
 		$this->load->model('bulanan_model/arus_kas_model');
         $this->load->model('bulanan_model/pendahuluan_model');
         $this->load->model('bulanan_model/perubahan_dana_bersih_model');
@@ -16,12 +16,14 @@ class Printall extends CI_Controller {
         $this->load->model('bulanan_model/hasil_investasi_model');
         $this->load->model('bulanan_model/rincian_model');
         
+        // $perubahan_dana_bersih = new Perubahan_dana_bersih();
 
+    
 		$this->load->library('form_validation');
 		$this->load->library('user_agent');
 		// $this->load->library('pdf');
-		$this->load->library('upload');
-		$this->load->helper('download');
+		// $this->load->library('upload');
+		// $this->load->helper('download');
 
 		$this->bulan=$this->session->userdata("id_bulan");
 		$this->iduser=$this->session->userdata("iduser");
@@ -32,25 +34,20 @@ class Printall extends CI_Controller {
 		$userData=$this->session->userdata();
 		//cek akses route
 		// if($userData['idusergroup'] !== '001') show_404();
-		$this->page_limit = 10;
+		$this->page_limit = 20;
 		
 	}
 	
-	public function index($id = ''){
+	public function index(){
 
-
-		if(!($this->session->userdata("id_bulan"))){
-			$data= array('id_bulan'=>$this->input->post('bulan'));
-			$this->session->set_userdata($data);
-		} else{
-			$this->session->userdata('id_bulan');
-		}
-
-		$bln=$this->session->userdata('id_bulan');
-		// var_dump($bln);exit;
-		$data['bulan'] = bulan();
-		$data['opt_user'] = dtuser();
-        $data['data_print_all'] = $this->Printall_model->get_ket('ket_print_all');
+        $bln=$this->session->userdata('id_bulan');
+        $data['data_invest'] = $this->aset_investasi_front();
+        $data['data_pendahuluan'] = $this->pendahuluan_model->get_ket($bln);
+        $data['sum'] = $this->aset_investasi_model->getdataindex('aset_investasi_front_sum', 'row_array', 'INVESTASI');
+        $data['data_posisi_investasi_ket'] = $this->aset_investasi_model->get_ket('ket_aset_investasi');
+        $data['bulan'] = bulan();
+        $data['status'] = pendahuluan_bln();
+        $data['opt_user'] = dtuser();
 		
 		$data['bread'] = array('header'=>'Print All ('.(isset($data['bulan'][0]->nama_bulan) ? $data['bulan'][0]->nama_bulan : '').' - '. $this->tahun.')', 'subheader'=>'Print All');
 		$data['view']  = "bulanan/printall/input_print_all";
@@ -67,7 +64,7 @@ class Printall extends CI_Controller {
             $filter['iduser'] =  $data['iduser'];
             $filter['id_bulan'] = $data['id_bulan'];
             $filter['tahun'] = $this->tahun;
-            $data['data_print_all'] = $this->Printall_model->get_filter($filter);
+            $data['data_print_all'] = $this->printall_model->get_filter($filter);
 
             $data['opt_user'] = dtuser();
             $data['bulan'] = bulan();
@@ -101,77 +98,45 @@ class Printall extends CI_Controller {
 		echo $dt;
 	}
 
-    function laporan_ArusKas_PDF($mod="aruskas_cetak"){
-        
-        switch($mod){
-            case "aruskas_cetak":
+    function laporan_ArusKas_PDF(){
                 $data['iduser'] = $this->input->post('iduser');
                 $data['bulan'] = bulan();
                 $data['arus_kas'] = $this->nilai_arus_kas();
                 $data['kas_bank'] = $this->arus_kas_model->getdata('kas_bank', 'row_array');
                 $data['data_arus_kas_ket'] = $this->arus_kas_model->get_ket('ket_arus_kas');
                 $template=$this->load->view('bulanan/arus_kas/index_pdf_export', $data,true);  
-                // print_r($data);exit;
-                $this->hasil_output('pdf',$mod,'', $data, '', "A4", $template, "ya", "no");
-            break;
-        }
         
     }
         
-    function laporan_AsetInvestasi_PDF($mod="aset_investasi_cetak"){
-        
-        switch($mod){
-            case "aset_investasi_cetak":
+    function laporan_AsetInvestasi_PDF(){
                 $data['iduser'] = $this->input->post('iduser');
                 $data['bulan'] = bulan();
                 $data['data_invest'] = $this->aset_investasi_front();
                 $data['sum'] = $this->aset_investasi_model->getdataindex('aset_investasi_front_sum', 'row_array', 'INVESTASI');
                 $template=$this->load->view('bulanan/aset_investasi/index_pdf_export', $data,true);  
-                // print_r($data);exit;
-                $this->hasil_output('pdf',$mod,'', $data, '', "A4", $template, "ya", "no");
-            break;
-        }
         
     }
 
-    function laporan_BebanInvestasi_PDF($mod="beban_investasi_cetak"){
-
-        switch($mod){
-            case "beban_investasi_cetak":
+    function laporan_BebanInvestasi_PDF(){
                 $data['iduser'] = $this->input->post('iduser');
                 $data['bulan'] = bulan();
                 $data['opt_user'] = dtuser();
                 $data['data_beban'] = $this->nilai_beban_investasi();
                 $data['sum'] = $this->perubahan_dana_bersih_model->getdata('aset_investasi_front_sum', 'row_array', 'BEBAN INVESTASI');
 
-                $template=$this->load->view('bulanan/perubahan_dana_bersih/index_beban_pdf_export', $data,true);  
-                // print_r($data);exit;
-                $this->hasil_output('pdf',$mod,'', $data, '', "A4", $template, "ya", "no");
-            break;
-        }
-        
+                $template=$this->load->view('bulanan/perubahan_dana_bersih/index_beban_pdf_export', $data,true);   
     }
     
-    function laporan_BukanInvestasi_PDF($mod="bukan_investasi_cetak"){
-        
-        switch($mod){
-            case "bukan_investasi_cetak":
+    function laporan_BukanInvestasi_PDF(){
                 $data['iduser'] = $this->input->post('iduser');
                 $data['bulan'] = bulan();
                 $data['data_bukan_investasi'] = $this->aset_bukan_investasi_front();
                 $data['sum'] = $this->aset_investasi_model->getdataindex('aset_investasi_front_sum', 'row_array', 'BUKAN INVESTASI');
                 $template=$this->load->view('bulanan/bukan_investasi/index_pdf_export', $data,true);  
-                // print_r($data);exit;
-                $this->hasil_output('pdf',$mod,'', $data, '', "A4", $template, "ya", "no");
-            break;
-        }
         
     }
     
-    function laporan_DanaBersih_PDF($mod="dana_bersih_cetak"){
-        
-        switch($mod){
-            case "dana_bersih_cetak":
+    function laporan_DanaBersih_PDF(){
                 $data['iduser'] = $this->input->post('iduser');
                 $data['bulan'] = bulan();
                 $data['opt_user'] = dtuser();
@@ -179,17 +144,10 @@ class Printall extends CI_Controller {
                 $data['total_bersih'] = $this->aset_investasi_model->getdata('dana_bersih_lv1','result');
                 $data['data_dana_bersih_ket'] = $this->dana_bersih_model->get_ket('ket_dana_bersih');
                 $template=$this->load->view('bulanan/dana_bersih/index_pdf_export', $data,true);  
-                // print_r($data);exit;
-                $this->hasil_output('pdf',$mod,'', $data, '', "A4", $template, "ya", "no");
-            break;
-        }
         
     }
 
-    function laporan_HasilInvestasi_PDF($mod="hasil_investasi_cetak"){
-        
-        switch($mod){
-            case "hasil_investasi_cetak":
+    function laporan_HasilInvestasi_PDF(){
                 $data['iduser'] = $this->input->post('iduser');
                 $data['bulan'] = bulan();
                 // $data['data_hasil_investasi'] = $this->aset_investasi_model->getdata('data_hasil_investasi_header', 'result');
@@ -198,17 +156,12 @@ class Printall extends CI_Controller {
                 
                 $data['data_hasil_investasi_ket'] = $this->hasil_investasi_model->get_ket('ket_hasil_investasi');
                 $template=$this->load->view('bulanan/hasil_investasi/index_pdf_export', $data,true);  
+                // echo "<pre>";
                 // print_r($data);exit;
                 $this->hasil_output('pdf',$mod,'', $data, '', "A4", $template, "ya", "no");
-            break;
-        }
-        
     }
 
-    function laporan_Pendahuluan_PDF($mod="pendahuluan_cetak"){
-
-    	switch($mod){
-    		case "pendahuluan_cetak":
+    function laporan_Pendahuluan_PDF(){
                 $data['iduser'] = $this->input->post('iduser');
                 $data['id_bulan'] = $this->bulan;
                 $data['tahun'] = $this->tahun;
@@ -216,36 +169,23 @@ class Printall extends CI_Controller {
                 $data['opt_user'] = dtuser();
                 $data['bulan'] = bulan();
                 $template=$this->load->view('bulanan/pendahuluan/index_pdf_export', $data,true);  
-                // print_r($data);exit;
-                $this->hasil_output('pdf',$mod,'', $data, '', "A4", $template, "ya", "no");
-            break;
-    	}
 
     }
     
-    function laporan_PerubahanDanaBersih_PDF($mod="perubahan_danabersih_cetak"){
-        
-        switch($mod){
-            case "perubahan_danabersih_cetak":
-                $data['iduser'] = $this->input->post('iduser');
-                $data['bulan'] = bulan();
-                $data['opt_user'] = dtuser();
-                $data['data_perubahan_danabersih'] = $this->nilai_perubahan_danabersih();
-                $data['data_perubahan_dana_bersih_ket'] = $this->perubahan_dana_bersih_model->get_ket('ket_perubahan_dana_bersih');
-                $data['tot_perubahan'] = $this->aset_investasi_model->getdata('perubahan_danabersih_lv1','result');
-                $data['total_bersih'] = $this->aset_investasi_model->getdata('dana_bersih_lv0','result');
-                $template=$this->load->view('bulanan/perubahan_dana_bersih/index_pdf_export', $data,true);  
-                // print_r($data);exit;
-                $this->hasil_output('pdf',$mod,'', $data, '', "A4", $template, "ya", "no");
-            break;
-        }
-        
+    function laporan_PerubahanDanaBersih_PDF(){
+        $data['bulan'] = bulan();
+        $data['data_invest'] = $this->aset_investasi_front();
+        $data['sum'] = $this->aset_investasi_model->getdataindex('aset_investasi_front_sum', 'row_array', 'INVESTASI');
+        $html=$this->load->view('bulanan/printall/index_pdf_export', $data,true);  
+        // print_r($data);exit;
+        // For PHP 7.4
+        $pdf = new \Mpdf\Mpdf();
+        $pdf->WriteHTML($html,2);
+        $pdf->Output();
+                // $this->hasil_output('pdf',$mod,'', $data, '', "A4", $template, "ya", "no");
     }
 
-    function laporan_Rincian_PDF($mod="rincian_cetak"){
-        
-        switch($mod){
-            case "rincian_cetak":
+    function laporan_Rincian_PDF(){
                 $data['iduser'] = $this->input->post('iduser');
                 $data['bulan'] = bulan();
                 $data['opt_user'] = dtuser();
@@ -270,185 +210,418 @@ class Printall extends CI_Controller {
                     }else if ($data['iduser'] == "ASB003") {
                         $template=$this->load->view('bulanan/rincian/index_pdf_export_asb', $data,true);
                     }
-                }
-                 // print_r($data);exit;
-                $this->hasil_output('pdf',$mod,'', $data, '', "A4", $template, "ya", "no");
-            break;
-        }
-        
+                }       
     }
+    
+    function cetak($mod=""){
+        switch ($mod) {
+            case "Lap_ArusKas":
+                $data_laporan_ArusKas = $this->laporan_ArusKas_PDF();
+                break;
+            case "Lap_AsetInvestasi":
+                $data_laporan_AsetInvestasi = $this->laporan_AsetInvestasi_PDF();
+                break;
+            case "Lap_BebanInvestasi":
+                $data_laporan_BebanInvestasi = $this->laporan_BebanInvestasi_PDF();
+                break;
+            case "Lap_BukanInvestasi":
+                $data_laporan_BukanInvestasi = $this->laporan_BukanInvestasi_PDF();
+                break;
+            case "Lap_DanaBersih":
+                $data_laporan_DanaBersih = $this->laporan_DanaBersih_PDF();
+                break;
+            case "Lap_HasilInvestasi":
+                $data_laporan_HasilInvestasi = $this->laporan_HasilInvestasi_PDF();
+                break;
+            case "Lap_IkhtisarKinerja":
+                $data_laporan_DanaBersih = $this->laporan_DanaBersih_PDF();
+                break;
+            case "Lap_Pendahuluan":
+                $data_laporan_Pendahuluan = $this->laporan_Pendahuluan_PDF();
+                break;
+            case "Lap_Pernyataan":
+                $data_laporan_Pernyataan = $this->laporan_Pernyataan_PDF();
+                break;
+            case "lap_PerubahanDanaBersih":
+                $data_laporan_PerubahanDanaBersih = $this->laporan_PerubahanDanaBersih_PDF();
+                // $data['iduser'] = $this->input->post('iduser');
+                // $data['bulan'] = bulan();
+                // $data['opt_user'] = dtuser();
+                // $data['data_perubahan_danabersih'] = $this->nilai_perubahan_danabersih();
+                // $data['data_perubahan_dana_bersih_ket'] = $this->perubahan_dana_bersih_model->get_ket('ket_perubahan_dana_bersih');
+                // $data['tot_perubahan'] = $this->aset_investasi_model->getdata('perubahan_danabersih_lv1','result');
+                // $data['total_bersih'] = $this->aset_investasi_model->getdata('dana_bersih_lv0','result');
+                // $template=$this->load->view('bulanan/perubahan_dana_bersih/index_pdf_export', $data,true);  
+                // // print_r($data);exit;
+                // $this->hasil_output('pdf',$mod,'', $data, '', "A4", $template, "ya", "no");
+                break;
+            case "Lap_Rincian":
+                $data_laporan_Rincian = $this->laporan_Rincian_PDF();
+                break;
+        }
 
+        // $template = $data_laporan_PerubahanDanaBersih; // Menggabungkan data yang akan dicetak
+        // $this->hasil_output('pdf',"$mod",'', "A4", $template, "ya", "no");
+        // $this->hasil_output('pdf',$mod,$data,'hasil_cetak.pdf', "A4", $template, "ya", "no");
+    }
+    
     function hasil_output($p1,$mod,$data_detail,$data,$filename="",$ukuran="A4",$template="",$footer="", $header=""){
         switch($p1){
             case "pdf":
-                
-                $pdf = new \Mpdf\Mpdf(['orientation' => 'L']);
-                $pdf->WriteHTML($template, 2);
-
-                $output_filename = 'output_' . $mod . '.pdf';
-                $pdf->Output($output_filename, 'F');
-                
-                return $output_filename;
-            break;
+                $pdf = new \Mpdf\Mpdf();
+                $pdf->WriteHTML("test");
+                $pdf->Output(); // Menyimpan file PDF dengan nama yang telah ditentukan
+                break;
         }
     }
-    
-    function merge_pdfs($pdf_files,$output_filename){
+    public function generate_all_reports() {
+        // $this->cetak("Lap_HasilInvestasi");
         $pdf = new \Mpdf\Mpdf();
 
-        foreach ($pdf_files as $pdf_file){
-            $pdf_content = file_get_contents($pdf_file);
-            $pdf->WriteHTML($pdf_content,2);
+                $pdf->WriteHTML("<html><p>tesst</p></html>");
+                $pdf->Output(); 
+    }
+    
+    public function nilai_perubahan_danabersih(){
+        $array = array();
+        $perubahan_lv1 = $this->aset_investasi_model->getdata('perubahan_danabersih_lv1','result_array');
+        foreach ($perubahan_lv1 as $k => $v) {
+
+            if($v['uraian'] == 'PENAMBAHAN'){
+                $judul_total = 'Jumlah Penambahan';
+                $judul_head = 'PENAMBAHAN';
+            }else if($v['uraian'] == 'PENGURANGAN'){
+                $judul_total = 'Jumlah Pengurangan';
+                $judul_head = 'PENGURANGAN';
+            }
+
+            $array[$k]['judul_head'] = $judul_head;
+            $array[$k]['judul_total'] = $judul_total;
+            $array[$k]['uraian'] = $v['uraian'];
+            $array[$k]['sum_lvl1'] =  (isset($v['saldo_akhir']) ? $v['saldo_akhir'] : 0) ;
+            $array[$k]['sum_prev_lvl1'] =  (isset($v['saldo_akhir_bln_lalu']) ? $v['saldo_akhir_bln_lalu'] : 0) ;
+            $array[$k]['child'] = array();
+
+            $perubahan_lv2 = $this->aset_investasi_model->getdata('perubahan_danabersih_lv2','result_array', $v['uraian']);
+            foreach ($perubahan_lv2 as $key => $val) {
+                if($val['group'] == 'BEBAN'){
+                    $judul_total = 'Total Beban';
+                    $judul_head = 'BEBAN';
+                }else if($val['group'] == 'HASIL INVESTASI'){
+                    $judul_total = 'Total Hasil Investasi';
+                    $judul_head = 'HASIL INVESTASI';
+                }else if($val['group'] == 'IURAN'){
+                    $judul_total = 'Total Iuran';
+                    $judul_head = 'IURAN';
+                }else if($val['group'] == 'NILAI INVESTASI'){
+                    $judul_total = 'Jumlah Peningkatan(Penurunan)';
+                    $judul_head = 'NILAI INVESTASI';
+                }else if($val['group'] == 'ASET TETAP'){
+                    $judul_total = 'Sub Jumlah Aset Tetap';
+                    $judul_head = 'ASET TETAP';
+                }
+
+                $array[$k]['child'][$key]['judul_head'] =  $judul_head;
+                $array[$k]['child'][$key]['judul_total'] = $judul_total;
+                $array[$k]['child'][$key]['id_perubahan_dana_bersih'] = $val['id_perubahan_dana_bersih'];
+                $array[$k]['child'][$key]['group'] = $val['group'];
+                $array[$k]['child'][$key]['sum_lvl2'] =  (isset($val['saldo_akhir']) ? $val['saldo_akhir'] : 0) ;
+                $array[$k]['child'][$key]['sum_prev_lvl2'] =  (isset($val['saldo_akhir_bln_lalu']) ? $val['saldo_akhir_bln_lalu'] : 0) ;
+                $array[$k]['child'][$key]['subchild'] = array();
+
+                $perubahan_lv3 = $this->aset_investasi_model->getdata('perubahan_danabersih_lv3','result_array', $val['group']);
+                foreach ($perubahan_lv3 as $x => $y) {
+                    $array[$k]['child'][$key]['subchild'][$x]['type'] = $y['type'];
+                    $array[$k]['child'][$key]['subchild'][$x]['id_investasi'] = $y['id_investasi'];
+                    $array[$k]['child'][$key]['subchild'][$x]['jenis_investasi'] = $y['jenis_investasi'];
+                    $array[$k]['child'][$key]['subchild'][$x]['saldo_akhir'] = (isset($y['saldo_akhir']) ? $y['saldo_akhir'] : 0) ;
+                    $array[$k]['child'][$key]['subchild'][$x]['saldo_akhir_bln_lalu'] = (isset($y['saldo_akhir_bln_lalu']) ? $y['saldo_akhir_bln_lalu'] : 0) ;
+                    $array[$k]['child'][$key]['subchild'][$x]['subchild_sub'] =  array();
+                   
+                    if($y['type'] == 'PC'){
+                        $type = 'C';
+                        $perubahan_lv4 = $this->aset_investasi_model->getdata('perubahan_danabersih_lv4','result_array', $y['id_investasi'], $type);
+                        foreach ($perubahan_lv4 as $xx => $zz) {
+                            $array[$k]['child'][$key]['subchild'][$x]['subchild_sub'][$xx]['type'] = $zz['type'];
+                            $array[$k]['child'][$key]['subchild'][$x]['subchild_sub'][$xx]['id_investasi'] = $zz['id_investasi'];
+                            $array[$k]['child'][$key]['subchild'][$x]['subchild_sub'][$xx]['jenis_investasi'] = $zz['jenis_investasi'];
+                            $array[$k]['child'][$key]['subchild'][$x]['subchild_sub'][$xx]['saldo_akhir'] = (isset($zz['saldo_akhir']) ? $zz['saldo_akhir'] : 0) ;
+                            $array[$k]['child'][$key]['subchild'][$x]['subchild_sub'][$xx]['saldo_akhir_bln_lalu'] = (isset($zz['saldo_akhir_bln_lalu']) ? $zz['saldo_akhir_bln_lalu'] : 0) ;
+                        }
+                    }
+
+                }
+            }
+        }
+        // echo '<pre>';
+        // print_r($array);exit;
+        return $array;
+    }
+    public function hasil_investasi_front()
+    {
+        $param_jenis = 'HASIL INVESTASI';
+        $array = array();
+        $invest = $this->aset_investasi_model->getdataindex('aset_investasi_front', 'result_array', $param_jenis);
+
+        foreach ($invest as $k => $v) {
+            $array[$k]['id'] = $v['id'];
+            $array[$k]['id_investasi'] = $v['id_investasi'];
+            $array[$k]['jenis_investasi'] = $v['jenis_investasi'];
+            $array[$k]['saldo_awal'] = $v['saldo_awal'];
+            $array[$k]['saldo_akhir'] = $v['saldo_akhir'];
+            $array[$k]['mutasi'] = $v['mutasi'];
+            $array[$k]['rka'] = $v['rka'];
+            $array[$k]['realisasi_rka'] = $v['realisasi_rka'];
+            $array[$k]['target_yoi'] = $v['target_yoi'];
+            $array[$k]['type'] = $v['type'];
+            $array[$k]['jns_form'] = $v['jns_form'];
+            $array[$k]['filedata'] = $v['filedata'];
+            $array[$k]['child'] = array();
+            if ($v['type'] == "PC") {
+                $childinvest = $this->aset_investasi_model->getdataindex('aset_investasi_front_lv2', 'result_array', $v['id_investasi'], $param_jenis);
+                foreach ($childinvest as $key => $val) {
+                    $array[$k]['child'][$key]['id'] = $val['id'];
+                    $array[$k]['child'][$key]['id_investasi'] = $val['id_investasi'];
+                    $array[$k]['child'][$key]['jenis_investasi'] = $val['jenis_investasi'];
+                    $array[$k]['child'][$key]['saldo_awal'] = $val['saldo_awal'];
+                    $array[$k]['child'][$key]['saldo_akhir'] = $val['saldo_akhir'];
+                    $array[$k]['child'][$key]['mutasi'] = $val['mutasi'];
+                    $array[$k]['child'][$key]['rka'] = $val['rka'];
+                    $array[$k]['child'][$key]['realisasi_rka'] = $val['realisasi_rka'];
+                    $array[$k]['child'][$key]['target_yoi'] = $val['target_yoi'];
+                    $array[$k]['child'][$key]['type'] = $val['type'];
+                    $array[$k]['child'][$key]['jns_form'] = $val['jns_form'];
+                    $array[$k]['child'][$key]['filedata'] = $val['filedata'];
+                    $array[$k]['child'][$key]['subchild'] = array();
+
+                    if ($val['type'] == "PC") {
+                        $childinvestlv3 = $this->aset_investasi_model->getdataindex('aset_investasi_front_lv3', 'result_array', $val['id_investasi'], $param_jenis);
+                        foreach ($childinvestlv3 as $x => $y) {
+                            $array[$k]['child'][$key]['subchild'][$x]['id'] = $y['id'];
+                            $array[$k]['child'][$key]['subchild'][$x]['id_investasi'] = $y['id_investasi'];
+                            $array[$k]['child'][$key]['subchild'][$x]['jenis_investasi'] = $y['jenis_investasi'];
+                            $array[$k]['child'][$key]['subchild'][$x]['saldo_awal'] = $y['saldo_awal'];
+                            $array[$k]['child'][$key]['subchild'][$x]['saldo_akhir'] = $y['saldo_akhir'];
+                            $array[$k]['child'][$key]['subchild'][$x]['mutasi'] = $y['mutasi'];
+                            $array[$k]['child'][$key]['subchild'][$x]['rka'] = $y['rka'];
+                            $array[$k]['child'][$key]['subchild'][$x]['realisasi_rka'] = $y['realisasi_rka'];
+                            $array[$k]['child'][$key]['subchild'][$x]['target_yoi'] = $y['target_yoi'];
+                            $array[$k]['child'][$key]['subchild'][$x]['jns_form'] = $y['jns_form'];
+                            $array[$k]['child'][$key]['subchild'][$x]['filedata'] = $y['filedata'];
+                        }
+                    }
+                }
+            }
         }
 
-        $pdf_files = [
-            hasil_output('pdf','laporan1',$data_detail1,$data1,'output_laporan1.pdf','A4',$template1,'ya','no'),
-            hasil_output('pdf','laporan1',$data_detail1,$data1,'output_laporan1.pdf','A4',$template1,'ya','no'),
-        ];
-
-        $output_filename = 'output_merge.pdf';
-
-        merge_pdfs($pdf_file, $output_filename);
+        // echo '<pre>';
+        // print_r($array);exit;
+        return $array;
     }
+    public function aset_investasi_front(){
+        $param_jenis = 'INVESTASI';
+        $array = array();
+        $invest = $this->aset_investasi_model->getdataindex('aset_investasi_front','result_array', $param_jenis);
 
-    // private function call_pdf_function($report_name) {
-    //     switch ($report_name) {
-    //         case "Lap_ArusKas":
-    //             $this->laporan_ArusKas_PDF();
-    //             break;
-    //         case "Lap_AsetInvestasi":
-    //             $this->laporan_AsetInvestasi_PDF();
-    //             break;
-    //         case "Lap_BebanInvestasi":
-    //             $this->laporan_BebanInvestasi_PDF();
-    //             break;
-    //         case "Lap_BukanInvestasi":
-    //             $this->laporan_BukanInvestasi_PDF();
-    //             break;
-    //         case "Lap_DanaBersih":
-    //             $this->laporan_DanaBersih_PDF();
-    //             break;
-    //         case "Lap_HasilInvestasi":
-    //             $this->laporan_HasilInvestasi_PDF();
-    //             break;
-    //         case "Lap_IkhtisarKinerja":
-    //             $this->laporan_DanaBersih_PDF();
-    //             break;
-    //         case "Lap_Pendahuluan":
-    //             $this->laporan_Pendahuluan_PDF();
-    //             break;
-    //         case "Lap_Pernyataan":
-    //             $this->laporan_Pernyataan_PDF();
-    //             break;
-    //         case "Lap_PerubahanDanaBersih":
-    //             $this->laporan_PerubahanDanaBersih_PDF();
-    //             break;
-    //         case "Lap_Rincian":
-    //             $this->laporan_Rincian_PDF();
-    //             break;
-    //         // Tambahkan kasus lainnya sesuai dengan nama laporan yang sesuai
-    //         default:
-    //             // Handle jika nama laporan tidak dikenali
-    //             break;
-    //     }
+        foreach ($invest as $k => $v) {
+            $array[$k]['id'] = $v['id'];
+            $array[$k]['id_investasi'] = $v['id_investasi'];
+            $array[$k]['jenis_investasi'] = $v['jenis_investasi'];
+            $array[$k]['saldo_awal'] = $v['saldo_awal'];
+            $array[$k]['saldo_akhir'] = $v['saldo_akhir'];
+            $array[$k]['mutasi'] = $v['mutasi'];
+            $array[$k]['rka'] = $v['rka'];
+            $array[$k]['realisasi_rka'] = $v['realisasi_rka'];
+            $array[$k]['type'] = $v['type'];
+            $array[$k]['jns_form'] = $v['jns_form'];
+            $array[$k]['child'] = array();
+            if($v['type'] == "PC"){
+                $childinvest = $this->aset_investasi_model->getdataindex('aset_investasi_front_lv2','result_array', $v['id_investasi'], $param_jenis);
+                foreach ($childinvest as $key => $val) {
+                    $array[$k]['child'][$key]['id'] = $val['id'];
+                    $array[$k]['child'][$key]['id_investasi'] = $val['id_investasi'];
+                    $array[$k]['child'][$key]['jenis_investasi'] = $val['jenis_investasi'];
+                    $array[$k]['child'][$key]['saldo_awal'] = $val['saldo_awal'];
+                    $array[$k]['child'][$key]['saldo_akhir'] = $val['saldo_akhir'];
+                    $array[$k]['child'][$key]['mutasi'] = $val['mutasi'];
+                    $array[$k]['child'][$key]['rka'] = $val['rka'];
+                    $array[$k]['child'][$key]['realisasi_rka'] = $val['realisasi_rka'];
+                    $array[$k]['child'][$key]['type'] = $val['type'];
+                    $array[$k]['child'][$key]['jns_form'] = $val['jns_form'];
+                    $array[$k]['child'][$key]['subchild'] = array();
+
+                    if($val['type'] == "PC"){
+                        $childinvestlv3 = $this->aset_investasi_model->getdataindex('aset_investasi_front_lv3','result_array', $val['id_investasi'], $param_jenis);
+                        foreach ($childinvestlv3 as $x => $y) {
+                            $array[$k]['child'][$key]['subchild'][$x]['id'] = $y['id'];
+                            $array[$k]['child'][$key]['subchild'][$x]['id_investasi'] = $y['id_investasi'];
+                            $array[$k]['child'][$key]['subchild'][$x]['jenis_investasi'] = $y['jenis_investasi'];
+                            $array[$k]['child'][$key]['subchild'][$x]['saldo_awal'] = $y['saldo_awal'];
+                            $array[$k]['child'][$key]['subchild'][$x]['saldo_akhir'] = $y['saldo_akhir'];
+                            $array[$k]['child'][$key]['subchild'][$x]['mutasi'] = $y['mutasi'];
+                            $array[$k]['child'][$key]['subchild'][$x]['rka'] = $y['rka'];
+                            $array[$k]['child'][$key]['subchild'][$x]['realisasi_rka'] = $y['realisasi_rka'];
+                            $array[$k]['child'][$key]['subchild'][$x]['jns_form'] = $y['jns_form'];
+                        }
+                    }
+                }
+            }
+        }
+
+        // echo '<pre>';
+        // print_r($array);exit;
+        return $array;
+    }
+    public function aset_bukan_investasi_front(){
+        $param_jenis = 'BUKAN INVESTASI';
+        $array = array();
+        $invest = $this->aset_investasi_model->getdataindex('aset_investasi_front','result_array', $param_jenis);
+
+        foreach ($invest as $k => $v) {
+            $array[$k]['id'] = $v['id'];
+            $array[$k]['id_investasi'] = $v['id_investasi'];
+            $array[$k]['jenis_investasi'] = $v['jenis_investasi'];
+            $array[$k]['saldo_awal'] = $v['saldo_awal'];
+            $array[$k]['saldo_akhir'] = $v['saldo_akhir'];
+            $array[$k]['mutasi'] = $v['mutasi'];
+            $array[$k]['rka'] = $v['rka'];
+            $array[$k]['realisasi_rka'] = $v['realisasi_rka'];
+            $array[$k]['type'] = $v['type'];
+            $array[$k]['jns_form'] = $v['jns_form'];
+            $array[$k]['child'] = array();
+            if($v['type'] == "PC"){
+                $childinvest = $this->aset_investasi_model->getdataindex('aset_investasi_front_lv2','result_array', $v['id_investasi'], $param_jenis);
+                foreach ($childinvest as $key => $val) {
+                    $array[$k]['child'][$key]['id'] = $val['id'];
+                    $array[$k]['child'][$key]['id_investasi'] = $val['id_investasi'];
+                    $array[$k]['child'][$key]['jenis_investasi'] = $val['jenis_investasi'];
+                    $array[$k]['child'][$key]['saldo_awal'] = $val['saldo_awal'];
+                    $array[$k]['child'][$key]['saldo_akhir'] = $val['saldo_akhir'];
+                    $array[$k]['child'][$key]['mutasi'] = $val['mutasi'];
+                    $array[$k]['child'][$key]['rka'] = $val['rka'];
+                    $array[$k]['child'][$key]['realisasi_rka'] = $val['realisasi_rka'];
+                    $array[$k]['child'][$key]['type'] = $val['type'];
+                    $array[$k]['child'][$key]['jns_form'] = $val['jns_form'];
+                    $array[$k]['child'][$key]['subchild'] = array();
+
+                    if($val['type'] == "PC"){
+                        $childinvestlv3 = $this->aset_investasi_model->getdataindex('aset_investasi_front_lv3','result_array', $val['id_investasi'], $param_jenis);
+                        foreach ($childinvestlv3 as $x => $y) {
+                            $array[$k]['child'][$key]['subchild'][$x]['id'] = $y['id'];
+                            $array[$k]['child'][$key]['subchild'][$x]['id_investasi'] = $y['id_investasi'];
+                            $array[$k]['child'][$key]['subchild'][$x]['jenis_investasi'] = $y['jenis_investasi'];
+                            $array[$k]['child'][$key]['subchild'][$x]['saldo_awal'] = $y['saldo_awal'];
+                            $array[$k]['child'][$key]['subchild'][$x]['saldo_akhir'] = $y['saldo_akhir'];
+                            $array[$k]['child'][$key]['subchild'][$x]['mutasi'] = $y['mutasi'];
+                            $array[$k]['child'][$key]['subchild'][$x]['rka'] = $y['rka'];
+                            $array[$k]['child'][$key]['subchild'][$x]['realisasi_rka'] = $y['realisasi_rka'];
+                            $array[$k]['child'][$key]['subchild'][$x]['jns_form'] = $y['jns_form'];
+                        }
+                    }
+                }
+            }
+        }
+
+        // echo '<pre>';
+        // print_r($array);exit;
+        return $array;
+    }
+    // public function generate_all_reports() {
+    //     // Ambil data dari tabel bln_checkbox_lap yang is_checked = 1
+    //     // $checked_reports = $this->printall_model->get_checked_reports();
+    
+    //     // Loop melalui data dan panggil fungsi cetak PDF sesuai centangannya
+    //     // foreach ($checked_reports as $report) {
+    //     //     $mod = $report->Id_Checkbox; // Gantilah ini dengan nama field yang sesuai
+    //         // $this->call_pdf_function($report_name);
+    //         switch ($mod) {
+    //             case "Lap_ArusKas":
+    //                 $this->laporan_ArusKas_PDF();
+    //                 break;
+    //             case "Lap_AsetInvestasi":
+    //                 $this->laporan_AsetInvestasi_PDF();
+    //                 break;
+    //             case "Lap_BebanInvestasi":
+    //                 $this->laporan_BebanInvestasi_PDF();
+    //                 break;
+    //             case "Lap_BukanInvestasi":
+    //                 $this->laporan_BukanInvestasi_PDF();
+    //                 break;
+    //             case "Lap_DanaBersih":
+    //                 $this->laporan_DanaBersih_PDF();
+    //                 break;
+    //             case "Lap_HasilInvestasi":
+    //                 $this->laporan_HasilInvestasi_PDF();
+    //                 break;
+    //             case "Lap_IkhtisarKinerja":
+    //                 $this->laporan_DanaBersih_PDF();
+    //                 break;
+    //             case "Lap_Pendahuluan":
+    //                 $this->laporan_Pendahuluan_PDF();
+    //                 break;
+    //             case "Lap_Pernyataan":
+    //                 $this->laporan_Pernyataan_PDF();
+    //                 break;
+    //             case "Lap_PerubahanDanaBersih":
+    //                 $this->laporan_PerubahanDanaBersih_PDF();
+    //                 break;
+    //             case "Lap_Rincian":
+    //                 $this->laporan_Rincian_PDF();
+    //                 break;
+    //             // Tambahkan kasus lainnya sesuai dengan nama laporan yang sesuai
+    //             default:
+    //                 // Handle jika nama laporan tidak dikenali
+    //                 break;
+    //         }
+    //     // }
+    
+    //     // Setelah semua laporan dibuat, gabungkan PDF-nya menjadi satu file
+    //     $this->merge_pdfs();
+    
+    //     // Download file PDF yang sudah digabungkan
+    //     // ... (gunakan metode yang sesuai untuk mengirimkan PDF ke pengguna)
     // }
     
-    public function generate_all_reports() {
-        // Ambil data dari tabel bln_checkbox_lap yang is_checked = 1
-        // $checked_reports = $this->Printall_model->get_checked_reports();
-    
-        // Loop melalui data dan panggil fungsi cetak PDF sesuai centangannya
-        // foreach ($checked_reports as $report) {
-        //     $mod = $report->Id_Checkbox; // Gantilah ini dengan nama field yang sesuai
-            // $this->call_pdf_function($report_name);
-            switch ($mod) {
-                case "Lap_ArusKas":
-                    $this->laporan_ArusKas_PDF();
-                    break;
-                case "Lap_AsetInvestasi":
-                    $this->laporan_AsetInvestasi_PDF();
-                    break;
-                case "Lap_BebanInvestasi":
-                    $this->laporan_BebanInvestasi_PDF();
-                    break;
-                case "Lap_BukanInvestasi":
-                    $this->laporan_BukanInvestasi_PDF();
-                    break;
-                case "Lap_DanaBersih":
-                    $this->laporan_DanaBersih_PDF();
-                    break;
-                case "Lap_HasilInvestasi":
-                    $this->laporan_HasilInvestasi_PDF();
-                    break;
-                case "Lap_IkhtisarKinerja":
-                    $this->laporan_DanaBersih_PDF();
-                    break;
-                case "Lap_Pendahuluan":
-                    $this->laporan_Pendahuluan_PDF();
-                    break;
-                case "Lap_Pernyataan":
-                    $this->laporan_Pernyataan_PDF();
-                    break;
-                case "Lap_PerubahanDanaBersih":
-                    $this->laporan_PerubahanDanaBersih_PDF();
-                    break;
-                case "Lap_Rincian":
-                    $this->laporan_Rincian_PDF();
-                    break;
-                // Tambahkan kasus lainnya sesuai dengan nama laporan yang sesuai
-                default:
-                    // Handle jika nama laporan tidak dikenali
-                    break;
-            }
-        // }
-    
-        // Setelah semua laporan dibuat, gabungkan PDF-nya menjadi satu file
-        $this->merge_pdfs();
-    
-        // Download file PDF yang sudah digabungkan
-        // ... (gunakan metode yang sesuai untuk mengirimkan PDF ke pengguna)
-    }
-    
 
-    function generate_AllPDF_Preview(){
-        // Mendefinisikan daftar fungsi yang akan digunakan untuk menghasilkan laporan PDF
-        $pdf_functions = array(
-            'laporan_ArusKas_PDF',
-            'laporan_AsetInvestasi_PDF',
-            'laporan_BebanInvestasi_PDF',
-            'laporan_BukanInvestasi_PDF',
-            'laporan_DanaBersih_PDF',
-            'laporan_HasilInvestasi_PDF',
-            'laporan_Pendahuluan_PDF',
-            'laporan_PerubahanDanaBersih_PDF',
-            'laporan_Rincian_PDF'
-        );
+    // function generate_AllPDF_Preview(){
+    //     // Mendefinisikan daftar fungsi yang akan digunakan untuk menghasilkan laporan PDF
+    //     $pdf_functions = array(
+    //         'laporan_ArusKas_PDF',
+    //         'laporan_AsetInvestasi_PDF',
+    //         'laporan_BebanInvestasi_PDF',
+    //         'laporan_BukanInvestasi_PDF',
+    //         'laporan_DanaBersih_PDF',
+    //         'laporan_HasilInvestasi_PDF',
+    //         'laporan_Pendahuluan_PDF',
+    //         'laporan_PerubahanDanaBersih_PDF',
+    //         'laporan_Rincian_PDF'
+    //     );
     
         
-        // Menginisialisasi objek Mpdf
-        $pdf = new \Mpdf\Mpdf();
+    //     // Menginisialisasi objek Mpdf
+    //     $pdf = new \Mpdf\Mpdf();
 
-        // Meloop melalui setiap fungsi laporan PDF
-        foreach($pdf_functions as $pdf_function){
-            // Memanggil fungsi laporan PDF
-            $this->$pdf_function();
+    //     // Meloop melalui setiap fungsi laporan PDF
+    //     foreach($pdf_functions as $pdf_function){
+    //         // Memanggil fungsi laporan PDF
+    //         $this->$pdf_function();
         
-            // Mengambil isi output dari fungsi laporan PDF
-            $output = $this->output->get_output();
+    //         // Mengambil isi output dari fungsi laporan PDF
+    //         $output = $this->output->get_output();
             
-            // Menambahkan halaman baru setelah setiap laporan PDF
-            if($pdf_function !== reset($pdf_functions)){
-                $pdf->AddPage();
-            }
+    //         // Menambahkan halaman baru setelah setiap laporan PDF
+    //         if($pdf_function !== reset($pdf_functions)){
+    //             $pdf->AddPage();
+    //         }
             
-            // Menambahkan isi output ke PDF saat ini
-            $pdf->WriteHTML($output);
-        }
+    //         // Menambahkan isi output ke PDF saat ini
+    //         $pdf->WriteHTML($output);
+    //     }
 
-        // Membuat file PDF dan menampilkan preview
-        $pdf->Output('preview.pdf', 'I');
+    //     // Membuat file PDF dan menampilkan preview
+    //     $pdf->Output('preview.pdf', 'I');
 
-    }
+    // }
     
 
 	public function save(){

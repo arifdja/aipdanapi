@@ -7,15 +7,10 @@ class Printall_model extends CI_Model {
 		parent::__construct();
 		$this->tahun = $this->session->userdata('tahun');
 		$this->iduser = $this->session->userdata('iduser');
-		// $this->table = 'ket_lap_bulanan';
-		$this->table = 'bln_checkbox_lap';
+		$this->table = 'ket_lap_bulanan';
+		// $this->table = 'bln_checkbox_lap';
 	}
 
-	public function get_checked_reports(){
-		$this->db->where('is_checked',1);
-		return $this->db->get('bln_checkbox_lap')-result();
-	}
-	
 	public function get_all($limit_offset = array()){
 		if(!empty($limit_offset)){
 			$this->db->order_by('id', 'DESC');
