@@ -168,35 +168,61 @@ class Printall extends CI_Controller {
             }
         }
 
-        $invest_template = $this->load->view('bulanan/aset_investasi/index_pdf_export2', $data, true);
-        $bukan_invest_template = $this->load->view('bulanan/bukan_investasi/index_pdf_export2', $data, true);
-        $danabersih_template = $this->load->view('bulanan/dana_bersih/index_pdf_export2', $data,true);
-        $perubahandanabersih_template = $this->load->view('bulanan/perubahan_dana_bersih/index_pdf_export2', $data, true);
-        $hasil_invest_template = $this->load->view('bulanan/hasil_investasi/index_pdf_export', $data, true);
-        $beban_invest_template = $this->load->view('bulanan/perubahan_dana_bersih/index_beban_pdf_export2', $data,true);  
-        $arus_kas_template = $this->load->view('bulanan/arus_kas/index_pdf_export2', $data,true);  
-        $pendahuluan_template = $this->load->view('bulanan/pendahuluan/index_pdf_export2', $data,true);
-        $rincian_template = $xtemplate;   
+        // $invest_template = $this->load->view('bulanan/aset_investasi/index_pdf_export2', $data, true);
+        // $bukan_invest_template = $this->load->view('bulanan/bukan_investasi/index_pdf_export2', $data, true);
+        // $danabersih_template = $this->load->view('bulanan/dana_bersih/index_pdf_export2', $data,true);
+        // $perubahandanabersih_template = $this->load->view('bulanan/perubahan_dana_bersih/index_pdf_export2', $data, true);
+        // $hasil_invest_template = $this->load->view('bulanan/hasil_investasi/index_pdf_export', $data, true);
+        // $beban_invest_template = $this->load->view('bulanan/perubahan_dana_bersih/index_beban_pdf_export2', $data,true);  
+        // $arus_kas_template = $this->load->view('bulanan/arus_kas/index_pdf_export2', $data,true);  
+        // $pendahuluan_template = $this->load->view('bulanan/pendahuluan/index_pdf_export2', $data,true);
+        // $rincian_template = $xtemplate;   
 
-        $combined_template = $danabersih_template . $perubahandanabersih_template . $invest_template . $bukan_invest_template . $hasil_invest_template . $beban_invest_template . $arus_kas_template . $pendahuluan_template . $rincian_template;
+        $templates = $this->input->post('templates'); // Ambil pilihan dari checkbox
 
-        // $selectedTemplates = $this->input->post('templates'); // Mendapatkan nilai checkbox yang dipilih
+    // Inisialisasi semua template dengan string kosong
+        $danabersih_template = '';
+        $perubahandanabersih_template = '';
+        $invest_template = '';
+        $bukan_invest_template = '';
+        $hasil_invest_template = '';
+        $beban_invest_template = '';
+        $arus_kas_template = '';
+        $pendahuluan_template = '';
+        $rincian_template = '';
 
-        // // Inisialisasi array untuk menyimpan template-template yang dipilih
-        // $templates = array();
-        
-        // // Cek apakah checkbox asetinvest dipilih
-        // if (in_array('asetinvest', $selectedTemplates)) {
-        //     $templates[] = $invest_template; // Tambahkan invest_template ke array templates
-        // }
-        // if (in_array('hasilinvest', $selectedTemplates)) {
-        //     $templates[] = $hasil_invest_template; // Tambahkan invest_template ke array templates
-        // }
-        
-        // // Gabungkan template-template yang dipilih menggunakan implode()
-        // $combined_template = implode('', $templates);
+        // Cek pilihan dan isi template yang sesuai
+        if (in_array('danabersih', $templates)) {
+            $danabersih_template = $this->load->view('bulanan/dana_bersih/index_pdf_export2', $data, true);
+        }
+        if (in_array('perubahandanabersih', $templates)) {
+            $perubahandanabersih_template = $this->load->view('bulanan/perubahan_dana_bersih/index_pdf_export2', $data, true);
+        }
+        if (in_array('asetinvest', $templates)) {
+            $invest_template = $this->load->view('bulanan/aset_investasi/index_pdf_export2', $data, true);
+        }
+        if (in_array('bukaninvest', $templates)) {
+            $bukan_invest_template = $this->load->view('bulanan/bukan_investasi/index_pdf_export2', $data, true);
+        }
+        if (in_array('hasilinvest', $templates)) {
+            $hasil_invest_template = $this->load->view('bulanan/hasil_investasi/index_pdf_export', $data, true);
+        }
+        if (in_array('bebaninvest', $templates)) {
+            $beban_invest_template = $this->load->view('bulanan/perubahan_dana_bersih/index_beban_pdf_export2', $data, true);
+        }
+        if (in_array('aruskas', $templates)) {
+            $arus_kas_template = $this->load->view('bulanan/arus_kas/index_pdf_export2', $data, true);
+        }
+        if (in_array('pendahuluan', $templates)) {
+            $pendahuluan_template = $this->load->view('bulanan/pendahuluan/index_pdf_export2', $data, true);
+        }
+        if (in_array('rincian', $templates)) {
+            $rincian_template = $this->load->view('bulanan/rincian/index_pdf_export_tsn', $data, true);
+        }
 
-        $this->hasil_output('pdf', $mod, '', $data, '', "A4", $combined_template, "ya", "no");
+            $combined_template = $danabersih_template . $perubahandanabersih_template . $invest_template . $bukan_invest_template . $hasil_invest_template . $beban_invest_template . $arus_kas_template . $pendahuluan_template . $rincian_template;
+
+            $this->hasil_output('pdf', $mod, '', $data, '', "A4", $combined_template, "ya", "no");
     }
     
     public function persen_sum_invest($iduser){
