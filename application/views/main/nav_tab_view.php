@@ -43,7 +43,7 @@
     <!-- <input type="checkbox" id="CbPernyataan" name="testx" value="Lap_Pernyataan"/>&nbsp; -->
     Pernyataan</a></li>
 
-	<li role="presentation" <?php if($this->uri->segment(3)=="printall" && $this->uri->segment(2)=="index-print_all"){echo 'class="active"';}?>><a href="<?php echo site_url('bulanan/printall').get_uri();?>">
+	<li role="presentation" <?php if($this->uri->segment(2)=="printall" && $this->uri->segment(3)=="" ||  $this->uri->segment(2)=="index-print_all"){echo 'class="active"';}?>><a href="<?php echo site_url('bulanan/printall').get_uri();?>">
         Print All</a></li>
 
 </ul>
