@@ -98,9 +98,9 @@
                                 <thead>
 									<tr>
                                         <th rowspan="2" width="30%">Jenis Investasi</th>
-                                        <th rowspan="2">Saldo Akhir Semester I&nbsp;&nbsp;<span class="thn"></span></th>
-                                        <!-- <th colspan="2">Mutasi</th> -->
                                         <th rowspan="2">Saldo Akhir Semester II&nbsp;&nbsp;<span class="thn-filter"></span></th>
+                                        <th rowspan="2">Saldo Akhir Semester II&nbsp;&nbsp;<span class="thn"></span></th>
+                                        <!-- <th colspan="2">Mutasi</th> -->
                                         <th rowspan="2">RKA/RIT</th>
                                         <th rowspan="2">Capaian Semester II terhadap RKA</th>
                                         <th colspan="2">Kenaikan/Penurunan</th>
@@ -119,10 +119,10 @@
                                         <?php if($hasil['type'] == 'P'):?>
                                             <tr>
                                                 <td style="text-align: left;"><?=$hasil['jenis_investasi']?></td>
+                                                <td><?=($hasil['saldo_akhir_smt2'] != 0 ) ? rupiah($hasil['saldo_akhir_smt2']) : '-';?></td>
                                                 <td><?=($hasil['saldo_akhir_smt1'] != 0 ) ? rupiah($hasil['saldo_akhir_smt1']) : '-';?></td>
                                                 <!-- <td><?=($hasil['mutasi_penambahan'] != 0 ) ? rupiah($hasil['mutasi_penambahan']) : '-';?></td>
                                                 <td><?=($hasil['mutasi_pengurangan'] != 0 ) ? rupiah($hasil['mutasi_pengurangan']) : '-';?></td> -->
-                                                <td><?=($hasil['saldo_akhir_smt2'] != 0 ) ? rupiah($hasil['saldo_akhir_smt2']) : '-';?></td>
                                                 <td><?=($hasil['rka'] != 0 ) ? rupiah($hasil['rka']) : '-';?></td>
                                                 <td><?=($hasil['pers_rka'] != 0 ) ? persen($hasil['pers_rka']).'%' : '-';?></td>
                                                 <td><?=($hasil['nominal'] != 0 ) ? rupiah($hasil['nominal']) : '-';?></td>
@@ -146,10 +146,10 @@
                                         <?php foreach($hasil['child'] as $child):?>
                                             <tr>
                                                 <td style="text-align:left; padding-left: 30px; color: #6c7275;"><?='- '.$child['jenis_investasi']?></td>
+                                                <td><?=($child['saldo_akhir_smt2'] != 0 ) ? rupiah($child['saldo_akhir_smt2']) : '-';?></td>
                                                 <td><?=($child['saldo_akhir_smt1'] != 0 ) ? rupiah($child['saldo_akhir_smt1']) : '-';?></td>
                                                 <!-- <td><?=($child['mutasi_penambahan'] != 0 ) ? rupiah($child['mutasi_penambahan']) : '-';?></td>
                                                 <td><?=($child['mutasi_pengurangan'] != 0 ) ? rupiah($child['mutasi_pengurangan']) : '-';?></td> -->
-                                                <td><?=($child['saldo_akhir_smt2'] != 0 ) ? rupiah($child['saldo_akhir_smt2']) : '-';?></td>
                                                 <td><?=($child['rka'] != 0 ) ? rupiah($child['rka']) : '-';?></td>
                                                 <td><?=($child['pers_rka'] != 0 ) ? persen($child['pers_rka']).'%' : '-';?></td>
                                                 <td><?=($child['nominal'] != 0 ) ? rupiah($child['nominal']) : '-';?></td>
@@ -162,10 +162,10 @@
                                 </tbody>
                                 <tfoot style="background-color: #d8d8d8; font-weight: bold;">
                                     <td>Total</td>
+                                    <td><?=($sum['saldo_akhir_smt2'] != 0 ) ? rupiah($sum['saldo_akhir_smt2']) : '-';?></td>
                                     <td><?=($sum['saldo_akhir_smt1'] != 0 ) ? rupiah($sum['saldo_akhir_smt1']) : '-';?></td>
                                     <!-- <td><?=($sum['mutasi_penambahan'] != 0 ) ? rupiah($sum['mutasi_penambahan']) : '-';?></td>
                                     <td><?=($sum['mutasi_pengurangan'] != 0 ) ? rupiah($sum['mutasi_pengurangan']) : '-';?></td> -->
-                                    <td><?=($sum['saldo_akhir_smt2'] != 0 ) ? rupiah($sum['saldo_akhir_smt2']) : '-';?></td>
                                     <td><?=($sum['rka'] != 0 ) ? rupiah($sum['rka']) : '-';?></td>
                                     <td></td>
                                     <td></td>
@@ -180,7 +180,7 @@
                                 <thead>
                                     <tr>
                                         <th rowspan="2" width="30%">Jenis Investasi</th>
-                                        <th rowspan="2">Saldo Akhir Semester II&nbsp;&nbsp;<span class="thn-filter"></span></th>
+                                        <th rowspan="2">Saldo Akhir Semester I&nbsp;&nbsp;<span class="thn-filter"></span></th>
                                         <!-- <th colspan="2">Mutasi</th> -->
                                         <th rowspan="2">Saldo Akhir Semester I&nbsp;&nbsp;<span class="thn"></span></th>
                                         <th rowspan="2">RKA/RIT</th>
@@ -425,11 +425,13 @@
         console.log(smt);
       }else{
         $('.thn').text(tahun);
-        $('.thn-filter').text(tahun);
+        
+        $('.thn-filter').text(tahun - 1);
       }
     }else{
       $('.thn').text(tahun);
-      $('.thn-filter').text(tahun);
+      
+      $('.thn-filter').text(tahun - 1);
     }
     
 </script>

@@ -6,11 +6,11 @@
       $thn_filter = $tahun - 1;
     }else{
       $thn = $tahun;
-      $thn_filter = $tahun;
+      $thn_filter = $tahun -1;
     }
   }else{
     $thn = $tahun;
-    $thn_filter = $tahun;
+    $thn_filter = $tahun -1;
   }
 ?>
 <p style="margin-left:0px;margin-top:10px;margin-bottom:10px;font-weight: bold;font-size: 14px">     
@@ -26,8 +26,8 @@
   <thead>
     <tr>
       <th rowspan="2" width="30%">Uraian Beban Investasi</th>
-      <th rowspan="2">Saldo Akhir Semester I <?= $thn; ?></th>
       <th rowspan="2">Saldo Akhir Semester II <?= $thn_filter;?></th>
+      <th rowspan="2">Saldo Akhir Semester II <?= $thn; ?></th>
       <th colspan="2">Kenaikan/Penurunan</th>
       <th rowspan="2">RKA</th>
       <th rowspan="2">Capaian Semester II terhadap RKAP</th>
@@ -44,8 +44,8 @@
       <?php if($beban['type'] == 'P'):?>
         <tr>
           <td style="text-align: left;"><?=$beban['jenis_investasi']?></td>
-          <td style="text-align:right;"><?=($beban['saldo_akhir_smt1'] != 0 ) ? rupiah($beban['saldo_akhir_smt1']) : '-';?></td>
           <td style="text-align:right;"><?=($beban['saldo_akhir_smt2'] != 0 ) ? rupiah($beban['saldo_akhir_smt2']) : '-';?></td>
+          <td style="text-align:right;"><?=($beban['saldo_akhir_smt1'] != 0 ) ? rupiah($beban['saldo_akhir_smt1']) : '-';?></td>
           <td style="text-align:right;"><?=($beban['nominal'] != 0 ) ? rupiah($beban['nominal']) : '-';?></td>
           <td style="text-align:right;"><?=($beban['persentase'] != 0 ) ? persen($beban['persentase']).'%' : '-';?></td>
           <td style="text-align:right;"><?=($beban['rka'] != 0 ) ? rupiah($beban['rka']) : '-';?></td>
@@ -67,8 +67,8 @@
       <?php foreach($beban['child'] as $child):?>
         <tr>
           <td style="text-align:left; padding-left: 30px; color: #6c7275;"><?='- '.$child['jenis_investasi']?></td>
-          <td style="text-align:right;"><?=($child['saldo_akhir_smt1'] != 0 ) ? rupiah($child['saldo_akhir_smt1']) : '-';?></td>
           <td style="text-align:right;"><?=($child['saldo_akhir_smt2'] != 0 ) ? rupiah($child['saldo_akhir_smt2']) : '-';?></td>
+          <td style="text-align:right;"><?=($child['saldo_akhir_smt1'] != 0 ) ? rupiah($child['saldo_akhir_smt1']) : '-';?></td>
           <td style="text-align:right;"><?=($child['nominal'] != 0 ) ? rupiah($child['nominal']) : '-';?></td>
           <td style="text-align:right;"><?=($child['persentase'] != 0 ) ? persen($child['persentase']).'%' : '-';?></td>
           <td style="text-align:right;"><?=($child['rka'] != 0 ) ? rupiah($child['rka']) : '-';?></td>
@@ -81,8 +81,8 @@
 </tbody>
 <tr style="background-color: #d8d8d8; font-weight: bold;">
   <td>Total</td>
-  <td style="text-align:right;"><?=($sum['saldo_akhir_smt1'] != 0 ) ? rupiah($sum['saldo_akhir_smt1']) : '-';?></td>
   <td style="text-align:right;"><?=($sum['saldo_akhir_smt2'] != 0 ) ? rupiah($sum['saldo_akhir_smt2']) : '-';?></td>
+  <td style="text-align:right;"><?=($sum['saldo_akhir_smt1'] != 0 ) ? rupiah($sum['saldo_akhir_smt1']) : '-';?></td>
   <td style="text-align:right;"><?=($sum['rka'] != 0 ) ? rupiah($sum['rka']) : '-';?></td>
   <td></td>
   <td></td>
@@ -98,7 +98,7 @@
   <thead>
     <tr>
       <th rowspan="2" width="30%">Uraian Beban Investasi</th>
-      <th rowspan="2">Saldo Akhir Semester II <?= $thn_filter;?></th>
+      <th rowspan="2">Saldo Akhir Semester I <?= $thn_filter;?></th>
       <th rowspan="2">Saldo Akhir Semester I <?= $thn; ?></th>
       <th colspan="2">Kenaikan/Penurunan</th>
       <th rowspan="2">RKA</th>

@@ -42,7 +42,7 @@ class Aspek_investasi extends CI_Controller {
         $data['opt_smt'] = semester();
         $data['semester'] = "";
         $data['data_hasil'] = $this->hasil_investasi_semester();
-        $data['sum'] = $this->aspek_investasi_model->getdataindex('aset_investasi_front_sum', 'row_array', 'HASIL INVESTASI');
+        $data['sum'] = $this->aspek_investasi_model->getdataindex_new('aset_investasi_front_sum', 'row_array', 'HASIL INVESTASI');
      
         $data['data_penerimaan_investasi_ket_smt1'] = $this->aspek_investasi_model->get_ket('ket_lkai_penerimaan_investasi', '1');
         $data['data_penerimaan_investasi_ket_smt2'] = $this->aspek_investasi_model->get_ket('ket_lkai_penerimaan_investasi', '2');
@@ -58,7 +58,7 @@ class Aspek_investasi extends CI_Controller {
         $data['opt_smt'] = semester();
         $data['semester'] = "";
         $data['data_beban'] = $this->beban_investasi_semester();
-        $data['sum'] = $this->aspek_investasi_model->getdataindex('aset_investasi_front_sum', 'row_array', 'BEBAN INVESTASI');
+        $data['sum'] = $this->aspek_investasi_model->getdataindex_new('aset_investasi_front_sum', 'row_array', 'BEBAN INVESTASI');
         // print_r($data);exit;
         $data['data_beban_investasi_ket_smt1'] = $this->aspek_investasi_model->get_ket('ket_lkai_beban_investasi', '1');
         $data['data_beban_investasi_ket_smt2'] = $this->aspek_investasi_model->get_ket('ket_lkai_beban_investasi', '2');
@@ -105,7 +105,7 @@ class Aspek_investasi extends CI_Controller {
                 $data['semester'] = $this->input->post('semester');
 
                 $data['data_hasil'] = $this->hasil_investasi_semester();
-                $data['sum'] = $this->aspek_investasi_model->getdataindex('aset_investasi_front_sum', 'row_array', 'HASIL INVESTASI');
+                $data['sum'] = $this->aspek_investasi_model->getdataindex_new('aset_investasi_front_sum', 'row_array', 'HASIL INVESTASI');
          
                 $data['data_penerimaan_investasi_ket_smt1'] = $this->aspek_investasi_model->get_ket('ket_lkai_penerimaan_investasi', '1');
                 $data['data_penerimaan_investasi_ket_smt2'] = $this->aspek_investasi_model->get_ket('ket_lkai_penerimaan_investasi', '2');
@@ -120,7 +120,7 @@ class Aspek_investasi extends CI_Controller {
                 $data['semester'] = $this->input->post('semester');
 
                 $data['data_beban'] = $this->beban_investasi_semester();
-                $data['sum'] = $this->aspek_investasi_model->getdataindex('aset_investasi_front_sum', 'row_array', 'BEBAN');
+                $data['sum'] = $this->aspek_investasi_model->getdataindex_new('aset_investasi_front_sum', 'row_array', 'BEBAN');
        
                 $data['data_beban_investasi_ket_smt1'] = $this->aspek_investasi_model->get_ket('ket_lkai_beban_investasi', '1');
                 $data['data_beban_investasi_ket_smt2'] = $this->aspek_investasi_model->get_ket('ket_lkai_beban_investasi', '2');
@@ -278,7 +278,7 @@ class Aspek_investasi extends CI_Controller {
                 $data['semester'] = $this->input->post('semester');
 
                 $data['data_hasil'] = $this->hasil_investasi_semester();
-                $data['sum'] = $this->aspek_investasi_model->getdataindex('aset_investasi_front_sum', 'row_array', 'HASIL INVESTASI');
+                $data['sum'] = $this->aspek_investasi_model->getdataindex_new('aset_investasi_front_sum', 'row_array', 'HASIL INVESTASI');
                 $template  = $this->load->view('semesteran/aspek_investasi/cetak/index-penerimaan-hasil-investasi-cetak', $data,true);  
 
                 $this->hasil_output('pdf',$mod,'', $data, '', "A4", $template, "ya", "no");
@@ -288,7 +288,7 @@ class Aspek_investasi extends CI_Controller {
                 $data['semester'] = $this->input->post('semester');
 
                 $data['data_beban'] = $this->beban_investasi_semester();
-                $data['sum'] = $this->aspek_investasi_model->getdataindex('aset_investasi_front_sum', 'row_array', 'BEBAN');
+                $data['sum'] = $this->aspek_investasi_model->getdataindex_new('aset_investasi_front_sum', 'row_array', 'BEBAN');
                 $template  = $this->load->view('semesteran/aspek_investasi/cetak/index-beban-investasi-cetak', $data,true);  
 
                 $this->hasil_output('pdf',$mod,'', $data, '', "A4", $template, "ya", "no");
@@ -500,7 +500,7 @@ class Aspek_investasi extends CI_Controller {
     public function hasil_investasi_semester(){
         $param_jenis = 'HASIL INVESTASI';
         $array = array();
-        $invest = $this->aspek_investasi_model->getdataindex('aset_investasi_front','result_array', $param_jenis);
+        $invest = $this->aspek_investasi_model->getdataindex_new('aset_investasi_front','result_array', $param_jenis);
 
         foreach ($invest as $k => $v) {
             $array[$k]['id'] = $v['id'];
@@ -522,7 +522,7 @@ class Aspek_investasi extends CI_Controller {
             $array[$k]['jns_form'] = $v['jns_form'];
             $array[$k]['child'] = array();
             if($v['type'] == "PC"){
-                $childinvest = $this->aspek_investasi_model->getdataindex('aset_investasi_front_lv3','result_array', $v['id_investasi'], $param_jenis);
+                $childinvest = $this->aspek_investasi_model->getdataindex_new('aset_investasi_front_lv3','result_array', $v['id_investasi'], $param_jenis);
                 foreach ($childinvest as $key => $val) {
                     $array[$k]['child'][$key]['id'] = $val['id'];
                     $array[$k]['child'][$key]['id_investasi'] = $val['id_investasi'];
@@ -555,7 +555,7 @@ class Aspek_investasi extends CI_Controller {
     public function beban_investasi_semester(){
         $param_jenis = 'BEBAN INVESTASI';
         $array = array();
-        $invest = $this->aspek_investasi_model->getdataindex('aset_investasi_front','result_array', $param_jenis);
+        $invest = $this->aspek_investasi_model->getdataindex_new('aset_investasi_front','result_array', $param_jenis);
 
         foreach ($invest as $k => $v) {
             $array[$k]['id'] = $v['id'];
@@ -575,7 +575,7 @@ class Aspek_investasi extends CI_Controller {
             $array[$k]['jns_form'] = $v['jns_form'];
             $array[$k]['child'] = array();
             if($v['type'] == "PC"){
-                $childinvest = $this->aspek_investasi_model->getdataindex('aset_investasi_front_lv3','result_array', $v['id_investasi'], $param_jenis);
+                $childinvest = $this->aspek_investasi_model->getdataindex_new('aset_investasi_front_lv3','result_array', $v['id_investasi'], $param_jenis);
                 foreach ($childinvest as $key => $val) {
                     $array[$k]['child'][$key]['id'] = $val['id'];
                     $array[$k]['child'][$key]['id_investasi'] = $val['id_investasi'];

@@ -21,13 +21,13 @@ if ($semester != "") {
 </p>
 <!-- ======================================= SEMESTER 2 ================================ -->
 <?php if ($semester == 2 || $semester == "") : ?>
-  <table cellpadding="4px" cellspacing="0px" border="1" autosize="1" style="color:#000;background:#fff;font-size: 12px;">
+  <table cellpadding="4px" cellspacing="0px" border="1" autosize="1" style="color:#000;background:#fff;font-size: 12px;" width="100%">
     <thead>
       <tr>
-        <th rowspan="2" width="30%">URAIAN</th>
-        <th rowspan="2" width="10%">Semester II <?= $thn_filter; ?></th>
-        <th rowspan="2" width="10%">Semester II <?= $thn; ?></th>
-        <th rowspan="2" width="10%">RKA</th>
+        <th rowspan="2" width="20%">URAIAN</th>
+        <th rowspan="2" width="14%">Semester II <?= $thn_filter; ?></th>
+        <th rowspan="2" width="14%">Semester II <?= $thn; ?></th>
+        <th rowspan="2" width="12%">RKA</th>
         <th rowspan="2" width="10%">Persentase Capaian Semester II terhadap RKA</th>
         <th colspan="2" width="10%">Kenaikan/Penurunan</th>
       </tr>
@@ -176,13 +176,13 @@ if ($semester != "") {
 
 <!-- ====================================== SEMESTER 1 ================================ -->
 <?php if ($semester == 1) : ?>
-  <table cellpadding="4px" cellspacing="0px" border="1" autosize="1" style="color:#000;background:#fff;font-size: 12px;">
+  <table cellpadding="4px" cellspacing="0px" border="1" autosize="1" style="color:#000;background:#fff;font-size: 12px;" width="100%">
     <thead>
       <tr>
-        <th rowspan="2" width="30%">URAIAN</th>
-        <th rowspan="2" width="10%">Semester I <?= $thn_filter; ?></th>
-        <th rowspan="2" width="10%">Semester I <?= $thn; ?></th>
-        <th rowspan="2" width="10%">RKA</th>
+        <th rowspan="2" width="20%">URAIAN</th>
+        <th rowspan="2" width="14%">Semester I <?= $thn_filter; ?></th>
+        <th rowspan="2" width="14%">Semester I <?= $thn; ?></th>
+        <th rowspan="2" width="12%">RKA</th>
         <th rowspan="2" width="10%">Persentase Capaian Semester II terhadap RKA</th>
         <th colspan="2" width="10%">Kenaikan/Penurunan</th>
       </tr>
