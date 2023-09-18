@@ -2438,6 +2438,9 @@ function tambah_row(mod,param,param2){
 			tr_table += '<input type="text" name="r_kupon[]" class="form-control r_kupon_2 percent percent_'+idx_row+'" id="r_kupon_'+idx_row+'" placeholder="rate"/>';
 			tr_table += '</td>';
 			tr_table += '<td width="15%">';
+			tr_table += '<input type="text" name="yield_to_maturity[]" class="form-control yield_to_maturity_2 percent percent_'+idx_row+'" id="yield_to_maturity_'+idx_row+'" placeholder="rate"/>';
+			tr_table += '</td>';
+			tr_table += '<td width="15%">';
 			tr_table += '<input type="text" name="saldo_awal[]" class="form-control saldo_awal_2 format_number" id="saldo_awal_'+idx_row+'" placeholder="saldo awal"/>';
 			tr_table += '</td>';
 			tr_table += '<td width="13%">';
@@ -2481,6 +2484,9 @@ function tambah_row(mod,param,param2){
 				tr_table += '</td>';
 				tr_table += '<td width="15%">';
 				tr_table += '<input type="text" name="r_kupon[]" class="form-control r_kupon_2 percent percent_'+idx_row+'" id="r_kupon_'+idx_row+'"  value="'+parsing[i].r_kupon+'" readonly/>';
+				tr_table += '</td>';
+				tr_table += '<td width="15%">';
+				tr_table += '<input type="text" name="yield_to_maturity[]" class="form-control yield_to_maturity_2 percent percent_'+idx_row+'" id="yield_to_maturity_'+idx_row+'"  value="'+parsing[i].yield_to_maturity+'" readonly/>';
 				tr_table += '</td>';
 				tr_table += '<td width="15%">';
 				tr_table += '<input type="text" name="saldo_awal[]" class="form-control saldo_awal_2 negative negative_'+idx_row+'" id="saldo_awal_'+idx_row+'" value="'+parsing[i].saldo_akhir+'" readonly/>';
@@ -2865,6 +2871,9 @@ function tambah_row(mod,param,param2){
 			tr_table += '<input type="text" name="r_kupon[]" class="form-control r_kupon_7 percent percent_'+idx_row+'" id="r_kupon_'+idx_row+'" placeholder="rate"/>';
 			tr_table += '</td>';
 			tr_table += '<td width="15%">';
+			tr_table += '<input type="text" name="yield_to_maturity[]" class="form-control yield_to_maturity_7 percent percent_'+idx_row+'" id="yield_to_maturity_'+idx_row+'" placeholder="rate"/>';
+			tr_table += '</td>';
+			tr_table += '<td width="15%">';
 			tr_table += '<input type="text" name="saldo_awal[]" class="form-control saldo_awal_7 format_number" id="saldo_awal_'+idx_row+'" placeholder="saldo awal"/>';
 			tr_table += '</td>';
 			tr_table += '<td width="13%">';
@@ -2911,6 +2920,9 @@ function tambah_row(mod,param,param2){
 				tr_table += '</td>';
 				tr_table += '<td width="15%">';
 				tr_table += '<input type="text" name="r_kupon[]" class="form-control r_kupon_7 percent percent_'+idx_row+'" id="r_kupon_'+idx_row+'"  value="'+parsing[i].r_kupon+'" readonly/>';
+				tr_table += '</td>';
+				tr_table += '<td width="15%">';
+				tr_table += '<input type="text" name="yield_to_maturity[]" class="form-control yield_to_maturity_7 percent percent_'+idx_row+'" id="yield_to_maturity_'+idx_row+'"  value="'+parsing[i].yield_to_maturity+'" readonly/>';
 				tr_table += '</td>';
 				tr_table += '<td width="15%">';
 				tr_table += '<input type="text" name="saldo_awal[]" class="form-control saldo_awal_7 negative negative_'+idx_row+'" id="saldo_awal_'+idx_row+'" value="'+parsing[i].saldo_akhir+'" readonly/>';
@@ -2961,6 +2973,9 @@ function tambah_row(mod,param,param2){
 			tr_table += '<input type="text" name="r_kupon[]" class="form-control r_kupon_8 percent percent_'+idx_row+'" id="r_kupon_'+idx_row+'" placeholder="rate"/>';
 			tr_table += '</td>';
 			tr_table += '<td width="15%">';
+			tr_table += '<input type="text" name="yield_to_maturity[]" class="form-control yield_to_maturity_8 percent percent_'+idx_row+'" id="yield_to_maturity_'+idx_row+'" placeholder="rate"/>';
+			tr_table += '</td>';
+			tr_table += '<td width="15%">';
 			tr_table += '<input type="text" name="saldo_awal[]" class="form-control saldo_awal_8 format_number" id="saldo_awal_'+idx_row+'" placeholder="saldo awal"/>';
 			tr_table += '</td>';
 			tr_table += '<td width="13%">';
@@ -3007,6 +3022,9 @@ function tambah_row(mod,param,param2){
 				tr_table += '</td>';
 				tr_table += '<td width="15%">';
 				tr_table += '<input type="text" name="r_kupon[]" class="form-control r_kupon_8 percent percent_'+idx_row+'" id="r_kupon_'+idx_row+'"  value="'+parsing[i].r_kupon+'" readonly/>';
+				tr_table += '</td>';
+				tr_table += '<td width="15%">';
+				tr_table += '<input type="text" name="yield_to_maturity[]" class="form-control yield_to_maturity_8 percent percent_'+idx_row+'" id="yield_to_maturity_'+idx_row+'"  value="'+parsing[i].yield_to_maturity+'" readonly/>';
 				tr_table += '</td>';
 				tr_table += '<td width="15%">';
 				tr_table += '<input type="text" name="saldo_awal[]" class="form-control saldo_awal_8 negative negative_'+idx_row+'" id="saldo_awal_'+idx_row+'" value="'+parsing[i].saldo_akhir+'" readonly/>';

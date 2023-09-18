@@ -205,6 +205,7 @@
 														<th rowspan="2">Nama Keterangan</th>
 														<th rowspan="2">Tgl Jatuh Tempo</th>
 														<th rowspan="2">Rate</th>
+														<th rowspan="2">Yield to Maturity</th>
 														<th rowspan="2">Saldo Awal</th>
 														<th colspan="4">Mutasi</th>
 														<th rowspan="2">Saldo Akhir</th>
@@ -252,6 +253,9 @@
 																	</td>
 																	<td>
 																		<input type="text" name="r_kupon[]" class="form-control r_kupon_2 percent" id="r_kupon_<?=$idx;?>" idx="<?=$idx;?>" value="<?= $detail['r_kupon'];?>"/>		
+																	</td>
+																	<td>
+																		<input type="text" name="yield_to_maturity[]" class="form-control yield_to_maturity_2 percent" id="yield_to_maturity_<?=$idx;?>" idx="<?=$idx;?>" value="<?= $detail['yield_to_maturity'];?>"/>		
 																	</td>
 																	<td>
 																		<input type="text" name="saldo_awal[]" class="form-control saldo_awal_2 negative" id="saldo_awal_<?=$idx;?>" idx="<?=$idx;?>" value="<?= $detail['saldo_awal'];?>"/>		
@@ -686,6 +690,7 @@
 														<th rowspan="2">Peringkat</th>
 														<th rowspan="2">Tgl Jatuh Tempo</th>
 														<th rowspan="2">Rate Kupon</th>
+														<th rowspan="2">Yield to Maturity</th>
 														<th rowspan="2">Saldo Awal</th>
 														<th colspan="4">Mutasi</th>
 														<th rowspan="2">Saldo Akhir</th>
@@ -736,6 +741,9 @@
 																	</td>
 																	<td>
 																		<input type="text" name="r_kupon[]" class="form-control r_kupon_7 percent" id="r_kupon_<?=$idx;?>" idx="<?=$idx;?>" value="<?= $detail['r_kupon'];?>"/>		
+																	</td>
+																	<td>
+																		<input type="text" name="yield_to_maturity[]" class="form-control yield_to_maturity_7 percent" id="yield_to_maturity_<?=$idx;?>" idx="<?=$idx;?>" value="<?= $detail['yield_to_maturity'];?>"/>		
 																	</td>
 																	<td>
 																		<input type="text" name="saldo_awal[]" class="form-control saldo_awal_7 negative" id="saldo_awal_<?=$idx;?>" idx="<?=$idx;?>" value="<?= $detail['saldo_awal'];?>"/>		
@@ -789,6 +797,7 @@
 														<th rowspan="2">Peringkat</th>
 														<th rowspan="2">Tgl Jatuh Tempo</th>
 														<th rowspan="2">Rate Kupon</th>
+														<th rowspan="2">Yield to Maturity</th>
 														<th rowspan="2">Saldo Awal</th>
 														<th colspan="4">Mutasi</th>
 														<th rowspan="2">Saldo Akhir</th>
@@ -839,6 +848,9 @@
 																	</td>
 																	<td>
 																		<input type="text" name="r_kupon[]" class="form-control r_kupon_8 percent" id="r_kupon_<?=$idx;?>" idx="<?=$idx;?>" value="<?= $detail['r_kupon'];?>"/>		
+																	</td>
+																	<td>
+																		<input type="text" name="yield_to_maturity[]" class="form-control yield_to_maturity_8 percent" id="yield_to_maturity_<?=$idx;?>" idx="<?=$idx;?>" value="<?= $detail['yield_to_maturity'];?>"/>		
 																	</td>
 																	<td>
 																		<input type="text" name="saldo_awal[]" class="form-control saldo_awal_8 negative" id="saldo_awal_<?=$idx;?>" idx="<?=$idx;?>" value="<?= $detail['saldo_awal'];?>"/>		

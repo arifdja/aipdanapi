@@ -113,6 +113,7 @@
 														<th rowspan="2">Nama Pihak</th>
 														<th rowspan="2">Tgl Jatuh Tempo</th>
 														<th rowspan="2">Rate</th>
+														<th rowspan="2">Yield to Maturity</th>
 														<th rowspan="2">Saldo Awal</th>
 														<th colspan="4">Mutasi</th>
 														<th rowspan="2">Saldo Akhir</th>
@@ -135,6 +136,7 @@
 																	<td style="text-align: left"><?= $detail['nama_pihak'];?></td>
 																	<td style="text-align: center"><?= $detail['tgl_jatuh_tempo'];?></td>
 																	<td style="text-align: right;"><?= $detail['r_kupon'];?></td>
+																	<td style="text-align: right;"><?= $detail['yield_to_maturity'];?></td>
 																	<td><?= rupiah($detail['saldo_awal']);?></td>
 																	<td><?= rupiah($detail['mutasi_pembelian']);?></td>
 																	<td><?= rupiah($detail['mutasi_penjualan']);?></td>
@@ -386,6 +388,7 @@
 														<th rowspan="2">Peringkat</th>
 														<th rowspan="2">Tgl Jatuh Tempo</th>
 														<th rowspan="2">Rate Kupon</th>
+														<th rowspan="2">Yield to Maturity</th>
 														<th rowspan="2">Saldo Awal</th>
 														<th colspan="4">Mutasi</th>
 														<th rowspan="2">Saldo Akhir</th>
@@ -409,6 +412,7 @@
 																	<td style="text-align: left"><?= $detail['peringkat'];?></td>
 																	<td style="text-align: center;"><?= $detail['tgl_jatuh_tempo'];?></td>
 																	<td style="text-align: right;"><?= $detail['r_kupon'];?></td>
+																	<td style="text-align: right;"><?= $detail['yield_to_maturity'];?></td>
 																	<td><?= rupiah($detail['saldo_awal']);?></td>
 																	<td><?= rupiah($detail['mutasi_pembelian']);?></td>
 																	<td><?= rupiah($detail['mutasi_penjualan']);?></td>
@@ -442,6 +446,7 @@
 														<th rowspan="2">Peringkat</th>
 														<th rowspan="2">Tgl Jatuh Tempo</th>
 														<th rowspan="2">Rate Kupon</th>
+														<th rowspan="2">Yield to Maturity</th>
 														<th rowspan="2">Saldo Awal</th>
 														<th colspan="4">Mutasi</th>
 														<th rowspan="2">Saldo Akhir</th>
@@ -465,6 +470,7 @@
 																	<td style="text-align: left"><?= $detail['peringkat'];?></td>
 																	<td style="text-align: center;"><?= $detail['tgl_jatuh_tempo'];?></td>
 																	<td style="text-align: right;"><?= $detail['r_kupon'];?></td>
+																	<td style="text-align: right;"><?= $detail['yield_to_maturity'];?></td>
 																	<td><?= rupiah($detail['saldo_awal']);?></td>
 																	<td><?= rupiah($detail['mutasi_pembelian']);?></td>
 																	<td><?= rupiah($detail['mutasi_penjualan']);?></td>

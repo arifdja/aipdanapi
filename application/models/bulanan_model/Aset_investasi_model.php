@@ -143,7 +143,8 @@ class Aset_investasi_model extends CI_Model {
 						$saldo_akhir = ( isset( $data['saldo_akhir']) ?  $data['saldo_akhir'] : array() ); 
 						$peringkat = ( isset( $data['peringkat']) ?  $data['peringkat'] : array() ); 
 						$tgl_jatuh_tempo = ( isset( $data['tgl_jatuh_tempo']) ?  $data['tgl_jatuh_tempo'] : array() ); 
-						$r_kupon = ( isset( $data['r_kupon']) ?  $data['r_kupon'] : array() ); 
+						$r_kupon = ( isset( $data['r_kupon']) ?  $data['r_kupon'] : array() );  
+						$yield_to_maturity = ( isset( $data['yield_to_maturity']) ?  $data['yield_to_maturity'] : array() ); 
 						$nama_produk = ( isset( $data['nama_produk']) ?  $data['nama_produk'] : array() ); 
 						$jml_unit_penyertaan = ( isset( $data['jml_unit_penyertaan']) ?  $data['jml_unit_penyertaan'] : array() ); 
 						$no = ( isset( $data['no_urut']) ?  $data['no_urut'] : array() ); 
@@ -188,6 +189,10 @@ class Aset_investasi_model extends CI_Model {
 						}
 						if(isset($data['r_kupon'])){
 							unset($data['r_kupon']);
+						}
+
+						if(isset($data['yield_to_maturity'])){
+							unset($data['yield_to_maturity']);
 						}
 						if(isset($data['nama_produk'])){
 							unset($data['nama_produk']);
@@ -1346,6 +1351,7 @@ class Aset_investasi_model extends CI_Model {
 											'nama_reksadana' =>  escape($nama_reksadana[$k]),
 											'tgl_jatuh_tempo' => escape($tgl_jatuh_tempo[$k]),
 											'r_kupon' => escape($r_kupon[$k]),
+											'yield_to_maturity' => escape($yield_to_maturity[$k]),
 											'saldo_awal' => escape($saldo_awal[$k]),
 											'mutasi_pembelian' => escape($mutasi_pembelian[$k]),
 											'mutasi_penjualan' => escape($mutasi_penjualan[$k]),
@@ -1535,6 +1541,7 @@ class Aset_investasi_model extends CI_Model {
 
 					if($jns_form == 7){
 						unset($data['jns_form']);
+						// var_dump($data);exit;
 						$update = $this->db->update($table_data, $data, array('id' => $id) );
 
 						if($update){
@@ -1568,6 +1575,7 @@ class Aset_investasi_model extends CI_Model {
 											'peringkat' => escape($peringkat[$k]),
 											'tgl_jatuh_tempo' => escape($tgl_jatuh_tempo[$k]),
 											'r_kupon' => escape($r_kupon[$k]),
+											'yield_to_maturity' => escape($yield_to_maturity[$k]),
 											'no_urut' => escape($no[$k]),
 											'insert_at' => date('Y-m-d H:i:s'),
 										);
@@ -1617,6 +1625,7 @@ class Aset_investasi_model extends CI_Model {
 											'peringkat' => escape($peringkat[$k]),
 											'tgl_jatuh_tempo' => escape($tgl_jatuh_tempo[$k]),
 											'r_kupon' => escape($r_kupon[$k]),
+											'yield_to_maturity' => escape($yield_to_maturity[$k]),
 											'no_urut' => escape($no[$k]),
 											'insert_at' => date('Y-m-d H:i:s'),
 										);
