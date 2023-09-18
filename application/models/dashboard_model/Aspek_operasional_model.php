@@ -71,14 +71,14 @@ class Aspek_operasional_model extends CI_Model
 
 		if (isset($p2)) {
 			if ($p2 == "1") {
-				$where2 .= " and tlppd.sumber_dana = '1' ";
+				$where2 .= " and tlppd.sumber_dana = '1' and tlppd.tahun = '" . $tahun . "' ";
 			} elseif ($p2 == "2") {
-				$where2 .= " and tlppd.sumber_dana = '2' ";
+				$where2 .= " and tlppd.sumber_dana = '2' and tlppd.tahun = '" . $tahun . "' ";
 			} else {
-				$where2 .= " and tlppd.sumber_dana = '1' ";
+				$where2 .= " and tlppd.sumber_dana = '1' and tlppd.tahun = '" . $tahun . "' ";
 			}
 		} else {
-			$where2 .= " and tlppd.sumber_dana = '1' ";
+			$where2 .= " and tlppd.sumber_dana = '1' and tlppd.tahun = '" . $tahun . "' ";
 		}
 
 		switch ($type) {
@@ -137,6 +137,7 @@ class Aspek_operasional_model extends CI_Model
 				// echo $sql;exit;
 				break;
 		}
+		// var_dump($sql);exit;
 
 		if ($balikan == 'json') {
 			return $this->lib->json_grid($sql, $type);
