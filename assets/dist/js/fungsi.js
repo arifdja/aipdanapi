@@ -155,6 +155,73 @@ function genPieChart(divnya, tipe, judul, data, pointformatnya, p1){
 		series: data
 	} );
 }
+function genPieChart2(divnya, tipe, judul, data, pointformatnya, p1){
+	Highcharts.setOptions({
+		lang:{
+			thousandsSep: ','
+		},
+	});
+	Highcharts.chart(divnya, {
+		chart: {
+			// backgroundColor: 'rgba(0, 0, 0, 0.7)',
+			color: "#fff",
+			plotBackgroundColor: null,
+			plotBorderWidth: null,
+			plotShadow: false,
+			type: 'pie',
+			height: '350',
+			// width: '100px',
+			
+		},
+		// disable button contex menu
+		navigation: {
+        	buttonOptions: {
+        		enabled: false
+        	}
+        },
+		legend: {
+			align: 'right',
+			verticalAlign: 'top',
+			layout: 'vertical',
+			x: 0,
+			y: 0,
+			itemStyle: {
+				// color: '#fff'
+			}
+		},
+		credits: {
+			enabled: false
+		},
+		title: {
+			text: judul
+
+		},
+		tooltip: {
+			pointFormat: 'Jumlah: <b>{point.y}</b>' + '<br/>{series.name}: <b>{point.percentage:.1f}%</b>', 
+
+		},
+
+		plotOptions: {
+			pie: {
+				allowPointSelect: false,
+				cursor: 'pointer',
+				dataLabels: {
+					enabled: true,
+					// format: '<b>{point.name}</b> : {point.percentage:.1f} %',
+					format: '<b>{point.percentage:.1f} %</b>',
+					style: {
+						width: '100px',
+					},
+					distance: 10,
+
+				},
+				size : p1,
+				showInLegend: true,
+			}
+		},
+		series: data
+	} );
+}
 
 
 function genColumnChart2(divnya, type, xxChart, yyChart, judul, pointformatnya, par1, par2){
@@ -381,6 +448,140 @@ function genColumnChart(divnya, type, xxChart, yyChart, judul, pointformatnya, p
 
 	Highcharts.chart(divnya, {
         chart: {
+            type: 'column',
+            
+            // backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        },
+        navigation: {
+        	buttonOptions: {
+        		enabled: false
+        	}
+        },
+        title: {
+            text: judul,
+			style: {
+				color: '#FFF',
+				font: '16px Lucida Grande, Lucida Sans Unicode,' +
+					' Verdana, Arial, Helvetica, sans-serif'
+			}
+        },
+        xAxis: {
+            categories: xxChart,
+            reversed : par2,
+            labels: {
+				style: {
+					color: '#000'
+				}
+			}
+        },
+        scrollbar: {
+            enabled: false
+        },
+
+        rangeSelector: {
+            selected: 1
+        },
+        yAxis: [{
+        	labels: {
+				overflow: 'justify',
+				style: {
+					color: '#000'
+				}
+			},
+			title:{
+				text:'JUMLAH (Rp)',
+			}
+        },
+        {
+            min: 0,
+            title: {
+                text: ''
+            },
+        }, {
+            title: {
+                text: ''
+            },
+            opposite: true
+        }],
+        legend: {
+            shadow: false,
+            enabled: true,//(type == "pratut-tiga" ? false : true)
+        },
+        credits: {
+        	enabled: false
+        },
+        tooltip: {
+            shared:true,
+			// pointFormat: ponitformatnya
+        },
+
+        plotOptions: {
+	        column: {
+	            pointPadding: 0.1,
+	            borderWidth: 0
+	        },
+	        series: {
+				cursor: (type == 'ctwna' ? 'pointer' : ""),
+	        	dataLabels: {
+	        		enabled: true,
+	        		color: 'black',
+	        		style: {fontWeight: 'bolder'},
+	        		// formatter: function() {return this.x + ' : ' + this.y},
+	        		inside: false,
+	        		// rotation: 270
+	        	},
+				point: {
+					events: {
+						click: function () {
+							if(type == "ctwna"){
+								$.blockUI({ message: '<img width="100px" src="'+host+'__assets/images/loader.gif"><br/> Proses Data' });
+								par1['idnya_wna'] = par1['id'][this.index];
+								var negara = par1['negara'][this.index];
+								
+								// console.log(par1['idnya_wna']);
+								$('#modalencuk').html('');
+								$.post(host+'wna-detail/detail-wna-chart', par1, function (resp){
+									 $('#headernya').html( "DETAIL CHART "+negara );
+									 $('#modalencuk').html(resp);
+									 $('#pesanModal').modal('show');
+									 $.unblockUI();
+								});
+							}
+
+							if(type == "spdp"){
+								$.blockUI({ message: '<img width="100px" src="'+host+'__assets/images/loader.gif"><br/> Proses Data' });
+								par1['idnya_jenis'] = par1['id_jenis'][this.index];
+								par1['nama_jenis'] = this.category;
+								
+								$('#kotakan_spdp').hide();
+								$('#tablean_spdp').html('');
+								$.post(host+'pidana-umum3-dataperkara-table', par1, function (resp){
+									$('#tablean_spdp').html(resp).show();
+									$.unblockUI();
+								});
+							}
+							
+						}
+					}
+				 }
+	        }
+	    },
+        series: yyChart,
+        
+    });
+}	
+
+
+function genColumnChart3(divnya, type, xxChart, yyChart, judul, pointformatnya, par1, par2){
+	Highcharts.setOptions({
+		lang:{
+			thousandsSep: ','
+		},
+	});
+
+	Highcharts.chart(divnya, {
+        chart: {
+			height: '700',
             type: 'column',
             
             // backgroundColor: 'rgba(0, 0, 0, 0.5)',

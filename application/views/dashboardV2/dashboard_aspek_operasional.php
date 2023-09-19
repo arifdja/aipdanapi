@@ -59,50 +59,53 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <div class="nav-tabs-custom">
-      <div class="box box-default">
-        <div class="box-header with-border">
-          <div class="small-box colornya">
-            <div class="inner">
-              <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Jumlah Penerima Pembayaran Belanja Pensiun</span>
-              <p id="tot-penerima" style="font-size: 20px; font-weight:bold; "></p>
+    <div class="col-md-7">
+      <div class="nav-tabs-custom">
+        <div class="box box-default">
+          <div class="box-header with-border">
+            <div class="small-box colornya">
+              <div class="inner">
+                <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Jumlah Penerima Pembayaran Belanja Pensiun</span>
+                <p id="tot-penerima" style="font-size: 20px; font-weight:bold; "></p>
+              </div>
+            </div>
+          </div>
+          <div class="box-body">
+            <div id="container-line"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="col-md-12">
+        <div class="nav-tabs-custom">
+          <div class="box box-default">
+            <div class="box-header with-border colornya">
+              <p class="box-title" style="font-size:16px;">Jumlah Penerima Pembayaran Pensiun Per Jenis Penerima</p>
+            </div>
+            <div class="box-body">
+              <div id="container-pie1"></div>
             </div>
           </div>
         </div>
-        <div class="box-body">
-          <div id="container-line"></div>
+      </div>
+      <div class="col-md-12">
+        <div class="nav-tabs-custom">
+          <div class="box box-default">
+            <div class="box-header with-border colornya">
+              <p class="box-title" style="font-size:16px;">Jumlah Penerima Pembayaran Pensiun Per Kelompok Penerima</p>
+            </div>
+            <div class="box-body">
+              <div id="container-pie2"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-md-6">
-    <div class="nav-tabs-custom">
-      <div class="box box-default">
-        <div class="box-header with-border colornya">
-          <p class="box-title" style="font-size:16px;">Jumlah Penerima Pembayaran Pensiun Per Jenis Penerima</p>
-        </div>
-        <div class="box-body">
-          <div id="container-pie1"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6">
-    <div class="nav-tabs-custom">
-      <div class="box box-default">
-        <div class="box-header with-border colornya">
-          <p class="box-title" style="font-size:16px;">Jumlah Penerima Pembayaran Pensiun Per Kelompok Penerima</p>
-        </div>
-        <div class="box-body">
-          <div id="container-pie2"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+
 <script type="text/javascript">
   $('.bln').hide();
   $('.smt').hide();
@@ -147,7 +150,7 @@
       var xChart2 = parsing.arr_data;
 
       var yChart = [{
-        name: 'NILAI',
+        name: 'JUMLAH',
         type: 'line',
         color: {
           linearGradient: {
@@ -205,9 +208,9 @@
       var penerima = ' ' + parsing.tot_penerima + ' Orang';
       $('#tot-penerima').html(penerima);
 
-      genPieChart("container-pie1", "", "", chartD1, '', 250);
-      genPieChart("container-pie2", "", "", chartD2, '', 250);
-      genColumnChart("container-line", "", xChart, yChart, "", "", "", false);
+      genPieChart2("container-pie1", "", "", chartD1, '', 250);
+      genPieChart2("container-pie2", "", "", chartD2, '', 250);
+      genColumnChart3("container-line", "", xChart, yChart, "", "", "", false);
     }
   });
 
@@ -233,7 +236,7 @@
         var xChart2 = parsing.arr_data;
 
         var yChart = [{
-          name: 'NILAI',
+          name: 'JUMLAH',
           type: 'line',
           color: {
             linearGradient: {
@@ -291,9 +294,9 @@
         var penerima = ' ' + parsing.tot_penerima + ' Orang';
         $('#tot-penerima').html(penerima);
 
-        genPieChart("container-pie1", "", "", chartD1, '', 250);
-        genPieChart("container-pie2", "", "", chartD2, '', 250);
-        genColumnChart("container-line", "", xChart, yChart, "", "", "", false);
+        genPieChart2("container-pie1", "", "", chartD1, '', 250);
+        genPieChart2("container-pie2", "", "", chartD2, '', 250);
+        genColumnChart3("container-line", "", xChart, yChart, "", "", "", false);
       }
     });
 

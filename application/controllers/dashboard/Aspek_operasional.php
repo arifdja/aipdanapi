@@ -45,7 +45,7 @@ class Aspek_operasional extends CI_Controller
 
                     $datanya = $this->aspek_operasional_model->getdata('dashboard-smt-operasional', 'result_array', 'semester', '2');
                     foreach ($datanya as $key => $value) {
-                        $array['arr_data'][] = (int)$value['jml_pembayaran'];
+                        $array['arr_data'][] = (int)$value['jml_penerima'];
                         $array['arr_periode'][] = "Semester $value[semester] - $value[tahun] ";
                     }
 
@@ -66,7 +66,7 @@ class Aspek_operasional extends CI_Controller
                 } elseif ($param == "TAHUNAN") {
                     $datanya = $this->aspek_operasional_model->getdata('dashboard-smt-operasional', 'result_array', 'tahunan', '2');
                     foreach ($datanya as $key => $value) {
-                        $array['arr_data'][] = (int)$value['jml_pembayaran'];
+                        $array['arr_data'][] = (int)$value['jml_penerima'];
                         $array['arr_periode'][] = "$value[tahun]";
                     }
 

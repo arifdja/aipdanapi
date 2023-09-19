@@ -59,45 +59,46 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <div class="nav-tabs-custom">
-      <div class="box box-default">
-        <div class="box-header with-border">
-          <div class="small-box colornya">
-            <div class="inner">
-              <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Jumlah Pembayaran Belanja Pensiun</span>
-              <p style="font-size: 20px; font-weight:bold;" id="tot-pembayaran"></p>
+    <div class="col-md-7">
+      <div class="nav-tabs-custom">
+        <div class="box box-default">
+          <div class="box-header with-border">
+            <div class="small-box colornya">
+              <div class="inner">
+                <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Jumlah Pembayaran Belanja Pensiun</span>
+                <p style="font-size: 20px; font-weight:bold;" id="tot-pembayaran"></p>
+              </div>
+            </div>
+          </div>
+          <div class="box-body">
+            <div id="container-line"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="col-md-12">
+        <div class="nav-tabs-custom">
+          <div class="box box-default">
+            <div class="box-header with-border colornya">
+              <p class="box-title" style="font-size:16px;">Jumlah Pembayaran Pensiun Per Jenis Penerima</p>
+            </div>
+            <div class="box-body">
+              <div id="container-pie1"></div>
             </div>
           </div>
         </div>
-        <div class="box-body">
-          <div id="container-line"></div>
-        </div>
       </div>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6">
-    <div class="nav-tabs-custom">
-      <div class="box box-default">
-        <div class="box-header with-border colornya">
-          <p class="box-title" style="font-size:16px;">Jumlah Pembayaran Pensiun Per Jenis Penerima</p>
-        </div>
-        <div class="box-body">
-          <div id="container-pie1"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6">
-    <div class="nav-tabs-custom">
-      <div class="box box-default">
-        <div class="box-header with-border colornya">
-          <p class="box-title" style="font-size:16px;">Jumlah Pembayaran Pensiun Per Kelompok Penerima</p>
-        </div>
-        <div class="box-body">
-          <div id="container-pie2"></div>
+      <div class="col-md-12">
+        <div class="nav-tabs-custom">
+          <div class="box box-default">
+            <div class="box-header with-border colornya">
+              <p class="box-title" style="font-size:16px;">Jumlah Pembayaran Pensiun Per Kelompok Penerima</p>
+            </div>
+            <div class="box-body">
+              <div id="container-pie2"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -154,8 +155,9 @@
       var xChart2 = parsing.arr_data;
 
       var yChart = [{
-        name: 'NILAI',
+        name: 'JUMLAH',
         type: 'line',
+        height: 700,
         color: {
           linearGradient: {
             x1: 0,
@@ -212,9 +214,9 @@
       var pembayaran = 'Rp ' + parsing.tot_pembayaran + ',-';
       $('#tot-pembayaran').html(pembayaran);
 
-      genPieChart("container-pie1", "", "", chartD1, '', 250);
-      genPieChart("container-pie2", "", "", chartD2, '', 250);
-      genColumnChart("container-line", "", xChart, yChart, "", "", "", false);
+      genPieChart2("container-pie1", "", "", chartD1, '', 250);
+      genPieChart2("container-pie2", "", "", chartD2, '', 250);
+      genColumnChart3("container-line", "", xChart, yChart, "", "", "", false);
     }
   });
 
@@ -240,7 +242,7 @@
         var xChart2 = parsing.arr_data;
 
         var yChart = [{
-          name: 'NILAI',
+          name: 'JUMLAH',
           type: 'line',
           color: {
             linearGradient: {
@@ -298,9 +300,9 @@
         var pembayaran = 'Rp ' + parsing.tot_pembayaran + ',-';
         $('#tot-pembayaran').html(pembayaran);
 
-        genPieChart("container-pie1", "", "", chartD1, '', 250);
-        genPieChart("container-pie2", "", "", chartD2, '', 250);
-        genColumnChart("container-line", "", xChart, yChart, "", "", "", false);
+        genPieChart2("container-pie1", "", "", chartD1, '', 250);
+        genPieChart2("container-pie2", "", "", chartD2, '', 250);
+        genColumnChart3("container-line", "", xChart, yChart, "", "", "", false);
       }
     });
 
