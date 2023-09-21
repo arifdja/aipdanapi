@@ -170,13 +170,14 @@ function genPieChart2(divnya, tipe, judul, data, pointformatnya, p1){
 			plotShadow: false,
 			type: 'pie',
 			height: '350',
+			// marginLeft: '50',
 			// width: '100px',
 			
 		},
 		// disable button contex menu
 		navigation: {
         	buttonOptions: {
-        		enabled: false
+        		enabled: true
         	}
         },
 		legend: {
@@ -588,7 +589,7 @@ function genColumnChart3(divnya, type, xxChart, yyChart, judul, pointformatnya, 
         },
         navigation: {
         	buttonOptions: {
-        		enabled: false
+        		enabled: true
         	}
         },
         title: {
