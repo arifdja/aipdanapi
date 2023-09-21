@@ -26,15 +26,20 @@ class Aspek_operasional extends CI_Controller
     {
         switch ($type) {
             case 'get_operasional':
+
                 $param = $this->input->post('ds');
+
                 $array['tot_pembayaran'] = 0;
                 $array['tot_penerima'] = 0;
                 $array['arr_data'] = [];
+                $array['arr_data_bayar'] = [];
                 $array['arr_periode'] = [];
                 $array['arr_jns'] = [];
                 $array['arr_data_jns'] = [];
+                $array['arr_data_jns_bayar'] = [];
                 $array['arr_kelompok'] = [];
                 $array['arr_data_kelompok'] = [];
+                $array['arr_data_kelompok_bayar'] = [];
 
                 if ($param == "SEMESTERAN") {
 
@@ -46,6 +51,7 @@ class Aspek_operasional extends CI_Controller
                     $datanya = $this->aspek_operasional_model->getdata('dashboard-smt-operasional', 'result_array', 'semester', '2');
                     foreach ($datanya as $key => $value) {
                         $array['arr_data'][] = (int)$value['jml_penerima'];
+                        $array['arr_data_bayar'][] = (int)$value['jml_pembayaran'];
                         $array['arr_periode'][] = "Semester $value[semester] - $value[tahun] ";
                     }
 
@@ -53,20 +59,24 @@ class Aspek_operasional extends CI_Controller
                     foreach ($datanya2 as $key => $value) {
                         $array['arr_jns'][] = $value['jenis_penerima'];
                         $array['arr_data_jns'][] = (int)$value['jml_penerima'];
+                        $array['arr_data_jns_bayar'][] = (int)$value['jml_pembayaran'];
                     }
 
                     $datanya3 = $this->aspek_operasional_model->getdata('dashboard-smt-kelompok', 'result_array', 'semester', '2');
                     foreach ($datanya3 as $key => $value) {
                         $array['arr_kelompok'][] = $value['kelompok_penerima'];
                         $array['arr_data_kelompok'][] = (int)$value['jml_penerima'];
+                        $array['arr_data_kelompok_bayar'][] = (int)$value['jml_pembayaran'];
                     }
 
-                    $array['tot_pembayaran'] = array_sum($array['arr_data']);
-                    $array['tot_penerima'] = rupiah(array_sum($array['arr_data_jns']));
+                    $array['tot_pembayaran'] = rupiah(array_sum($array['arr_data_bayar']));
+                    $array['tot_penerima'] = rupiah(array_sum($array['arr_data']));
+
                 } elseif ($param == "TAHUNAN") {
                     $datanya = $this->aspek_operasional_model->getdata('dashboard-smt-operasional', 'result_array', 'tahunan', '2');
                     foreach ($datanya as $key => $value) {
                         $array['arr_data'][] = (int)$value['jml_penerima'];
+                        $array['arr_data_bayar'][] = (int)$value['jml_pembayaran'];
                         $array['arr_periode'][] = "$value[tahun]";
                     }
 
@@ -74,16 +84,18 @@ class Aspek_operasional extends CI_Controller
                     foreach ($datanya2 as $key => $value) {
                         $array['arr_jns'][] = $value['jenis_penerima'];
                         $array['arr_data_jns'][] = (int)$value['jml_penerima'];
+                        $array['arr_data_jns_bayar'][] = (int)$value['jml_pembayaran'];
                     }
 
                     $datanya3 = $this->aspek_operasional_model->getdata('dashboard-smt-kelompok', 'result_array', 'tahunan', '2');
                     foreach ($datanya3 as $key => $value) {
                         $array['arr_kelompok'][] = $value['kelompok_penerima'];
                         $array['arr_data_kelompok'][] = (int)$value['jml_penerima'];
+                        $array['arr_data_kelompok_bayar'][] = (int)$value['jml_pembayaran'];
                     }
 
-                    $array['tot_pembayaran'] = array_sum($array['arr_data']);
-                    $array['tot_penerima'] = rupiah(array_sum($array['arr_data_jns']));
+                    $array['tot_pembayaran'] = rupiah(array_sum($array['arr_data_bayar']));
+                    $array['tot_penerima'] = rupiah(array_sum($array['arr_data']));
                 }
 
                 echo json_encode($array);

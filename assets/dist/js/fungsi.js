@@ -706,6 +706,139 @@ function genColumnChart3(divnya, type, xxChart, yyChart, judul, pointformatnya, 
     });
 }	
 
+function genColumnChart4(divnya, type, xxChart, yyChart, judul, pointformatnya, par1, par2){
+	Highcharts.setOptions({
+		lang:{
+			thousandsSep: ','
+		},
+	});
+
+	Highcharts.chart(divnya, {
+        chart: {
+			height: '700',
+            type: 'column',
+            
+            // backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        },
+        navigation: {
+        	buttonOptions: {
+        		enabled: true
+        	}
+        },
+        title: {
+            text: judul,
+			style: {
+				color: '#FFF',
+				font: '16px Lucida Grande, Lucida Sans Unicode,' +
+					' Verdana, Arial, Helvetica, sans-serif'
+			}
+        },
+        xAxis: {
+            categories: xxChart,
+            reversed : par2,
+            labels: {
+				style: {
+					color: '#000'
+				}
+			}
+        },
+        scrollbar: {
+            enabled: false
+        },
+
+        rangeSelector: {
+            selected: 1
+        },
+        yAxis: [{
+        	labels: {
+				overflow: 'justify',
+				style: {
+					color: '#000'
+				}
+			},
+			title:{
+				text:'JUMLAH (Orang)',
+			}
+        },
+        {
+            min: 0,
+            title: {
+                text: ''
+            },
+        }, {
+            title: {
+                text: ''
+            },
+            opposite: true
+        }],
+        legend: {
+            shadow: false,
+            enabled: true,//(type == "pratut-tiga" ? false : true)
+        },
+        credits: {
+        	enabled: false
+        },
+        tooltip: {
+            shared:true,
+			// pointFormat: ponitformatnya
+        },
+
+        plotOptions: {
+	        column: {
+	            pointPadding: 0.1,
+	            borderWidth: 0
+	        },
+	        series: {
+				cursor: (type == 'ctwna' ? 'pointer' : ""),
+	        	dataLabels: {
+	        		enabled: true,
+	        		color: 'black',
+	        		style: {fontWeight: 'bolder'},
+	        		// formatter: function() {return this.x + ' : ' + this.y},
+	        		inside: false,
+	        		// rotation: 270
+	        	},
+				point: {
+					events: {
+						click: function () {
+							if(type == "ctwna"){
+								$.blockUI({ message: '<img width="100px" src="'+host+'__assets/images/loader.gif"><br/> Proses Data' });
+								par1['idnya_wna'] = par1['id'][this.index];
+								var negara = par1['negara'][this.index];
+								
+								// console.log(par1['idnya_wna']);
+								$('#modalencuk').html('');
+								$.post(host+'wna-detail/detail-wna-chart', par1, function (resp){
+									 $('#headernya').html( "DETAIL CHART "+negara );
+									 $('#modalencuk').html(resp);
+									 $('#pesanModal').modal('show');
+									 $.unblockUI();
+								});
+							}
+
+							if(type == "spdp"){
+								$.blockUI({ message: '<img width="100px" src="'+host+'__assets/images/loader.gif"><br/> Proses Data' });
+								par1['idnya_jenis'] = par1['id_jenis'][this.index];
+								par1['nama_jenis'] = this.category;
+								
+								$('#kotakan_spdp').hide();
+								$('#tablean_spdp').html('');
+								$.post(host+'pidana-umum3-dataperkara-table', par1, function (resp){
+									$('#tablean_spdp').html(resp).show();
+									$.unblockUI();
+								});
+							}
+							
+						}
+					}
+				 }
+	        }
+	    },
+        series: yyChart,
+        
+    });
+}
+
 
 
 

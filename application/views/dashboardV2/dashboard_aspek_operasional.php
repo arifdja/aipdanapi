@@ -57,6 +57,57 @@
     </div>
   </div>
 </div>
+
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="col-md-6">
+      <div class="nav-tabs-custom">
+        <div class="box box-default">
+          <div class="box-header with-border">
+            <div class="small-box colornya">
+              <div class="inner">
+                <span><i class="fa fa-money"></i>&nbsp;&nbsp;&nbsp;Jumlah Pembayaran Belanja Pensiun</span>
+                <p style="font-size: 20px; font-weight:bold;" id="tot-pembayaran"></p>
+              </div>
+            </div>
+          </div>
+          <div class="box-body">
+            <div id="container-line2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="col-md-12">
+        <div class="nav-tabs-custom">
+          <div class="box box-default">
+            <div class="box-header with-border colornya">
+              <p class="box-title" style="font-size:16px;">Jumlah Pembayaran Pensiun Per Jenis Penerima</p>
+            </div>
+            <div class="box-body">
+              <div id="container-pie12"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="nav-tabs-custom">
+          <div class="box box-default">
+            <div class="box-header with-border colornya">
+              <p class="box-title" style="font-size:16px;">Jumlah Pembayaran Pensiun Per Kelompok Penerima</p>
+            </div>
+            <div class="box-body">
+              <div id="container-pie22"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="row">
   <div class="col-md-12">
     <div class="col-md-6">
@@ -150,7 +201,7 @@
       var xChart2 = parsing.arr_data;
 
       var yChart = [{
-        name: 'JUMLAH',
+        name: 'JUMLAH (Orang)',
         type: 'line',
         color: {
           linearGradient: {
@@ -165,6 +216,25 @@
           ]
         },
         data: parsing.arr_data,
+      }];
+
+      var yChart2 = [{
+        name: 'JUMLAH (Rp.)',
+        type: 'line',
+        height: 700,
+        color: {
+          linearGradient: {
+            x1: 0,
+            x2: 0,
+            y1: 1,
+            y2: 0
+          },
+          stops: [
+            [0, '#e93981'],
+            [1, '#3058ac']
+          ]
+        },
+        data: parsing.arr_data_bayar,
       }];
 
       // PIE CHART
@@ -186,6 +256,23 @@
         data: datanya,
       }];
 
+      // Data Jenis Pembayaran
+      var datanya12 = [];
+      for (var i = 0; i < parsing.arr_jns.length; i++) {
+        datanya12.push({
+          name: parsing.arr_jns[i],
+          y: parsing.arr_data_jns_bayar[i]
+        });
+      }
+
+      // console.log(datanya);
+      var chartD12 = [{
+        name: 'Persentase',
+        colorByPoint: true,
+        innerSize: '60%',
+        data: datanya12,
+      }];
+
 
       // Data Kelompok Penerima
       var datanya2 = [];
@@ -204,13 +291,39 @@
         data: datanya2,
       }];
 
+      
+      // Data Kelompok Penerima
+      var datanya22 = [];
+      for (var i = 0; i < parsing.arr_kelompok.length; i++) {
+        datanya22.push({
+          name: parsing.arr_kelompok[i],
+          y: parsing.arr_data_kelompok_bayar[i]
+        });
+      }
+
+      // console.log(datanya);
+      var chartD22 = [{
+        name: 'Persentase',
+        colorByPoint: true,
+        innerSize: '60%',
+        data: datanya22,
+      }];
+
+      
+
 
       var penerima = ' ' + parsing.tot_penerima + ' Orang';
       $('#tot-penerima').html(penerima);
+      var pembayaran = 'Rp ' + parsing.tot_pembayaran + ',-';
+      $('#tot-pembayaran').html(pembayaran);
 
       genPieChart2("container-pie1", "", "", chartD1, '', 250);
       genPieChart2("container-pie2", "", "", chartD2, '', 250);
-      genColumnChart3("container-line", "", xChart, yChart, "", "", "", false);
+      genColumnChart4("container-line", "", xChart, yChart, "", "", "", false);
+
+      genPieChart2("container-pie12", "", "", chartD12, '', 250);
+      genPieChart2("container-pie22", "", "", chartD22, '', 250);
+      genColumnChart3("container-line2", "", xChart, yChart2, "", "", "", false);
     }
   });
 
@@ -236,7 +349,7 @@
         var xChart2 = parsing.arr_data;
 
         var yChart = [{
-          name: 'JUMLAH',
+          name: 'JUMLAH (Orang)',
           type: 'line',
           color: {
             linearGradient: {
@@ -251,6 +364,27 @@
             ]
           },
           data: parsing.arr_data,
+        }];
+
+        
+
+        var yChart2 = [{
+          name: 'JUMLAH (Rp.)',
+          type: 'line',
+          height: 700,
+          color: {
+            linearGradient: {
+              x1: 0,
+              x2: 0,
+              y1: 1,
+              y2: 0
+            },
+            stops: [
+              [0, '#e93981'],
+              [1, '#3058ac']
+            ]
+          },
+          data: parsing.arr_data_bayar,
         }];
 
         // PIE CHART
@@ -272,6 +406,24 @@
           data: datanya,
         }];
 
+        
+        // Data Jenis Pembayaran
+        var datanya12 = [];
+        for (var i = 0; i < parsing.arr_jns.length; i++) {
+          datanya12.push({
+            name: parsing.arr_jns[i],
+            y: parsing.arr_data_jns_bayar[i]
+          });
+        }
+
+        // console.log(datanya);
+        var chartD12 = [{
+          name: 'Persentase',
+          colorByPoint: true,
+          innerSize: '60%',
+          data: datanya12,
+        }];
+
 
         // Data Kelompok Penerima
         var datanya2 = [];
@@ -290,13 +442,37 @@
           data: datanya2,
         }];
 
+        // Data Kelompok Penerima
+        var datanya22 = [];
+        for (var i = 0; i < parsing.arr_kelompok.length; i++) {
+          datanya22.push({
+            name: parsing.arr_kelompok[i],
+            y: parsing.arr_data_kelompok_bayar[i]
+          });
+        }
+
+        // console.log(datanya);
+        var chartD22 = [{
+          name: 'Persentase',
+          colorByPoint: true,
+          innerSize: '60%',
+          data: datanya22,
+        }];
+
 
         var penerima = ' ' + parsing.tot_penerima + ' Orang';
         $('#tot-penerima').html(penerima);
+        var pembayaran = 'Rp ' + parsing.tot_pembayaran + ',-';
+        $('#tot-pembayaran').html(pembayaran);
+
 
         genPieChart2("container-pie1", "", "", chartD1, '', 250);
         genPieChart2("container-pie2", "", "", chartD2, '', 250);
-        genColumnChart3("container-line", "", xChart, yChart, "", "", "", false);
+        genColumnChart4("container-line", "", xChart, yChart, "", "", "", false);
+
+        genPieChart2("container-pie12", "", "", chartD12, '', 250);
+        genPieChart2("container-pie22", "", "", chartD22, '', 250);
+        genColumnChart3("container-line2", "", xChart, yChart2, "", "", "", false);
       }
     });
 
