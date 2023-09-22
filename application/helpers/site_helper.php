@@ -843,5 +843,30 @@ function valid_id_aruskas($id_user){
 
 }
 
+function get_group($id_investasi){
+	$ci = & get_instance();
+	$ci->load->database();
 
+	$sql = "SELECT `group` FROM mst_investasi where id_investasi = '".$id_investasi."' ";
+	// echo $sql;exit;
+	$query = $ci->db->query($sql);
+	$string = $query->row_array();
+	// echo $string;exit;
+	return $string['group'];
+
+}
+
+
+function get_kode_pihak($id){
+	$ci = & get_instance();
+	$ci->load->database();
+
+	$sql = "SELECT kode_pihak FROM tmp_mst_pihak where id = '".$id."' ";
+	// echo $sql;exit;
+	$query = $ci->db->query($sql);
+	$string = $query->row_array();
+	// echo $string;exit;
+	return $string['kode_pihak'];
+
+}
 	

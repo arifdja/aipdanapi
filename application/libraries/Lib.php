@@ -461,6 +461,125 @@ class Lib {
 	}
 	//End Class Fillcombo
 
+	function fillcombo2($type="", $balikan="", $p1="", $p2="", $p3="", $p4=""){
+		// echo "string";exit;
+		$ci =& get_instance();
+		
+		$v = $ci->input->post('v');
+		if($v != ""){
+			$selTxt = $v;
+		}else{
+			$selTxt = $p1;
+		}
+		
+		$optTemp = '<option value=""> -- Pilih -- </option>';
+        if($type=='order'){
+            $optTemp .= '<option value="#1">#ALL</option>';	
+        }
+		
+		switch($type){
+			case "data_pihak":
+			case "sub_reksadana":
+			case "cabang":
+			case "combo_beban_investasi":
+				$ci->load->model('aset_investasi_model');
+				$data = $ci->aset_investasi_model->get_combo($type, $p1, $p2);
+			break;
+			case "get_arus_kas":
+				$ci->load->model('arus_kas_model');
+				$data = $ci->arus_kas_model->get_combo($type, $p1, $p2);
+			break;
+
+			case "mst_cabang":
+			case "data_jenis":
+				$ci->load->model('aspek_operasional_model');
+				$data = $ci->aspek_operasional_model->get_combo($type, $p1, $p2);
+			break;
+			case "jenis_klaim":
+			case "mst_cabang_ob":
+				$ci->load->model('operasional_belanja_model');
+				$data = $ci->operasional_belanja_model->get_combo($type, $p1, $p2);
+			break;
+			case "data_jenis_invest":
+			case "data_jenis_invest2":
+				
+				
+			case "data_mst_pihak":
+				// echo "tes";exit;
+				$ci->load->model('master_data_model');
+				$data = $ci->master_data_model->get_combo2($type, $p1, $p2);
+			break;
+
+            case "sumber":
+				$data = array(
+					'0' => array('id'=>'10101020001','txt'=>'Bank Mandiri'),
+                    '1' => array('id'=>'10101020002','txt'=>'Bank BCA'),
+                    '2' => array('id'=>'10101020003','txt'=>'Bank BRI'),
+                    '3' => array('id'=>'10101020004','txt'=>'Bank BNI'),
+                    '4' => array('id'=>'10101020005','txt'=>'Bank Permata'),
+                    '5' => array('id'=>'10101020006','txt'=>'Bank Maybank'),
+					'6' => array('id'=>'10101010003','txt'=>'Kas Pelaksana'),
+                    '7' => array('id'=>'10101010002','txt'=>'Kas Kasir'),
+				);
+            break;
+     		
+     		case "user":
+				$data = array(
+					'0' => array('id'=>'TSN002','txt'=>'TASPEN'),
+                    '1' => array('id'=>'ASB003','txt'=>'ASABRI'),
+                    
+				);
+            break;
+			
+			case "tanggal" :
+				$data = $this->arraydate('tanggal');
+				$optTemp = '<option value=""> -- Tanggal -- </option>';
+			break;
+			case "bulan" :
+				$data = $this->arraydate('bulan');
+				$optTemp = '<option value=""> -- Bulan -- </option>';
+			break;
+			case "tahun" :
+				$data = $this->arraydate('tahun');
+				$optTemp = '<option value=""> -- Tahun -- </option>';
+			break;
+			
+			case "email_notif":
+				$data = array();
+				$optTemp = '<option value=""> -- Choose -- </option>';
+			break;
+			
+			default:
+				$data = $ci->mbackend->get_combo($type, $p1, $p2);
+			break;
+		}
+		
+		if($data){
+			foreach($data as $k=>$v){
+				if($selTxt == $v['id']){
+					if($type=='layanan_satuans'){
+						$optTemp .= "<option value='".$v['id']."' hpp_super_express='".$v['hpp_super_express']."'  hpp_express='".$v['hpp_express']."'  hpp_regular='".$v['hpp_regular']."' harga_jual_super_express='".$v['harga_jual_super_express']."' harga_jual_express='".$v['harga_jual_express']."' harga_jual_regular='".$v['harga_jual_regular']."' >".strtoupper($v['txt'])."</option>";
+					}else{
+						$optTemp .= '<option selected value="'.$v['id'].'">'.$v['txt'].'</option>';
+					}
+				}else{ 
+					if($type=='layanan_satuans'){
+						$optTemp .= "<option value='".$v['id']."' hpp_super_express='".$v['hpp_super_express']."'  hpp_express='".$v['hpp_express']."'  hpp_regular='".$v['hpp_regular']."' harga_jual_super_express='".$v['harga_jual_super_express']."' harga_jual_express='".$v['harga_jual_express']."' harga_jual_regular='".$v['harga_jual_regular']."' >".strtoupper($v['txt'])."</option>";
+					}else{
+						$optTemp .= '<option value="'.$v['id'].'">'.$v['txt'].'</option>';	
+					}
+				}
+			}
+		}
+		
+		if($balikan == 'return'){
+			return $optTemp;
+		}elseif($balikan == 'echo'){
+			echo $optTemp;
+		}
+		
+	}
+
 	//Function Json Grid Datatable
 	function json_datatable($sql,$type="",$table="",$koding=""){
 		$ci =& get_instance();

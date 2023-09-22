@@ -32,11 +32,11 @@ class Pengajuan_nama_pihak extends CI_Controller {
     }
 
     public function master_nama_pihak(){
-        $data['data_nama_pihak'] = $this->master_data_model->getdata('master_nama_pihak', 'result_array');
+        $data['data_nama_pihak'] = $this->master_data_model->getdata('tmp_mst_nama_pihak', 'result_array');
         $data['opt_user'] = dtuser();
         $data['group'] = group_pihak_investasi();
         $data['bread'] = array('header'=>'Master Data', 'subheader'=>'Nama Pihak');
-        $data['view']  = "master_data/nama_pihak/index_nama_pihak";
+        $data['view']  = "master_data/nama_pihak/index_tmp_nama_pihak";
         $this->load->view('main/utama', $data);
     }
 
@@ -285,6 +285,7 @@ class Pengajuan_nama_pihak extends CI_Controller {
                     $data['data'] = $data;
                 }
                 
+                $data['group_pihak'] = group_pihak_investasi();
                 $data['opt_user'] = dtuser();
                 $data['bread'] = array('header'=>'Nama Pihak', 'subheader'=>'Nama Pihak');
                 $data['view']  = "master_data/nama_pihak/input-tmp-mst-pihak";
@@ -367,9 +368,20 @@ class Pengajuan_nama_pihak extends CI_Controller {
     function getdisplay($mod){
         switch($mod){
             case "data_jenis_invest":
-                $id = $this->input->post('iduser');
+                $id = $this->session->userdata('iduser');
                 $grp = $this->input->post('group');
-                $option = $this->lib->fillcombo("data_jenis_invest", "return", $id, $grp);
+                // echo $id.$grp;exit;
+                $option = $this->lib->fillcombo("data_jenis_invest2", "return", $id, $grp);
+                // var_dump($option);exit;
+                echo $option;
+            break;
+            case "data_jenis_invest2":
+                // echo "bismillah";exit;
+                $id = $this->session->userdata('iduser');
+                $grp = $this->input->post('group');
+                // echo $id.$grp;exit;
+                $option = $this->lib->fillcombo2("data_jenis_invest2", "return", $id, $grp);
+                // var_dump($option);exit;
                 echo $option;
             break;
             case "data_mst_pihak":

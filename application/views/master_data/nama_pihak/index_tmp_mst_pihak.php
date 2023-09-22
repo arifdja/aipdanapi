@@ -4,6 +4,7 @@
  <div class="row">
  	<div class="col-xs-12">
  		<div class="nav-tabs-custom">
+      <?php $this->load->view('main/nav_tab_tmp_nama_pihak'); ?>
  			<div class="box box-default">
  				<div class="box-header with-border">
  					<h3 class="box-title">Pengajuan Nama Pihak</h3>
@@ -93,12 +94,8 @@
                   
                   ?>
                   <td style="text-align: left;"><?=$tampil_status?></td>
-                  <td>
+                  <td style="text-align: center">
                     <?php if($pihak['status'] == 0): ?>
-                    <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat" onClick="genform('tmp_mst_pihak','tmp_mst_pihak','tmp_mst_pihak','','<?=$pihak['id'] ?>','','','edit');">
-                      <i class="fa fa-edit"></i>
-                    </a>
-                    &nbsp;
                     <a href="javascript:void(0)" title="Delete" class="btn btn-danger btn-sm btn-flat" onClick="genform('delete', 'tmp_mst_pihak','tmp_mst_pihak','','<?=$pihak['id'] ?>','','','edit');">
                       <i class="fa fa-trash"></i>
                     </a>

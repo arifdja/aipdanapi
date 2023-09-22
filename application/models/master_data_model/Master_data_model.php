@@ -34,6 +34,18 @@ class Master_data_model extends CI_Model {
 
 			$this->db->insert('mst_pihak', $data2);
 
+			$kode_pihak = get_kode_pihak($id);
+			$query = $this->db->get_where('tmp_mst_nama_pihak', array('kode_pihak' => $kode_pihak));
+			$data3 = $query->result_array();
+			$data4 = [];
+			foreach ($data3 as $key => $value) {
+				$data4[$key]['kode_pihak'] = $value['kode_pihak'];
+				$data4[$key]['id_investasi'] = $value['id_investasi'];
+				$data4[$key]['group'] = $value['group'];
+			}
+
+			$this->db->insert_batch('mst_nama_pihak', $data4);
+
 		} 
 
 		if($this->db->trans_status() == false){
@@ -200,13 +212,54 @@ class Master_data_model extends CI_Model {
 				$table_data = "mst_jenis_penerima";	
 			break;
 		}
+
 		switch ($sts_crud){
 			case "add":
 				// var_dump($table_data);
 				// var_dump($data);
 				// var_dump($sts_crud);
 				// exit;
-				if($table_data != "mst_nama_pihak"){
+
+				if($table_data == "mst_nama_pihak"){
+					if(isset($jns_invest)){
+						foreach($jns_invest as $k => $v){
+							$arr_detail = array(
+								'kode_pihak' => $kd_pihak,
+								'group' => $data['group'],
+								'id_investasi' => $jns_invest[$k],
+							);
+							$this->db->insert('mst_nama_pihak', $arr_detail);
+						}
+					}
+
+				} elseif($table_data == "tmp_mst_pihak"){
+					// var_dump($data);exit;
+					// echo get_group('1');
+					// exit;
+					$data_master = array(
+						'iduser' => $data['iduser'],
+						'kode_pihak' => $data['kode_pihak'],
+						'nama_pihak' => $data['nama_pihak'],
+						'insert_at' => $data['insert_at'],
+						'keterangan' => $data['keterangan'],
+						'status' => $data['status'],
+					);
+					foreach ($data['jns_invest'] as $key => $value) {
+						# code...
+						$data_detil[] = array(
+							'kode_pihak' => $data['kode_pihak'],
+							'group' => get_group($value),
+							'id_investasi' => $value,
+							'insert_at' => $data['insert_at'],
+						);
+					}
+					$this->db->trans_start();
+					$this->db->insert('tmp_mst_pihak', $data_master);
+					$this->db->insert_batch('tmp_mst_nama_pihak', $data_detil);
+					$this->db->trans_complete();
+
+					// var_dump($data_detil);exit;
+				} else {
 					$insert = $this->db->insert($table_data,$data);
 					$id = $this->db->insert_id();
 
@@ -236,21 +289,7 @@ class Master_data_model extends CI_Model {
 
 					}
 				}
-
-
-				if($table_data == "mst_nama_pihak"){
-					if(isset($jns_invest)){
-						foreach($jns_invest as $k => $v){
-							$arr_detail = array(
-								'kode_pihak' => $kd_pihak,
-								'group' => $data['group'],
-								'id_investasi' => $jns_invest[$k],
-							);
-							$this->db->insert('mst_nama_pihak', $arr_detail);
-						}
-					}
-
-				}
+				
 			break;
 			case "edit":
 				if($table == "master_cabang"){
@@ -330,7 +369,13 @@ class Master_data_model extends CI_Model {
 				}else if($table == "mst_pihak"){
 					$this->db->delete($table_data, array('id'=>$data['id']) );
 				}else if($table == "tmp_mst_pihak"){
+					$kode_pihak = get_kode_pihak($data['id']);
+
+					$this->db->trans_start();
+					$this->db->delete("tmp_mst_nama_pihak", array('kode_pihak'=>$kode_pihak) );
 					$this->db->delete($table_data, array('id'=>$data['id']) );
+					$this->db->trans_complete();
+
 				}
 
 			break;
@@ -370,6 +415,60 @@ class Master_data_model extends CI_Model {
 
 		switch($type){
 			case "data_jenis_invest":
+				$sql = "
+				SELECT A.id_investasi as id, A.jenis_investasi as txt
+				FROM mst_investasi A
+				WHERE A.iduser = '".$p1."'
+				AND A.group ='".$p2."'
+				AND NOT A.type_sub_jenis_investasi ='PC'
+				";
+					 // echo $sql;exit;
+			break;
+			case 'data_mst_pihak':
+				$sql = "
+					SELECT A.kode_pihak as id, A.nama_pihak as txt
+					FROM mst_pihak A
+					WHERE A.iduser = '".$p1."'
+					ORDER BY A.id DESC
+				";
+				 // echo $sql;exit;
+			break;
+			case 'mst_dana_bersih':
+				$sql="
+					SELECT A.id_dana_bersih as id, A.uraian as txt
+					FROM mst_dana_bersih A
+				";
+			break;
+			case 'mst_perubahan_danabersih':
+				$sql="
+					SELECT A.id_perubahan_dana_bersih as id, A.uraian as txt
+					FROM mst_perubahan_danabersih A
+				";
+			break;
+		}
+		
+		return $this->db->query($sql)->result_array();
+	}
+
+	
+	function get_combo2($type="", $p1="", $p2=""){
+		// echo "string";exit;
+		$array = array();
+		$where  = " WHERE 1=1 ";
+		$wher2  = " WHERE 1=1 ";
+		$where3  = " WHERE 1=1 ";
+
+		
+		$tahun = $this->session->userdata('tahun');
+
+		$iduser = $this->session->userdata('iduser');
+		$where .= "
+		AND A.iduser = '".$iduser."'
+		";
+		
+
+		switch($type){
+			case "data_jenis_invest2":
 				$sql = "
 				SELECT A.id_investasi as id, A.jenis_investasi as txt
 				FROM mst_investasi A
@@ -554,6 +653,22 @@ class Master_data_model extends CI_Model {
 					FROM tmp_mst_pihak A  
 					$where2
 					ORDER BY A.id DESC
+				";
+			break;
+
+			
+
+			case 'tmp_mst_nama_pihak':
+				// if($p1 != ""){
+				// 	$where2 .= "
+				// 	AND A.id = '".$p1."'
+				// 	";
+				// }
+
+				$sql="
+					SELECT a.*,b.*
+					FROM tmp_mst_nama_pihak a  left join tmp_mst_pihak b on (a.kode_pihak = b.kode_pihak)
+					ORDER BY a.id DESC
 				";
 			break;
 

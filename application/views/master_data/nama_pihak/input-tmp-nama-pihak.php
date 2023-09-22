@@ -4,46 +4,58 @@
 	}
 	/*.odd*/
 </style>
-<form id="form_<?=$acak;?>" method="post" url="<?php echo site_url(); ?>pengajuan-master-simpan/tmp_mst_pihak" enctype="multipart/form-data" >
+<form id="form_<?=$acak;?>" method="post" url="<?php echo site_url(); ?>master-simpan/master_nama_pihak" enctype="multipart/form-data" >
 	<input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" style="display: none">
 	<input type="hidden" name="editstatus" value="<?php echo !empty($editstatus) ? $editstatus : 'add';?>">
-	<input type="hidden" name="id" value="<?php echo !empty($data) ? $data['id'] : '';?>">
-	<input type="hidden" name="iduser" value="<?= $this->session->userdata('iduser');?>">
-	<input type="hidden" name="status" value="<?php echo !empty($data) ? $data['status'] : '0';?>">
-	<input type="hidden" name="insert_at" value="<?php echo date('Y-m-d H:i:s');?>">
+	<input type="hidden" name="id" value="<?php echo !empty($data) ? $data['id'] : 'add';?>">
 
 	<div class="row">
 		<div class="col-md-12">
 			<div class="box box-primary">
 				<div class="box-header with-border">
-					<h3 class="box-title">Form Pengajuan Nama Pihak</h3>
+					<h3 class="box-title">Form Nama Pihak Per Jenis Investasi</h3>
 				</div>
 				<div class="box-body">
 					<div class="row">
 						<div class="col-md-12">
 							<div class="row">
 								<div class="col-md-3">
-									<div class="form-group">
-										<label>Kode Pihak<font color="red">&nbsp;*</font></label>
-										<input type="text" placeholder="Kode Pihak" class="form-control" id="kode_pihak" name="kode_pihak" value="<?php echo !empty($data) ? $data['kode_pihak'] : '';?>" required="required" <?php if ($editstatus == 'edit'){ echo 'readonly';}?>>
-									</div>
+									<label>User<font color="red">&nbsp;*</font></label>
+									<select class="form-control select2nya iduser" id="iduser" name="iduser" required="required">
+										<option value="">
+											-- Pilih --
+										</option>
+										<?php if(isset($opt_user) && is_array($opt_user)){?> 
+											<?php foreach($opt_user as $k=>$v){?>
+												<option value="<?php echo $v['id'];?>" <?php if(!empty($data) && $v['id'] == $data['iduser']) echo 'selected="selected"';?>>
+													<?php echo $v['txt'];?>
+												</option>
+											<?php }?>
+										<?php }?>
+									</select>
+									<label class="validation_error_message" for="iduser"></label>
 								</div>
-								<div class="col-md-7">
-									<div class="form-group">
-										<label>Nama Pihak<font color="red">&nbsp;*</font></label>
-										<input type="text" placeholder="Nama Pihak" class="form-control" id="nama_pihak" name="nama_pihak" value="<?php echo !empty($data) ? $data['nama_pihak'] : '';?>" required="required">
-									</div>
+								<div class="col-md-6">
+									<label>Nama Pihak<font color="red">&nbsp;*</font></label>
+									<?php if($editstatus == "edit") :?>
+										<select class="form-control select2nya nama_pihak" id="nama_pihak" name="nama_pihak" required="required">
+										<option value="">
+											-- Pilih --
+										</option>
+										<?php if(isset($opt_pihak) && is_array($opt_pihak)){?> 
+											<?php foreach($opt_pihak as $k=>$v){?>
+												<option value="<?php echo $v['id'];?>" <?php if(!empty($data) && $v['id'] == $data['kode_pihak']) echo 'selected="selected"';?>>
+													<?php echo $v['txt'];?>
+												</option>
+											<?php }?>
+										<?php }?>
+									</select>
+									<?php elseif($editstatus == "add") :?>
+										<select class="form-control select2nya nama_pihak" id="nama_pihak" name="nama_pihak" required="required">
+										</select>
+									<?php endif;?>
+									<label class="validation_error_message" for="nama_pihak"></label>
 								</div>
-							</div>	
-							<div class="row">
-								<div class="col-md-12">
-									<div class="form-group">
-										<label for="">Keterangan<font color="red">&nbsp;*</font></label>
-										<textarea type="text" placeholder="Keterangan" class="form-control" id="keterangan" name="keterangan" required="required" rows="3"><?php echo !empty($data) ? $data['keterangan'] : '';?></textarea>
-									</div>
-								</div>
-							</div>	
-							<div class="row">
 								<div class="col-md-3">
 									<label>Group Investasi<font color="red">&nbsp;*</font></label>
 									<select class="form-control select2nya group" id="group" name="group" required="required">
@@ -61,7 +73,21 @@
 									<label class="validation_error_message" for="group"></label>
 								</div>
 							</div>
-							<hr />
+							<br>
+							<!-- <div class="row">
+								<div class="col-md-3">
+									<div class="form-group">
+										<label>Kode Pihak<font color="red">&nbsp;*</font></label>
+										<input type="text" placeholder="Kode Pihak" class="form-control" id="kode_pihak" name="kode_pihak" value="<?php echo !empty($data) ? $data['kode_pihak'] : '';?>" required="required">
+									</div>
+								</div>
+								<div class="col-md-7">
+									<div class="form-group">
+										<label>Nama Pihak<font color="red">&nbsp;*</font></label>
+										<input type="text" placeholder="Nama Pihak" class="form-control" id="nama_pihak" name="nama_pihak" value="<?php echo !empty($data) ? $data['nama_pihak'] : '';?>" required="required">
+									</div>
+								</div>
+							</div>	 -->
 							<div class="row" id="sub">
 								<div class='col-md-12'>
 									<br/>
@@ -133,46 +159,25 @@
 <script type="text/javascript">
 	var idx_row = 1;
 	var sts ='<?= !empty($editstatus) ? $editstatus: ''?>';
-	var iduser = '<?= $this->session->userdata('iduser');?>'
+	var user ='<?= !empty($data) ? $data['iduser']: ''?>';
+	var grp ='<?= !empty($data) ? $data['group']: ''?>';
+	var pihak ='<?= !empty($data) ? $data['kode_pihak']: ''?>';
+	console.log(pihak);
 	
 
 	$(document).ready(function(){
 		$(".select2nya, .combo-invest").select2( { 'width':'100%' } );
-
-		$("#kode_pihak").on("blur", function(){
-			var kode = $('#kode_pihak').val();
-			$.post(host+'pengajuan-master-display/cek_kode_pihak', { 'kode_pihak':$('#kode_pihak').val(),'iduser':iduser, [csrf_token]:csrf_hash }, function(resp1){
-				if(resp1){
-					parsing_cek = JSON.parse(resp1)
-					console.log(parsing_cek);
-					if(parsing_cek.total != 0){
-						$.messager.alert('SMART AIP','Kode Pihak '+kode+' Sudah digunakan !','warning'); 
-						$('#kode_pihak').val('');
-						return false;
-
-					}
-				}
-			});
-		});
-
-		$("#nama_pihak").on("blur", function(){
-			var kode = $('#nama_pihak').val();
-			$.post(host+'pengajuan-master-display/cek_nama_pihak', { 'nama_pihak':$('#nama_pihak').val(),'iduser':iduser, [csrf_token]:csrf_hash }, function(resp1){
-				if(resp1){
-					parsing_cek = JSON.parse(resp1)
-					console.log(parsing_cek);
-					if(parsing_cek.total != 0){
-						$.messager.alert('SMART AIP','Nama Pihak '+kode+' Sudah digunakan !','warning'); 
-						$('#nama_pihak').val('');
-						return false;
-
-					}
-				}
-			});
-		});
+	
+		// $('#tbl-form').DataTable({
+		// 	"paging":false,
+		// 	"searching": false,
+		// 	"ordering": false,
+		// 	"lengthChange": false,
+		// 	"info": false,
+		// });
 
 		$('.group').on('change', function(){
-			$.post(host+'pengajuan-master-display/data_jenis_invest2', { 'group':$(this).val(),'iduser':$('.iduser').val(), [csrf_token]:csrf_hash }, function(resp){
+			$.post(host+'master-display/data_jenis_invest', { 'group':$(this).val(),'iduser':$('.iduser').val(), [csrf_token]:csrf_hash }, function(resp){
 				if(resp){
 					invest = resp;
 					console.log(invest);
@@ -181,23 +186,59 @@
 			
 		});
 
+		$('.iduser').on('change', function(){
+			$('#nama_pihak').empty();
+			$.post(host+'master-display/data_mst_pihak', {'iduser':$('.iduser').val(), [csrf_token]:csrf_hash }, function(resp){
+				if(resp){
+					pihak = resp;
+					console.log(pihak);
+					$('#nama_pihak').append(pihak);
+				}
+			});
+			
+		});
+
+
 	});
+
+	$('.tambah_detail').on('click', function(){
+		if($('.iduser').val() == ""){
+			$.messager.alert('SMART AIP','Pilih User Terlebih Dahulu!','warning'); 
+			return false;
+		}else if($('.group').val() == ""){
+			$.messager.alert('SMART AIP','Pilih Group Investasi Terlebih Dahulu!','warning'); 
+			return false;
+		}else{
+			tambah_row('form_master_nama_pihak');
+		}
+	});
+
+	// edit
+	if(sts == "edit"){
+		$( document ).ready(function() {
+			console.log(grp);
+			console.log(user);
+			// $('.iduser').val(user).trigger('change');
+			$('.group').val(grp).trigger('change');
+
+		});
+	}
 
 	
 	// form action
 	var rulesnya = {
 		iduser : "required",
 		kode_pihak : "required",
+		group : "required",
 		nama_pihak : "required",
-		keterangan : "required",
 		
 	};
 
 	var messagesnya = {
 		iduser : "<i style='color:red'>Harus Diisi</i>",
 		kode_pihak : "<i style='color:red'>Harus Diisi</i>",
+		group : "<i style='color:red'>Harus Diisi</i>",
 		nama_pihak : "<i style='color:red'>Harus Diisi</i>",
-		keterangan : "<i style='color:red'>Harus Diisi</i>",
 		
 	}
 
@@ -211,7 +252,9 @@
 					$.messager.alert('SMART AIP','Data Tersimpan','info'); 
 					$('#cancel').trigger('click');
 					setTimeout(function(){
-						window.location = host+'pengajuan-nama-pihak';
+						// encrypt link
+						// window.location = host+btoa('master-pihak');
+						window.location = host+'master/master_data/master_nama_pihak';
 					}, 2000);
 				}else{ 
 					$.messager.alert('SMART AIP','Proses Simpan Data Gagal '+r,'warning'); 
@@ -231,16 +274,6 @@
 	        }
 	    }
 	} );
-
-	$('.tambah_detail').on('click', function(){
-		if($('.group').val() == ""){
-			$.messager.alert('SMART AIP','Pilih Group Investasi Terlebih Dahulu!','warning'); 
-			return false;
-		}else{
-			// alert("tambah baris");
-			tambah_row('form_master_nama_pihak');
-		}
-	});
 
 
 </script>
