@@ -222,6 +222,36 @@ class Rincian_model extends CI_Model {
 				}
 				
 			break;
+
+			case 'rincian_hasil_investasi':
+				if($iduser == 'TSN002'){
+					$sql = "
+						SELECT A.*
+						FROM vw_hasil_investasi_perpihak_taspen A  
+						$where2
+						AND A.tahun = '".$tahun."'
+						AND A.id_bulan = '".$id_bulan."'
+					";	
+					 // echo $sql;exit;
+				}elseif ($iduser == 'ASB003') {
+					$sql = "
+						SELECT A.*
+						FROM vw_hasil_investasi_perpihak_asabri A
+						$where2
+						AND A.tahun = '".$tahun."'
+						AND A.id_bulan = '".$id_bulan."'
+					";	
+				}else{
+					$sql = "
+						SELECT A.*
+						FROM vw_hasil_investasi_perpihak_taspen A  
+						$where2
+						AND A.tahun = '".$tahun."'
+						AND A.id_bulan = '".$id_bulan."'
+					";	
+				}
+				
+			break;
 			
 			case 'sum_rincian_investasi':
 				if($iduser == 'TSN002'){
@@ -260,27 +290,36 @@ class Rincian_model extends CI_Model {
 				}elseif ($iduser == 'ASB003') {
 					$sql="
 						SELECT A.iduser, A.id_bulan,
-						COALESCE(SUM(A.deposito), 0) as deposito,
-						COALESCE(SUM(A.sertifikat_deposito), 0) as sertifikat_deposito,
-						COALESCE(SUM(A.sun), 0) as sun,
-						COALESCE(SUM(A.sukuk_pemerintah), 0) as sukuk_pemerintah,
-						COALESCE(SUM(A.obligasi_korporasi), 0) as obligasi_korporasi,
-						COALESCE(SUM(A.sukuk_korporasi), 0) as sukuk_korporasi,
-						COALESCE(SUM(A.obligasi_mata_uang), 0) as obligasi_mata_uang,
-						COALESCE(SUM(A.mtn), 0) as mtn,
-						COALESCE(SUM(A.saham), 0) as saham,
-						COALESCE(SUM(A.reksadana), 0) as reksadana,
-						COALESCE(SUM(A.dana_invest_kik), 0) as dana_invest_kik,
-						COALESCE(SUM(A.penyertaan_langsung), 0) as penyertaan_langsung,
-						COALESCE(SUM(A.reksadana_pasar_uang), 0) as reksadana_pasar_uang,
-						COALESCE(SUM(A.reksadana_pendapatan_tetap), 0) as reksadana_pendapatan_tetap,
-						COALESCE(SUM(A.reksadana_campuran), 0) as reksadana_campuran,
-						COALESCE(SUM(A.reksadana_saham), 0) as reksadana_saham,
-						COALESCE(SUM(A.reksadana_terproteksi), 0) as reksadana_terproteksi,
-						COALESCE(SUM(A.reksadana_pinjaman), 0) as reksadana_pinjaman,
-						COALESCE(SUM(A.reksadana_index), 0) as reksadana_index,
-						COALESCE(SUM(A.reksadana_kik), 0) as reksadana_kik,
-						COALESCE(SUM(A.reksadana_penyertaaan_diperdagangkan), 0) as reksadana_penyertaaan_diperdagangkan,
+						COALESCE(SUM(A.bunga_surat_utang_negara),0) as bunga_surat_utang_negara,
+						COALESCE(SUM(A.imbal_hasil_sukuk_pemerintah),0) as imbal_hasil_sukuk_pemerintah,
+						COALESCE(SUM(A.bunga_obligasi_korporasi),0) as bunga_obligasi_korporasi,
+						COALESCE(SUM(A.imbal_hasil_sukuk_korporasi),0) as imbal_hasil_sukuk_korporasi,
+						COALESCE(SUM(A.bunga_medium_term_notes),0) as bunga_medium_term_notes,
+						COALESCE(SUM(A.deviden_saham),0) as deviden_saham,
+						COALESCE(SUM(A.deviden_reksadana),0) as deviden_reksadana,
+						COALESCE(SUM(A.nt_nilai_surat_utang_negara),0) as nt_nilai_surat_utang_negara,
+						COALESCE(SUM(A.nt_nilai_sukuk_pemerintah),0) as nt_nilai_sukuk_pemerintah,
+						COALESCE(SUM(A.nt_nilai_obligasi_korporasi),0) as nt_nilai_obligasi_korporasi,
+						COALESCE(SUM(A.nt_nilai_sukuk_korporasi),0) as nt_nilai_sukuk_korporasi,
+						COALESCE(SUM(A.nt_nilai_mtn),0) as nt_nilai_mtn,
+						COALESCE(SUM(A.nt_nilai_saham),0) as nt_nilai_saham,
+						COALESCE(SUM(A.nt_nab_reksadana),0) as nt_nab_reksadana,
+						COALESCE(SUM(A.laba_rugi_pelepasan_investasi),0) as laba_rugi_pelepasan_investasi,
+						COALESCE(SUM(A.laba_rugi_pelepasan_sertifikat_deposito),0) as laba_rugi_pelepasan_sertifikat_deposito,
+						COALESCE(SUM(A.laba_rugi_pelepasan_sun),0) as laba_rugi_pelepasan_sun,
+						COALESCE(SUM(A.laba_rugi_pelepasan_sukuk_pemerintah),0) as laba_rugi_pelepasan_sukuk_pemerintah,
+						COALESCE(SUM(A.laba_rugi_pelepasan_obligasi_korporasi),0) as laba_rugi_pelepasan_obligasi_korporasi,
+						COALESCE(SUM(A.laba_rugi_pelepasan_sukuk_korporasi),0) as laba_rugi_pelepasan_sukuk_korporasi,
+						COALESCE(SUM(A.laba_rugi_pelepasan_mtn),0) as laba_rugi_pelepasan_mtn,
+						COALESCE(SUM(A.laba_rugi_pelepasan_saham),0) as laba_rugi_pelepasan_saham,
+						COALESCE(SUM(A.laba_rugi_pelepasan_reksadana),0) as laba_rugi_pelepasan_reksadana,
+						COALESCE(SUM(A.laba_rugi_pelepasan_penyertaan_langsung),0) as laba_rugi_pelepasan_penyertaan_langsung,
+						COALESCE(SUM(A.laba_rugi_pelepasan_tanah_bangunan),0) as laba_rugi_pelepasan_tanah_bangunan,
+						COALESCE(SUM(A.pendapatan_investasi_lainnya),0) as pendapatan_investasi_lainnya,
+						COALESCE(SUM(A.laba_rugi_selisih_kurs),0) as laba_rugi_selisih_kurs,
+						COALESCE(SUM(A.bunga_deposito),0) as bunga_deposito,
+						COALESCE(SUM(A.deviden_penyertaan_langsung),0) as deviden_penyertaan_langsung,
+						COALESCE(SUM(A.imbal_hasil_reksadana),0) as imbal_hasil_reksadana,
 						COALESCE(SUM(A.total_perpihak), 0) as total_perpihak
 						FROM vw_investasi_perpihak_asabri A
 						WHERE A.iduser = '".$iduser."'
@@ -314,6 +353,129 @@ class Rincian_model extends CI_Model {
 						COALESCE(SUM(A.reksadana_penyertaaan_diperdagangkan), 0) as reksadana_penyertaaan_diperdagangkan,
 						COALESCE(SUM(A.total_perpihak), 0) as total_perpihak
 						FROM vw_investasi_perpihak_taspen A
+						WHERE A.iduser = '".$iduser."'
+						AND A.id_bulan = '".$id_bulan."'
+						AND A.tahun = '".$tahun."'
+					";
+				}
+			break;
+			
+			case 'sum_rincian_hasil_investasi':
+				if($iduser == 'TSN002'){
+					$sql="
+						SELECT A.iduser, A.id_bulan,
+						COALESCE(SUM(A.bunga_deposito), 0) as bunga_deposito,
+						COALESCE(SUM(A.bunga_surat_utang_negara), 0) as bunga_surat_utang_negara,
+						COALESCE(SUM(A.imbal_hasil_sukuk_pemerintah), 0) as imbal_hasil_sukuk_pemerintah,
+						COALESCE(SUM(A.bunga_obligasi_korporasi), 0) as bunga_obligasi_korporasi,
+						COALESCE(SUM(A.imbal_hasil_sukuk_korporasi), 0) as imbal_hasil_sukuk_korporasi,
+						COALESCE(SUM(A.bunga_medium_term_notes), 0) as bunga_medium_term_notes,
+						COALESCE(SUM(A.deviden_saham), 0) as deviden_saham,
+						COALESCE(SUM(A.deviden_reksadana), 0) as deviden_reksadana,
+						COALESCE(SUM(A.nt_nilai_surat_utang_negara), 0) as nt_nilai_surat_utang_negara,
+						COALESCE(SUM(A.nt_nilai_sukuk_pemerintah), 0) as nt_nilai_sukuk_pemerintah,
+						COALESCE(SUM(A.nt_nilai_obligasi_korporasi), 0) as nt_nilai_obligasi_korporasi,
+						COALESCE(SUM(A.nt_nilai_sukuk_korporasi), 0) as nt_nilai_sukuk_korporasi,
+						COALESCE(SUM(A.nt_nilai_mtn), 0) as nt_nilai_mtn,
+						COALESCE(SUM(A.nt_nilai_saham), 0) as nt_nilai_saham,
+						COALESCE(SUM(A.nt_nab_reksadana), 0) as nt_nab_reksadana,
+						COALESCE(SUM(A.laba_rugi_pelepasan_investasi), 0) as laba_rugi_pelepasan_investasi,
+						COALESCE(SUM(A.pendapatan_investasi_lainnya), 0) as pendapatan_investasi_lainnya,
+						COALESCE(SUM(A.laba_rugi_selisih_kurs), 0) as laba_rugi_selisih_kurs,
+						COALESCE(SUM(A.laba_rugi_pelepasan_sertifikat_deposito), 0) as laba_rugi_pelepasan_sertifikat_deposito,
+						COALESCE(SUM(A.laba_rugi_pelepasan_sun), 0) as laba_rugi_pelepasan_sun,
+						COALESCE(SUM(A.laba_rugi_pelepasan_sukuk_pemerintah), 0) as laba_rugi_pelepasan_sukuk_pemerintah,
+						COALESCE(SUM(A.laba_rugi_pelepasan_obligasi_korporasi), 0) as laba_rugi_pelepasan_obligasi_korporasi,
+						COALESCE(SUM(A.laba_rugi_pelepasan_sukuk_korporasi), 0) as laba_rugi_pelepasan_sukuk_korporasi,
+						COALESCE(SUM(A.laba_rugi_pelepasan_mtn), 0) as laba_rugi_pelepasan_mtn,
+						COALESCE(SUM(A.laba_rugi_pelepasan_saham), 0) as laba_rugi_pelepasan_saham,
+						COALESCE(SUM(A.laba_rugi_pelepasan_reksadana), 0) as laba_rugi_pelepasan_reksadana,
+						COALESCE(SUM(A.laba_rugi_pelepasan_penyertaan_langsung), 0) as laba_rugi_pelepasan_penyertaan_langsung,
+						COALESCE(SUM(A.laba_rugi_pelepasan_tanah_bangunan), 0) as laba_rugi_pelepasan_tanah_bangunan,
+						COALESCE(SUM(A.deviden_penyertaan_langsung), 0) as deviden_penyertaan_langsung,
+						COALESCE(SUM(A.imbal_hasil_reksadana), 0) as imbal_hasil_reksadana,
+						COALESCE(SUM(A.total_perpihak), 0) as total_perpihak
+						FROM vw_hasil_investasi_perpihak_taspen A
+						WHERE A.iduser = '".$iduser."'
+						AND A.id_bulan = '".$id_bulan."'
+						AND A.tahun = '".$tahun."'
+					";
+
+					// echo $sql;exit;
+				}elseif ($iduser == 'ASB003') {
+					$sql="
+						SELECT A.iduser, A.id_bulan,
+						COALESCE(SUM(A.bunga_surat_utang_negara),0) as bunga_surat_utang_negara,
+						COALESCE(SUM(A.imbal_hasil_sukuk_pemerintah),0) as imbal_hasil_sukuk_pemerintah,
+						COALESCE(SUM(A.bunga_obligasi_korporasi),0) as bunga_obligasi_korporasi,
+						COALESCE(SUM(A.imbal_hasil_sukuk_korporasi),0) as imbal_hasil_sukuk_korporasi,
+						COALESCE(SUM(A.bunga_medium_term_notes),0) as bunga_medium_term_notes,
+						COALESCE(SUM(A.deviden_saham),0) as deviden_saham,
+						COALESCE(SUM(A.deviden_reksadana),0) as deviden_reksadana,
+						COALESCE(SUM(A.nt_nilai_surat_utang_negara),0) as nt_nilai_surat_utang_negara,
+						COALESCE(SUM(A.nt_nilai_sukuk_pemerintah),0) as nt_nilai_sukuk_pemerintah,
+						COALESCE(SUM(A.nt_nilai_obligasi_korporasi),0) as nt_nilai_obligasi_korporasi,
+						COALESCE(SUM(A.nt_nilai_sukuk_korporasi),0) as nt_nilai_sukuk_korporasi,
+						COALESCE(SUM(A.nt_nilai_mtn),0) as nt_nilai_mtn,
+						COALESCE(SUM(A.nt_nilai_saham),0) as nt_nilai_saham,
+						COALESCE(SUM(A.nt_nab_reksadana),0) as nt_nab_reksadana,
+						COALESCE(SUM(A.laba_rugi_pelepasan_investasi),0) as laba_rugi_pelepasan_investasi,
+						COALESCE(SUM(A.laba_rugi_pelepasan_sertifikat_deposito),0) as laba_rugi_pelepasan_sertifikat_deposito,
+						COALESCE(SUM(A.laba_rugi_pelepasan_sun),0) as laba_rugi_pelepasan_sun,
+						COALESCE(SUM(A.laba_rugi_pelepasan_sukuk_pemerintah),0) as laba_rugi_pelepasan_sukuk_pemerintah,
+						COALESCE(SUM(A.laba_rugi_pelepasan_obligasi_korporasi),0) as laba_rugi_pelepasan_obligasi_korporasi,
+						COALESCE(SUM(A.laba_rugi_pelepasan_sukuk_korporasi),0) as laba_rugi_pelepasan_sukuk_korporasi,
+						COALESCE(SUM(A.laba_rugi_pelepasan_mtn),0) as laba_rugi_pelepasan_mtn,
+						COALESCE(SUM(A.laba_rugi_pelepasan_saham),0) as laba_rugi_pelepasan_saham,
+						COALESCE(SUM(A.laba_rugi_pelepasan_reksadana),0) as laba_rugi_pelepasan_reksadana,
+						COALESCE(SUM(A.laba_rugi_pelepasan_penyertaan_langsung),0) as laba_rugi_pelepasan_penyertaan_langsung,
+						COALESCE(SUM(A.laba_rugi_pelepasan_tanah_bangunan),0) as laba_rugi_pelepasan_tanah_bangunan,
+						COALESCE(SUM(A.pendapatan_investasi_lainnya),0) as pendapatan_investasi_lainnya,
+						COALESCE(SUM(A.laba_rugi_selisih_kurs),0) as laba_rugi_selisih_kurs,
+						COALESCE(SUM(A.bunga_deposito),0) as bunga_deposito,
+						COALESCE(SUM(A.deviden_penyertaan_langsung),0) as deviden_penyertaan_langsung,
+						COALESCE(SUM(A.imbal_hasil_reksadana),0) as imbal_hasil_reksadana,
+						COALESCE(SUM(A.total_perpihak), 0) as total_perpihak
+						FROM vw_hasil_investasi_perpihak_asabri A
+						WHERE A.iduser = '".$iduser."'
+						AND A.id_bulan = '".$id_bulan."'
+						AND A.tahun = '".$tahun."'
+					";
+				}else{
+					$sql="
+						SELECT A.iduser, A.id_bulan,
+						COALESCE(SUM(A.bunga_deposito), 0) as bunga_deposito,
+						COALESCE(SUM(A.bunga_surat_utang_negara), 0) as bunga_surat_utang_negara,
+						COALESCE(SUM(A.imbal_hasil_sukuk_pemerintah), 0) as imbal_hasil_sukuk_pemerintah,
+						COALESCE(SUM(A.bunga_obligasi_korporasi), 0) as bunga_obligasi_korporasi,
+						COALESCE(SUM(A.imbal_hasil_sukuk_korporasi), 0) as imbal_hasil_sukuk_korporasi,
+						COALESCE(SUM(A.bunga_medium_term_notes), 0) as bunga_medium_term_notes,
+						COALESCE(SUM(A.deviden_saham), 0) as deviden_saham,
+						COALESCE(SUM(A.deviden_reksadana), 0) as deviden_reksadana,
+						COALESCE(SUM(A.nt_nilai_surat_utang_negara), 0) as nt_nilai_surat_utang_negara,
+						COALESCE(SUM(A.nt_nilai_sukuk_pemerintah), 0) as nt_nilai_sukuk_pemerintah,
+						COALESCE(SUM(A.nt_nilai_obligasi_korporasi), 0) as nt_nilai_obligasi_korporasi,
+						COALESCE(SUM(A.nt_nilai_sukuk_korporasi), 0) as nt_nilai_sukuk_korporasi,
+						COALESCE(SUM(A.nt_nilai_mtn), 0) as nt_nilai_mtn,
+						COALESCE(SUM(A.nt_nilai_saham), 0) as nt_nilai_saham,
+						COALESCE(SUM(A.nt_nab_reksadana), 0) as nt_nab_reksadana,
+						COALESCE(SUM(A.laba_rugi_pelepasan_investasi), 0) as laba_rugi_pelepasan_investasi,
+						COALESCE(SUM(A.pendapatan_investasi_lainnya), 0) as pendapatan_investasi_lainnya,
+						COALESCE(SUM(A.laba_rugi_selisih_kurs), 0) as laba_rugi_selisih_kurs,
+						COALESCE(SUM(A.laba_rugi_pelepasan_sertifikat_deposito), 0) as laba_rugi_pelepasan_sertifikat_deposito,
+						COALESCE(SUM(A.laba_rugi_pelepasan_sun), 0) as laba_rugi_pelepasan_sun,
+						COALESCE(SUM(A.laba_rugi_pelepasan_sukuk_pemerintah), 0) as laba_rugi_pelepasan_sukuk_pemerintah,
+						COALESCE(SUM(A.laba_rugi_pelepasan_obligasi_korporasi), 0) as laba_rugi_pelepasan_obligasi_korporasi,
+						COALESCE(SUM(A.laba_rugi_pelepasan_sukuk_korporasi), 0) as laba_rugi_pelepasan_sukuk_korporasi,
+						COALESCE(SUM(A.laba_rugi_pelepasan_mtn), 0) as laba_rugi_pelepasan_mtn,
+						COALESCE(SUM(A.laba_rugi_pelepasan_saham), 0) as laba_rugi_pelepasan_saham,
+						COALESCE(SUM(A.laba_rugi_pelepasan_reksadana), 0) as laba_rugi_pelepasan_reksadana,
+						COALESCE(SUM(A.laba_rugi_pelepasan_penyertaan_langsung), 0) as laba_rugi_pelepasan_penyertaan_langsung,
+						COALESCE(SUM(A.laba_rugi_pelepasan_tanah_bangunan), 0) as laba_rugi_pelepasan_tanah_bangunan,
+						COALESCE(SUM(A.deviden_penyertaan_langsung), 0) as deviden_penyertaan_langsung,
+						COALESCE(SUM(A.imbal_hasil_reksadana), 0) as imbal_hasil_reksadana,
+						COALESCE(SUM(A.total_perpihak), 0) as total_perpihak
+						FROM vw_hasil_investasi_perpihak_taspen A
 						WHERE A.iduser = '".$iduser."'
 						AND A.id_bulan = '".$id_bulan."'
 						AND A.tahun = '".$tahun."'
@@ -422,15 +584,19 @@ class Rincian_model extends CI_Model {
 				if($balikan=='get')return $this->db->query($sql)->row_array();
 			break;
 		}
+		// echo $sql;exit;
 		
 		if($balikan == 'json'){
 			return $this->lib->json_grid($sql,$type);
 		}elseif($balikan == 'row_array'){
-			return $this->db->query($sql)->row_array();
+			$query = $this->db->query($sql);
+			return ($query !== false) ? $query->row_array() : [];
 		}elseif($balikan == 'result'){
 			return $this->db->query($sql)->result();
 		}elseif($balikan == 'result_array'){
-			return $this->db->query($sql)->result_array();
+			$query = $this->db->query($sql);
+			return ($query !== false) ? $query->result_array() : [];
+			// return $this->db->query($sql)->result_array();
 		}elseif($balikan == 'json_variable'){
 			return json_encode($array);
 		}elseif($balikan == 'json_encode'){

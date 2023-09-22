@@ -58,6 +58,7 @@
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#rincian_investasi_pihak">Rincian Aset Investasi</a></li>
                         <li><a data-toggle="tab" href="#rincian_bukan_investasi">Rincian Aset Bukan Investasi</a></li>
+                        <li><a data-toggle="tab" href="#rincian_hasil_investasi">Rincian Hasil Investasi</a></li>
                     </ul>
                     <div class="tab-content">
                         <div id="rincian_investasi_pihak" class="tab-pane fade in active">
@@ -142,54 +143,54 @@
                                     <tfoot style="background-color: #d8d8d8; font-weight: bold;">
                                         <tr>
                                             <td style="text-align: left;" colspan="2">Total Per Jenis Investasi</td>
-                                            <td style="text-align: right;"><?=($sum_invest['deposito'] != 0 ) ? rupiah($sum_invest['deposito']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['sertifikat_deposito'] != 0 ) ? rupiah($sum_invest['sertifikat_deposito']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['sun'] != 0 ) ? rupiah($sum_invest['sun']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['sukuk_pemerintah'] != 0 ) ? rupiah($sum_invest['sukuk_pemerintah']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['obligasi_korporasi'] != 0 ) ? rupiah($sum_invest['obligasi_korporasi']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['sukuk_korporasi'] != 0 ) ? rupiah($sum_invest['sukuk_korporasi']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['obligasi_mata_uang'] != 0 ) ? rupiah($sum_invest['obligasi_mata_uang']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['mtn'] != 0 ) ? rupiah($sum_invest['mtn']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['saham'] != 0 ) ? rupiah($sum_invest['saham']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['reksadana'] != 0 ) ? rupiah($sum_invest['reksadana']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['dana_invest_kik'] != 0 ) ? rupiah($sum_invest['dana_invest_kik']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['penyertaan_langsung'] != 0 ) ? rupiah($sum_invest['penyertaan_langsung']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['reksadana_pasar_uang'] != 0 ) ? rupiah($sum_invest['reksadana_pasar_uang']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['reksadana_pendapatan_tetap'] != 0 ) ? rupiah($sum_invest['reksadana_pendapatan_tetap']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['reksadana_campuran'] != 0 ) ? rupiah($sum_invest['reksadana_campuran']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['reksadana_saham'] != 0 ) ? rupiah($sum_invest['reksadana_saham']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['reksadana_terproteksi'] != 0 ) ? rupiah($sum_invest['reksadana_terproteksi']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['reksadana_pinjaman'] != 0 ) ? rupiah($sum_invest['reksadana_pinjaman']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['reksadana_index'] != 0 ) ? rupiah($sum_invest['reksadana_index']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['reksadana_kik'] != 0 ) ? rupiah($sum_invest['reksadana_kik']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['reksadana_penyertaaan_diperdagangkan'] != 0 ) ? rupiah($sum_invest['reksadana_penyertaaan_diperdagangkan']) : '-';?></td>
-                                            <td style="text-align: right;"><?=($sum_invest['total_perpihak'] != 0 ) ? rupiah($sum_invest['total_perpihak']) : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['deposito'])) ? (($sum_invest['deposito'] != 0 ) ? rupiah($sum_invest['deposito']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['sertifikat_deposito'])) ? (($sum_invest['sertifikat_deposito'] != 0 ) ? rupiah($sum_invest['sertifikat_deposito']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['sun'])) ? (($sum_invest['sun'] != 0 ) ? rupiah($sum_invest['sun']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['sukuk_pemerintah'])) ? (($sum_invest['sukuk_pemerintah'] != 0 ) ? rupiah($sum_invest['sukuk_pemerintah']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['obligasi_korporasi'])) ? (($sum_invest['obligasi_korporasi'] != 0 ) ? rupiah($sum_invest['obligasi_korporasi']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['sukuk_korporasi'])) ? (($sum_invest['sukuk_korporasi'] != 0 ) ? rupiah($sum_invest['sukuk_korporasi']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['obligasi_mata_uang'])) ? (($sum_invest['obligasi_mata_uang'] != 0 ) ? rupiah($sum_invest['obligasi_mata_uang']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['mtn'])) ? (($sum_invest['mtn'] != 0 ) ? rupiah($sum_invest['mtn']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['saham'])) ? (($sum_invest['saham'] != 0 ) ? rupiah($sum_invest['saham']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['reksadana'])) ? (($sum_invest['reksadana'] != 0 ) ? rupiah($sum_invest['reksadana']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['dana_invest_kik'])) ? (($sum_invest['dana_invest_kik'] != 0 ) ? rupiah($sum_invest['dana_invest_kik']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['penyertaan_langsung'])) ? (($sum_invest['penyertaan_langsung'] != 0 ) ? rupiah($sum_invest['penyertaan_langsung']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['reksadana_pasar_uang'])) ? (($sum_invest['reksadana_pasar_uang'] != 0 ) ? rupiah($sum_invest['reksadana_pasar_uang']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['reksadana_pendapatan_tetap'])) ? (($sum_invest['reksadana_pendapatan_tetap'] != 0 ) ? rupiah($sum_invest['reksadana_pendapatan_tetap']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['reksadana_campuran'])) ? (($sum_invest['reksadana_campuran'] != 0 ) ? rupiah($sum_invest['reksadana_campuran']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['reksadana_saham'])) ? (($sum_invest['reksadana_saham'] != 0 ) ? rupiah($sum_invest['reksadana_saham']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['reksadana_terproteksi'])) ? (($sum_invest['reksadana_terproteksi'] != 0 ) ? rupiah($sum_invest['reksadana_terproteksi']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['reksadana_pinjaman'])) ? (($sum_invest['reksadana_pinjaman'] != 0 ) ? rupiah($sum_invest['reksadana_pinjaman']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['reksadana_index'])) ? (($sum_invest['reksadana_index'] != 0 ) ? rupiah($sum_invest['reksadana_index']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['reksadana_kik'])) ? (($sum_invest['reksadana_kik'] != 0 ) ? rupiah($sum_invest['reksadana_kik']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['reksadana_penyertaaan_diperdagangkan'])) ? (($sum_invest['reksadana_penyertaaan_diperdagangkan'] != 0 ) ? rupiah($sum_invest['reksadana_penyertaaan_diperdagangkan']) : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?=(isset($sum_invest['total_perpihak'])) ? (($sum_invest['total_perpihak'] != 0 ) ? rupiah($sum_invest['total_perpihak']) : '-') : '-';?></td>
                                             <td style="text-align: right;"><?=($tot_persen_pihak != 0 ) ? persen($tot_persen_pihak).'%' : '-';?></td>
                                         </tr>
                                         <tr>
                                             <td style="text-align: left;" colspan="2">% Persen Per Jenis Investasi</td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['deposito'] != 0 ) ? persen($persen_sum_invest['deposito']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['sertifikat_deposito'] != 0 ) ? persen($persen_sum_invest['sertifikat_deposito']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['sun'] != 0 ) ? persen($persen_sum_invest['sun']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['sukuk_pemerintah'] != 0 ) ? persen($persen_sum_invest['sukuk_pemerintah']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['obligasi_korporasi'] != 0 ) ? persen($persen_sum_invest['obligasi_korporasi']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['sukuk_korporasi'] != 0 ) ? persen($persen_sum_invest['sukuk_korporasi']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['obligasi_mata_uang'] != 0 ) ? persen($persen_sum_invest['obligasi_mata_uang']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['mtn'] != 0 ) ? persen($persen_sum_invest['mtn']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['saham'] != 0 ) ? persen($persen_sum_invest['saham']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['reksadana'] != 0 ) ? persen($persen_sum_invest['reksadana']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['dana_invest_kik'] != 0 ) ? persen($persen_sum_invest['dana_invest_kik']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['penyertaan_langsung'] != 0 ) ? persen($persen_sum_invest['penyertaan_langsung']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['reksadana_pasar_uang'] != 0 ) ? persen($persen_sum_invest['reksadana_pasar_uang']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['reksadana_pendapatan_tetap'] != 0 ) ? persen($persen_sum_invest['reksadana_pendapatan_tetap']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['reksadana_campuran'] != 0 ) ? persen($persen_sum_invest['reksadana_campuran']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['reksadana_saham'] != 0 ) ? persen($persen_sum_invest['reksadana_saham']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['reksadana_terproteksi'] != 0 ) ? persen($persen_sum_invest['reksadana_terproteksi']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['reksadana_pinjaman'] != 0 ) ? persen($persen_sum_invest['reksadana_pinjaman']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['reksadana_index'] != 0 ) ? persen($persen_sum_invest['reksadana_index']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['reksadana_kik'] != 0 ) ? persen($persen_sum_invest['reksadana_kik']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['reksadana_penyertaaan_diperdagangkan'] != 0 ) ? persen($persen_sum_invest['reksadana_penyertaaan_diperdagangkan']).'%' : '-';?></td>
-                                            <td style="text-align: right;"><?=($persen_sum_invest['total_perpihak'] != 0 ) ? persen($persen_sum_invest['total_perpihak']).'%' : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['deposito'])) ? (($persen_sum_invest['deposito'] != 0 ) ? persen($persen_sum_invest['deposito']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['sertifikat_deposito'])) ? (($persen_sum_invest['sertifikat_deposito'] != 0 ) ? persen($persen_sum_invest['sertifikat_deposito']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['sun'])) ? (($persen_sum_invest['sun'] != 0 ) ? persen($persen_sum_invest['sun']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['sukuk_pemerintah'])) ? (($persen_sum_invest['sukuk_pemerintah'] != 0 ) ? persen($persen_sum_invest['sukuk_pemerintah']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['obligasi_korporasi'])) ? (($persen_sum_invest['obligasi_korporasi'] != 0 ) ? persen($persen_sum_invest['obligasi_korporasi']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['sukuk_korporasi'])) ? (($persen_sum_invest['sukuk_korporasi'] != 0 ) ? persen($persen_sum_invest['sukuk_korporasi']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['obligasi_mata_uang'])) ? (($persen_sum_invest['obligasi_mata_uang'] != 0 ) ? persen($persen_sum_invest['obligasi_mata_uang']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['mtn'])) ? (($persen_sum_invest['mtn'] != 0 ) ? persen($persen_sum_invest['mtn']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['saham'])) ? (($persen_sum_invest['saham'] != 0 ) ? persen($persen_sum_invest['saham']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['reksadana'])) ? (($persen_sum_invest['reksadana'] != 0 ) ? persen($persen_sum_invest['reksadana']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['dana_invest_kik'])) ? (($persen_sum_invest['dana_invest_kik'] != 0 ) ? persen($persen_sum_invest['dana_invest_kik']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['penyertaan_langsung'])) ? (($persen_sum_invest['penyertaan_langsung'] != 0 ) ? persen($persen_sum_invest['penyertaan_langsung']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['reksadana_pasar_uang'])) ? (($persen_sum_invest['reksadana_pasar_uang'] != 0 ) ? persen($persen_sum_invest['reksadana_pasar_uang']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['reksadana_pendapatan_tetap'])) ? (($persen_sum_invest['reksadana_pendapatan_tetap'] != 0 ) ? persen($persen_sum_invest['reksadana_pendapatan_tetap']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['reksadana_campuran'])) ? (($persen_sum_invest['reksadana_campuran'] != 0 ) ? persen($persen_sum_invest['reksadana_campuran']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['reksadana_saham'])) ? (($persen_sum_invest['reksadana_saham'] != 0 ) ? persen($persen_sum_invest['reksadana_saham']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['reksadana_terproteksi'])) ? (($persen_sum_invest['reksadana_terproteksi'] != 0 ) ? persen($persen_sum_invest['reksadana_terproteksi']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['reksadana_pinjaman'])) ? (($persen_sum_invest['reksadana_pinjaman'] != 0 ) ? persen($persen_sum_invest['reksadana_pinjaman']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['reksadana_index'])) ? (($persen_sum_invest['reksadana_index'] != 0 ) ? persen($persen_sum_invest['reksadana_index']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['reksadana_kik'])) ? (($persen_sum_invest['reksadana_kik'] != 0 ) ? persen($persen_sum_invest['reksadana_kik']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['reksadana_penyertaaan_diperdagangkan'])) ? (($persen_sum_invest['reksadana_penyertaaan_diperdagangkan'] != 0 ) ? persen($persen_sum_invest['reksadana_penyertaaan_diperdagangkan']).'%' : '-') : '-';?></td>
+                                            <td style="text-align: right;"><?= (isset($persen_sum_invest['total_perpihak'])) ? (($persen_sum_invest['total_perpihak'] != 0 ) ? persen($persen_sum_invest['total_perpihak']).'%' : '-') : '-';?></td>
                                             <td></td>
                                         </tr>
                                     </tfoot> 
@@ -212,6 +213,9 @@
                         </div>
                         <div id="rincian_bukan_investasi" class="tab-pane fade">
                             <?php include 'index-rincian-bkn-invest-asb.php' ;?>
+                        </div>
+                        <div id="rincian_hasil_investasi" class="tab-pane fade">
+                             <?php include 'index-rincian-hasil-investasi-asb.php' ;?>
                         </div>
                     </div>
                 </div>

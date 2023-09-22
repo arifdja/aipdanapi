@@ -31,6 +31,12 @@ Class Rincian extends CI_Controller {
 		$data['rincian_bkn_invest'] = $this->rincian_model->getdata('rincian_bkn_investasi', 'result_array');
 		$data['sum_bkn_invest'] = $this->rincian_model->getdata('sum_rincian_bkn_investasi', 'row_array');
 		$data['persen_sum_bkn_invest'] = $this->persen_sum_bkn_invest($iduser);
+
+        
+		$data['rincian_hasil_invest'] = $this->rincian_model->getdata('rincian_hasil_investasi', 'result_array');
+		$data['sum_hasil_invest'] = $this->rincian_model->getdata('sum_rincian_hasil_investasi', 'row_array');
+		$data['persen_sum_hasil_invest'] = $this->persen_sum_hasil_invest($iduser);
+
         $data['data_rincian_ket'] = $this->rincian_model->get_ket('ket_rincian');
 
 
@@ -99,6 +105,11 @@ Class Rincian extends CI_Controller {
                 $data['rincian_bkn_invest'] = $this->rincian_model->getdata('rincian_bkn_investasi', 'result_array');
                 $data['sum_bkn_invest'] = $this->rincian_model->getdata('sum_rincian_bkn_investasi', 'row_array');
                 $data['persen_sum_bkn_invest'] = $this->persen_sum_bkn_invest($data['iduser']);
+                
+                $data['rincian_hasil_invest'] = $this->rincian_model->getdata('rincian_hasil_investasi', 'result_array');
+                $data['sum_hasil_invest'] = $this->rincian_model->getdata('sum_rincian_hasil_investasi', 'row_array');
+                $data['persen_sum_hasil_invest'] = $this->persen_sum_hasil_invest($iduser);
+
                 $data['data_rincian_ket'] = $this->rincian_model->get_ket('ket_rincian');
 
                 if($data['iduser'] == ""){
@@ -356,7 +367,7 @@ Class Rincian extends CI_Controller {
 
     public function persen_sum_invest($iduser){
     	$sum_invest = $this->rincian_model->getdata('sum_rincian_investasi', 'row_array');
-    	$tot_pihak = $sum_invest['total_perpihak'] ;
+    	$tot_pihak = isset ($sum_invest['total_perpihak']) ? $sum_invest['total_perpihak']:''; 
     	$dt['deposito'] = ($tot_pihak!=0)?($sum_invest['deposito']/$tot_pihak)*100:0;
     	$dt['sertifikat_deposito'] = ($tot_pihak!=0)?($sum_invest['sertifikat_deposito']/$tot_pihak)*100:0;
     	$dt['sun'] = ($tot_pihak!=0)?($sum_invest['sun']/$tot_pihak)*100:0;
@@ -379,9 +390,9 @@ Class Rincian extends CI_Controller {
     	$dt['reksadana_kik'] = ($tot_pihak!=0)?($sum_invest['reksadana_kik']/$tot_pihak)*100:0;
     	$dt['reksadana_penyertaaan_diperdagangkan'] = ($tot_pihak!=0)?($sum_invest['reksadana_penyertaaan_diperdagangkan']/$tot_pihak)*100:0;
     	
-    	if ($iduser != 'ASB003') {
-    		$dt['tanah_bangunan'] = ($tot_pihak!=0)?($sum_invest['tanah_bangunan']/$tot_pihak)*100:0;
-    	}
+    	// if ($iduser != 'ASB003') {
+    	// 	$dt['tanah_bangunan'] = ($tot_pihak!=0)?($sum_invest['tanah_bangunan']/$tot_pihak)*100:0;
+    	// }
 
     	$dt['total_perpihak'] = array_sum($dt);
 
@@ -389,6 +400,76 @@ Class Rincian extends CI_Controller {
     	// print_r($dt);exit;
     	return $dt;
     }
+
+    
+    public function persen_sum_hasil_invest($iduser){
+    	$sum_invest = $this->rincian_model->getdata('sum_rincian_hasil_investasi', 'row_array');
+    	$tot_pihak = $sum_invest['total_perpihak'] ;
+
+        $dt['bunga_deposito'] = ($tot_pihak!=0)?($sum_invest['bunga_deposito']/$tot_pihak)*100:0;
+        $dt['bunga_surat_utang_negara'] = ($tot_pihak!=0)?($sum_invest['bunga_surat_utang_negara']/$tot_pihak)*100:0;
+        $dt['imbal_hasil_sukuk_pemerintah'] = ($tot_pihak!=0)?($sum_invest['imbal_hasil_sukuk_pemerintah']/$tot_pihak)*100:0;
+        $dt['bunga_obligasi_korporasi'] = ($tot_pihak!=0)?($sum_invest['bunga_obligasi_korporasi']/$tot_pihak)*100:0;
+        $dt['imbal_hasil_sukuk_korporasi'] = ($tot_pihak!=0)?($sum_invest['imbal_hasil_sukuk_korporasi']/$tot_pihak)*100:0;
+        $dt['bunga_medium_term_notes'] = ($tot_pihak!=0)?($sum_invest['bunga_medium_term_notes']/$tot_pihak)*100:0;
+        $dt['deviden_saham'] = ($tot_pihak!=0)?($sum_invest['deviden_saham']/$tot_pihak)*100:0;
+        $dt['deviden_reksadana'] = ($tot_pihak!=0)?($sum_invest['deviden_reksadana']/$tot_pihak)*100:0;
+        $dt['nt_nilai_surat_utang_negara'] = ($tot_pihak!=0)?($sum_invest['nt_nilai_surat_utang_negara']/$tot_pihak)*100:0;
+        $dt['nt_nilai_sukuk_pemerintah'] = ($tot_pihak!=0)?($sum_invest['nt_nilai_sukuk_pemerintah']/$tot_pihak)*100:0;
+        $dt['nt_nilai_obligasi_korporasi'] = ($tot_pihak!=0)?($sum_invest['nt_nilai_obligasi_korporasi']/$tot_pihak)*100:0;
+        $dt['nt_nilai_sukuk_korporasi'] = ($tot_pihak!=0)?($sum_invest['nt_nilai_sukuk_korporasi']/$tot_pihak)*100:0;
+        $dt['nt_nilai_mtn'] = ($tot_pihak!=0)?($sum_invest['nt_nilai_mtn']/$tot_pihak)*100:0;
+        $dt['nt_nilai_saham'] = ($tot_pihak!=0)?($sum_invest['nt_nilai_saham']/$tot_pihak)*100:0;
+        $dt['nt_nab_reksadana'] = ($tot_pihak!=0)?($sum_invest['nt_nab_reksadana']/$tot_pihak)*100:0;
+        $dt['laba_rugi_pelepasan_investasi'] = ($tot_pihak!=0)?($sum_invest['laba_rugi_pelepasan_investasi']/$tot_pihak)*100:0;
+        $dt['pendapatan_investasi_lainnya'] = ($tot_pihak!=0)?($sum_invest['pendapatan_investasi_lainnya']/$tot_pihak)*100:0;
+        $dt['laba_rugi_selisih_kurs'] = ($tot_pihak!=0)?($sum_invest['laba_rugi_selisih_kurs']/$tot_pihak)*100:0;
+        $dt['laba_rugi_pelepasan_sertifikat_deposito'] = ($tot_pihak!=0)?($sum_invest['laba_rugi_pelepasan_sertifikat_deposito']/$tot_pihak)*100:0;
+        $dt['laba_rugi_pelepasan_sun'] = ($tot_pihak!=0)?($sum_invest['laba_rugi_pelepasan_sun']/$tot_pihak)*100:0;
+        $dt['laba_rugi_pelepasan_sukuk_pemerintah'] = ($tot_pihak!=0)?($sum_invest['laba_rugi_pelepasan_sukuk_pemerintah']/$tot_pihak)*100:0;
+        $dt['laba_rugi_pelepasan_obligasi_korporasi'] = ($tot_pihak!=0)?($sum_invest['laba_rugi_pelepasan_obligasi_korporasi']/$tot_pihak)*100:0;
+        $dt['laba_rugi_pelepasan_sukuk_korporasi'] = ($tot_pihak!=0)?($sum_invest['laba_rugi_pelepasan_sukuk_korporasi']/$tot_pihak)*100:0;
+        $dt['laba_rugi_pelepasan_mtn'] = ($tot_pihak!=0)?($sum_invest['laba_rugi_pelepasan_mtn']/$tot_pihak)*100:0;
+        $dt['laba_rugi_pelepasan_saham'] = ($tot_pihak!=0)?($sum_invest['laba_rugi_pelepasan_saham']/$tot_pihak)*100:0;
+        $dt['laba_rugi_pelepasan_reksadana'] = ($tot_pihak!=0)?($sum_invest['laba_rugi_pelepasan_reksadana']/$tot_pihak)*100:0;
+        $dt['laba_rugi_pelepasan_penyertaan_langsung'] = ($tot_pihak!=0)?($sum_invest['laba_rugi_pelepasan_penyertaan_langsung']/$tot_pihak)*100:0;
+        $dt['laba_rugi_pelepasan_tanah_bangunan'] = ($tot_pihak!=0)?($sum_invest['laba_rugi_pelepasan_tanah_bangunan']/$tot_pihak)*100:0;
+        $dt['deviden_penyertaan_langsung'] = ($tot_pihak!=0)?($sum_invest['deviden_penyertaan_langsung']/$tot_pihak)*100:0;
+        $dt['imbal_hasil_reksadana'] = ($tot_pihak!=0)?($sum_invest['imbal_hasil_reksadana']/$tot_pihak)*100:0;
+
+    	// $dt['deposito'] = ($tot_pihak!=0)?($sum_invest['deposito']/$tot_pihak)*100:0;
+    	// $dt['sertifikat_deposito'] = ($tot_pihak!=0)?($sum_invest['sertifikat_deposito']/$tot_pihak)*100:0;
+    	// $dt['sun'] = ($tot_pihak!=0)?($sum_invest['sun']/$tot_pihak)*100:0;
+    	// $dt['sukuk_pemerintah'] = ($tot_pihak!=0)?($sum_invest['sukuk_pemerintah']/$tot_pihak)*100:0;
+    	// $dt['obligasi_korporasi'] = ($tot_pihak!=0)?($sum_invest['obligasi_korporasi']/$tot_pihak)*100:0;
+    	// $dt['sukuk_korporasi'] = ($tot_pihak!=0)?($sum_invest['sukuk_korporasi']/$tot_pihak)*100:0;
+    	// $dt['obligasi_mata_uang'] = ($tot_pihak!=0)?($sum_invest['obligasi_mata_uang']/$tot_pihak)*100:0;
+    	// $dt['mtn'] = ($tot_pihak!=0)?($sum_invest['mtn']/$tot_pihak)*100:0;
+    	// $dt['saham'] = ($tot_pihak!=0)?($sum_invest['saham']/$tot_pihak)*100:0;
+    	// $dt['reksadana'] = ($tot_pihak!=0)?($sum_invest['reksadana']/$tot_pihak)*100:0;
+    	// $dt['dana_invest_kik'] = ($tot_pihak!=0)?($sum_invest['dana_invest_kik']/$tot_pihak)*100:0;
+    	// $dt['penyertaan_langsung'] = ($tot_pihak!=0)?($sum_invest['penyertaan_langsung']/$tot_pihak)*100:0;
+    	// $dt['reksadana_pasar_uang'] = ($tot_pihak!=0)?($sum_invest['reksadana_pasar_uang']/$tot_pihak)*100:0;
+    	// $dt['reksadana_pendapatan_tetap'] = ($tot_pihak!=0)?($sum_invest['reksadana_pendapatan_tetap']/$tot_pihak)*100:0;
+    	// $dt['reksadana_campuran'] = ($tot_pihak!=0)?($sum_invest['reksadana_campuran']/$tot_pihak)*100:0;
+    	// $dt['reksadana_saham'] = ($tot_pihak!=0)?($sum_invest['reksadana_saham']/$tot_pihak)*100:0;
+    	// $dt['reksadana_terproteksi'] = ($tot_pihak!=0)?($sum_invest['reksadana_terproteksi']/$tot_pihak)*100:0;
+    	// $dt['reksadana_pinjaman'] = ($tot_pihak!=0)?($sum_invest['reksadana_pinjaman']/$tot_pihak)*100:0;
+    	// $dt['reksadana_index'] = ($tot_pihak!=0)?($sum_invest['reksadana_index']/$tot_pihak)*100:0;
+    	// $dt['reksadana_kik'] = ($tot_pihak!=0)?($sum_invest['reksadana_kik']/$tot_pihak)*100:0;
+    	// $dt['reksadana_penyertaaan_diperdagangkan'] = ($tot_pihak!=0)?($sum_invest['reksadana_penyertaaan_diperdagangkan']/$tot_pihak)*100:0;
+    	
+    	// if ($iduser != 'ASB003') {
+    	// 	$dt['tanah_bangunan'] = ($tot_pihak!=0)?($sum_invest['tanah_bangunan']/$tot_pihak)*100:0;
+    	// }
+
+    	$dt['total_perpihak'] = array_sum($dt);
+
+    	// echo '<pre>';
+    	// print_r($dt);exit;
+    	return $dt;
+    }
+
     public function persen_sum_bkn_invest($iduser){
     	$sum_bkn_invest = $this->rincian_model->getdata('sum_rincian_bkn_investasi', 'row_array');
     	$tot_pihak = $sum_bkn_invest['total_perpihak'] ;
