@@ -190,6 +190,7 @@
 		kode_pihak : "required",
 		nama_pihak : "required",
 		keterangan : "required",
+		group : "required",
 		
 	};
 
@@ -198,6 +199,7 @@
 		kode_pihak : "<i style='color:red'>Harus Diisi</i>",
 		nama_pihak : "<i style='color:red'>Harus Diisi</i>",
 		keterangan : "<i style='color:red'>Harus Diisi</i>",
+		group : "<i style='color:red'>Harus Diisi</i>",
 		
 	}
 
