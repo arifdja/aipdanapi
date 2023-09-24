@@ -536,6 +536,7 @@ class Dashboard extends CI_Controller {
 									}
 								}
 
+								$array['arr_bln'] = array('Semester 1 - 2021', 'Semester 2 - 2021', 'Semester 1 - 2022', 'Semester 2 - 2022', 'Semester 1 - 2023', 'Semester 2 - 2023','Semester 1 - 2023', 'Semester 2 - 2023');
             		$array['arr_data_bar_hasil_invest'] = $data_bln['HASIL INVESTASI']['arr_data'];
             		$array['arr_data_line_hasil_invest'] = $data_bln['HASIL INVESTASI']['arr_data'];
 
