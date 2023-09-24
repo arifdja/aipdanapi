@@ -162,7 +162,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    $('.bln').hide();
+  $('.bln').hide();
   $('.smt').hide();
   $('.thn').hide();
 
