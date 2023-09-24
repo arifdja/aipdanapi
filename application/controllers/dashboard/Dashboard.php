@@ -274,10 +274,11 @@ class Dashboard extends CI_Controller {
             	}
 							
     		if ($param == 'BULANAN') {
-								$data_bln = array('Jan',
-								'Feb','Mar','Apr','May','Jun','Jul',
-								'Aug','Sep','Oct','Nov','Dec');
+								// $data_bln = array('Jan',
+								// 'Feb','Mar','Apr','May','Jun','Jul',
+								// 'Aug','Sep','Oct','Nov','Dec');
 
+								$data_bln = array();
 								$bulan = array(1,2,3,4,5,6,7,8,9,10,11,12);
 								$jenis = array('INVESTASI', 'BUKAN INVESTASI', 'KEWAJIBAN');
 								foreach ($bulan as $key => $bln) {
@@ -289,6 +290,10 @@ class Dashboard extends CI_Controller {
 										}
 									}
 								}
+
+								// echo "<pre>";
+            		// print_r($data_bln['PENDANAAN']['arr_data']);exit;
+
 								$array['arr_bln'] = array('Jan',
 								'Feb','Mar','Apr','May','Jun','Jul',
 								'Aug','Sep','Oct','Nov','Dec');
@@ -307,6 +312,7 @@ class Dashboard extends CI_Controller {
 								$array['tot_dana_bersih'] = rupiah($danabersih);
 
 								$array['arr_data_line_dana_bersih'] = array($danabersih);
+								// print_r($danabersih);exit;
 
         }	elseif ($param == 'SEMESTERAN') {
 								$data_bln = array();
@@ -332,7 +338,7 @@ class Dashboard extends CI_Controller {
 									}
 								}
 
-            		$array['arr_bln'] = array('Semester 1 - 2023', 'Semester 2 - 2023','Semester 1 - 2023', 'Semester 2 - 2023', 'Semester 1 - 2022', 'Semester 2 - 2022', 'Semester 1 - 2021', 'Semester 2 - 2021');
+            		$array['arr_bln'] = array('Semester 1 - 2021', 'Semester 2 - 2021', 'Semester 1 - 2022', 'Semester 2 - 2022', 'Semester 1 - 2023', 'Semester 2 - 2023','Semester 1 - 2023', 'Semester 2 - 2023');
             		$array['arr_data_line_invest'] = $data_bln['INVESTASI']['arr_data'];
             		$array['arr_data_line_bukan_invest'] = $data_bln['BUKAN INVESTASI']['arr_data'];
 								$array['arr_data_line_kewajiban'] = $data_bln['KEWAJIBAN']['arr_data'];
@@ -363,7 +369,7 @@ class Dashboard extends CI_Controller {
 										}
 									}
 								}
-            		$array['arr_bln'] = array('Tahun 2023', 'Tahun 2022', 'Tahun 2021', 'Tahun 2020', 'Tahun 2019');
+            		$array['arr_bln'] = array('Tahun 2019','Tahun 2020', 'Tahun 2021', 'Tahun 2022', 'Tahun 2023');
             		$array['arr_data_line_invest'] = $data_bln['INVESTASI']['arr_data'];
             		$array['arr_data_line_bukan_invest'] = $data_bln['BUKAN INVESTASI']['arr_data'];
 								$array['arr_data_line_kewajiban'] = $data_bln['KEWAJIBAN']['arr_data'];
@@ -380,6 +386,7 @@ class Dashboard extends CI_Controller {
 
 								$array['arr_data_line_dana_bersih'] = array($danabersih);
           }
+
 				// print($array);exit();
 				echo json_encode($array);
 			break;
@@ -525,7 +532,7 @@ class Dashboard extends CI_Controller {
 									}
 								}
 
-            		$array['arr_bln'] = array('Tahun 2023', 'Tahun 2022', 'Tahun 2021', 'Tahun 2020', 'Tahun 2019');
+            		$array['arr_bln'] = array('Tahun 2019','Tahun 2020', 'Tahun 2021', 'Tahun 2022', 'Tahun 2023');
             		$array['arr_data_bar_hasil_invest'] = $data_bln['HASIL INVESTASI']['arr_data'];
             		$array['arr_data_line_hasil_invest'] = $data_bln['HASIL INVESTASI']['arr_data'];
 

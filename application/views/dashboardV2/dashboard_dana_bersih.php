@@ -1,6 +1,6 @@
 <style type="text/css">
     .colornya {
-      background: linear-gradient(90deg, rgba(1,106,156,1) 0%, rgba(137,96,203,1) 0%, rgba(230,139,11,1) 100%);
+      background: linear-gradient(90deg, rgba(38,94,168,2) 0%, rgba(74,123,189,1) 0%, rgba(243,187,68,13) 100%);
       color: #ffff;
     }
 </style>

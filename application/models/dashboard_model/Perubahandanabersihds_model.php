@@ -63,39 +63,36 @@ class Perubahandanabersihds_model extends CI_Model {
 		switch($type){
 			case 'dashboard-perubahandanabersih':
 			// kondisi bulan lalu
-			if($id_bulan == 1){
-				$bln_lalu = 12;
-				$tahun_lalu = $tahun - 1;
-			}else{
-				$bln_lalu = $id_bulan -1;
-				$tahun_lalu = $tahun;
-			}
-			$sql ="
-				SELECT A.*, B.id_investasi, B.jenis_investasi, B.iduser, B.group, B.parent_id, 
-				B.type_sub_jenis_investasi as type, 
-				COALESCE(SUM(CASE WHEN B.group = 'HASIL INVESTASI' THEN C.mutasi else C.saldo_akhir end), 0) as saldo_akhir,
-				COALESCE(SUM(CASE WHEN B.group = 'HASIL INVESTASI' THEN D.mutasi else D.saldo_akhir end), 0) as saldo_akhir_bln_lalu
-				FROM mst_perubahan_danabersih A
-				LEFT JOIN mst_investasi B ON A.id_perubahan_dana_bersih = B.id_perubahan_dana_bersih
-				LEFT JOIN(
-					SELECT id_investasi,saldo_akhir_invest as saldo_akhir, mutasi_invest as mutasi, id_bulan, tahun, iduser
-					FROM bln_aset_investasi_header
-					WHERE id_bulan = '".$id_bulan."'
-					AND iduser = '".$iduser."'
-					AND tahun = '".$tahun."'
-				) C ON B.id_investasi = C.id_investasi
-
-				LEFT JOIN(
-					SELECT id_investasi,saldo_akhir_invest as saldo_akhir, mutasi_invest as mutasi, id_bulan, tahun, iduser
-					FROM bln_aset_investasi_header
-					WHERE id_bulan = '".$bln_lalu."'
-					AND iduser = '".$iduser."'
-					AND tahun = '".$tahun_lalu."'
-				) D ON B.id_investasi = D.id_investasi
-
-				WHERE B.iduser = '".$iduser."'
-				GROUP BY A.uraian
-			";
+			// if($id_bulan == 1){
+			// 	$bln_lalu = 12;
+			// 	$tahun_lalu = $tahun - 1;
+			// }else{
+			// 	$bln_lalu = $id_bulan -1;
+			// 	$tahun_lalu = $tahun;
+			// }
+			$sql="SELECT
+							b.id_bulan,
+							b.tahun,
+							b.iduser,
+							a.`group`,
+							b.id_investasi,
+							a.jenis_investasi,
+							MAX(b.mutasi_invest) AS mutasi_invest,
+							MAX(b.realisasi_rka) AS realisasi_rka,
+							MAX(b.rka) AS rka,
+							COALESCE (SUM(b.saldo_awal_invest), 0) AS saldo_awal,
+							COALESCE (SUM(b.saldo_akhir_invest), 0) AS saldo_akhir,
+							a.id_dana_besih
+						FROM
+							mst_investasi a
+						LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
+						$where
+						AND b.tahun = '".$tahun."'
+			 			AND CAST(b.id_bulan AS UNSIGNED) = '".$p1."'
+			 			AND a.`group` = '".$p2."'
+			 			ORDER BY
+			 			a.id_dana_besih ASC
+					";
 			break;
 
 			case 'dashboard-smt-perubahandanabersih':
@@ -117,7 +114,6 @@ class Perubahandanabersihds_model extends CI_Model {
 						LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
 						$where
 						AND b.tahun = '".$p1."'
-			 			AND CAST(b.id_bulan AS UNSIGNED) = '".$p3."'
 			 			AND a.`group` = '".$p2."'
 			 			ORDER BY
 			 			a.id_dana_besih ASC
