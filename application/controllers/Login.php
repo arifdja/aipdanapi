@@ -190,7 +190,7 @@ class Login extends CI_Controller {
 
     function logout_user() {
       $this->session->sess_destroy();
-      $this->show_login(false);
+      redirect(base_url('login/show_login'));
     }
 
     function showphpinfo() {
