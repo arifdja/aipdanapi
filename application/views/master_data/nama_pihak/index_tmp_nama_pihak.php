@@ -30,6 +30,7 @@
  								<th>Kode Pihak</th>
                 <th>Nama Pihak</th>
  								<th>Group</th>
+ 								<th>Investasi</th>
  								<th>User</th>
  							</tr>
  						</thead>
@@ -42,6 +43,7 @@
                   <td style="text-align: left;"><?=$pihak['kode_pihak']?></td>
                   <td style="text-align: left;"><?=$pihak['nama_pihak']?></td>
                   <td style="text-align: left;"><?=$pihak['group']?></td>
+                  <td style="text-align: left;"><?=$pihak['jenis_investasi']?></td>
                   <?php 
                     if($pihak['iduser'] == 'TSN002'){
                       $iduser = 'TASPEN';

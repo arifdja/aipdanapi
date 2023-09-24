@@ -666,8 +666,8 @@ class Master_data_model extends CI_Model {
 				// }
 
 				$sql="
-					SELECT a.*,b.*
-					FROM tmp_mst_nama_pihak a  left join tmp_mst_pihak b on (a.kode_pihak = b.kode_pihak)
+					SELECT a.*,b.*,c.jenis_investasi
+					FROM tmp_mst_nama_pihak a  left join tmp_mst_pihak b on (a.kode_pihak = b.kode_pihak) left join mst_investasi c on (a.id_investasi = c.id_investasi)
 					ORDER BY a.id DESC
 				";
 			break;
