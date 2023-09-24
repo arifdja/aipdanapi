@@ -120,10 +120,8 @@
 					<h1> <img src="<?php echo site_url($foto_profile); ?>" id="image-nya" class="img" style="width: auto; height: 35px;" /> <br><?php echo $bread['header'] ?></h1>
 
 					<ol class="breadcrumb">
-						<li><a href="#"><i class="fa fa-dashboard"></i><?php echo $bread['subheader'] ?></a></li>
-						<li class="active">
-							<p class="box-title pull-right" style="margin-right:20px; font-weight: bold;"><?php echo (isset($bulan[0]->nama_bulan) ? $bulan[0]->nama_bulan : '') . ' - ' . $tahun; ?></p>
-						</li>
+						<li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+						<li class="active"><?php echo $bread['subheader'] ?></li>
 					</ol>
 				<?php else : ?>
 					<h1><?php echo $bread['header'] ?></h1>

@@ -29,6 +29,7 @@ if ($level == 'DJA') {
       <div class="box box-default">
         <div class="box-header with-border">
           <h3 class="box-title">Pilihan</h3>
+          <p class="box-title pull-right" style="margin-right:20px"><i class="fa fa-calendar"></i>&nbsp;&nbsp;<?php echo $bln_head.' - '. $tahun;?></p>
         </div>
         <div class="box-body">
           <div class="col-md-3">
@@ -185,7 +186,7 @@ if ($level == 'DJA') {
   par['iduser'] = 'TSN002';
   par[csrf_token] = csrf_hash;
   $.LoadingOverlay("show");
-  $.post(host + 'dashboard-tampil/get_executive_summary', par, function(resp) {
+  $.post(host + 'dashboard-tampil-summary/get_executive_summary', par, function(resp) {
     if (resp) {
       $.LoadingOverlay("hide", true);
 
@@ -232,7 +233,7 @@ if ($level == 'DJA') {
     param[csrf_token] = csrf_hash;
     $.LoadingOverlay("show");
 
-    $.post(host + 'dashboard-tampil/get_executive_summary', param, function(resp) {
+    $.post(host + 'dashboard-tampil-summary/get_executive_summary', param, function(resp) {
       if (resp) {
         $.LoadingOverlay("hide", true);
 

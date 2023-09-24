@@ -84,6 +84,28 @@ class Aruskasds_model extends CI_Model {
 				// echo $sql;exit;
 			break;
 
+			case 'dashboard-aruskas-sum':
+				$sql = "
+					SELECT
+					b.iduser,
+					b.id_bulan,
+					a.nama_bulan,
+					b.jenis_kas,
+					b.tahun,
+					(SUM(IF(c.flag = 'plus', b.saldo_bulan_berjalan,0)) - SUM(IF(c.flag = 'min', b.saldo_bulan_berjalan,0))) AS saldo_akhir
+					FROM
+					t_bulan a
+					LEFT JOIN bln_arus_kas b ON a.id_bulan = b.id_bulan
+					LEFT JOIN mst_aruskas c ON b.id_aruskas = c.id_aruskas
+					$where
+					AND b.tahun = '".$tahun."'
+					AND CAST(b.id_bulan AS UNSIGNED) BETWEEN 1 AND '".$p1."'
+					AND b.jenis_kas = '".$p2."'
+				";
+
+				// echo $sql;exit;
+			break;
+
 			case 'dashboard-smt-aruskas':
 				$sql = "
 					SELECT

@@ -869,4 +869,61 @@ function get_kode_pihak($id){
 	return $string['kode_pihak'];
 
 }
+
+
+
+
+function terbilang($x) {
+  $angka = ["", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas"];
+
+  if ($x < 12)
+    return " " . $angka[$x];
+  elseif ($x < 20)
+    return terbilang($x - 10) . " belas";
+  elseif ($x < 100)
+    return terbilang($x / 10) . " puluh" . terbilang($x % 10);
+  elseif ($x < 200)
+    return "seratus" . terbilang($x - 100);
+  elseif ($x < 1000)
+    return terbilang($x / 100) . " ratus" . terbilang($x % 100);
+  elseif ($x < 2000)
+    return "seribu" . terbilang($x - 1000);
+  elseif ($x < 1000000)
+    return terbilang($x / 1000) . " ribu" . terbilang($x % 1000);
+  elseif ($x < 1000000000)
+    return terbilang($x / 1000000) . " juta" . terbilang($x % 1000000);
+}
 	
+
+
+
+
+	// Shortens a number and attaches K, M, B, etc. accordingly
+function number_shorten($number, $precision = 3, $divisors = null) {
+
+    // Setup default $divisors if not provided
+    if (!isset($divisors)) {
+        $divisors = array(
+            pow(1000, 0) => '', // 1000^0 == 1
+            pow(1000, 1) => 'K', // Thousand
+            pow(1000, 2) => 'M', // Million
+            pow(1000, 3) => 'B', // Billion
+            pow(1000, 4) => 'T', // Trillion
+            pow(1000, 5) => 'Qa', // Quadrillion
+            pow(1000, 6) => 'Qi', // Quintillion
+        );    
+    }
+
+    // Loop through each $divisor and find the
+    // lowest amount that matches
+    foreach ($divisors as $divisor => $shorthand) {
+        if (abs($number) < ($divisor * 1000)) {
+            // We found a match!
+            break;
+        }
+    }
+
+    // We found our match, or there were no matches.
+    // Either way, use the last defined value for $divisor.
+    return number_format($number / $divisor, $precision) . $shorthand;
+}

@@ -99,7 +99,7 @@
 									<tr>
                                         <th rowspan="2" width="30%">Uraian Beban Investasi</th>
                                         <th rowspan="2">Saldo Akhir Semester II&nbsp;&nbsp;<span class="thn-filter"></span></th>
-                                        <th rowspan="2">Saldo Akhir Semester I&nbsp;&nbsp;<span class="thn"></span></th>
+                                        <th rowspan="2">Saldo Akhir Semester II&nbsp;&nbsp;<span class="thn"></span></th>
                                         <th colspan="2">Kenaikan/Penurunan</th>
                                         <th rowspan="2">RKA</th>
                                         <th rowspan="2">Capaian Semester II terhadap RKA</th>
