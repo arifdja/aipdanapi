@@ -455,7 +455,7 @@ function genColumnChart(divnya, type, xxChart, yyChart, judul, pointformatnya, p
         },
         navigation: {
         	buttonOptions: {
-        		enabled: false
+        		enabled: true
         	}
         },
         title: {
