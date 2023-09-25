@@ -298,12 +298,12 @@ class Dashboard extends CI_Controller {
 										foreach ($jenis as $k => $jns) {
 												$data_bln[$jns]['arr_bln'][$key] = konversi_bln($bln);
 												
-												if ($bln == $param_bln) {
+												// if ($bln == $param_bln) {
 														$datanya = $this->danabersihds_model->getdata('dashboard-danabersih', 'result_array', $bln, $jns);
 														foreach ($datanya as $ky => $value) {
 																$data_bln[$jns]['arr_data'][$key] = (float)$value['saldo_akhir'];
 														}
-												}
+												// }
 										}
 								}
 
