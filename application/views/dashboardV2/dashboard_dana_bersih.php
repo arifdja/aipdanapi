@@ -155,6 +155,7 @@
                     <h3 class="box-title">Proporsi Portofolio Aset Investasi</h3>
                 </div>
                 <div class="box-body">
+                <br><br><br><br><br><br>
                      <div id="container-portofolio"></div>
                 </div>
             </div>
@@ -297,7 +298,7 @@ $('.tahun').text(tahun);
             $('#tot-kewajiban').html(kewajiban);
             $('#tot-dana-bersih').html(dana_bersih);
 
-            genPieChart("container-portofolio", "", "", chartD1, '', 250);
+            genPieChart("container-portofolio", "", "", chartD1, '', 350);
             genColumnChart("container-investasi", "", xChart, yChart1, "", "", "", false);
             genColumnChart("container-bukan-investasi", "", xChart, yChart1, "", "", "", false);
             genColumnChart("container-kewajiban", "", xChart, yChart2, "", "", "", false);

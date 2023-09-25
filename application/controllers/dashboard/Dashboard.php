@@ -293,15 +293,25 @@ class Dashboard extends CI_Controller {
 								$data_bln = array();
 								$bulan = range(1, $param_bln);
 								$jenis = array('INVESTASI', 'BUKAN INVESTASI', 'KEWAJIBAN');
-
+								
+								
 								foreach ($bulan as $key => $bln) {
 										foreach ($jenis as $k => $jns) {
 												$data_bln[$jns]['arr_bln'][$key] = konversi_bln($bln);
 												
 												// if ($bln == $param_bln) {
 														$datanya = $this->danabersihds_model->getdata('dashboard-danabersih', 'result_array', $bln, $jns);
+														$datanya_sum = $this->danabersihds_model->getdata('dashboard-danabersih-sum', 'result_array', $bln);
+														$datanya_pie = $this->danabersihds_model->getdata('dashboard-danabersih-pie', 'result_array', $bln);
 														foreach ($datanya as $ky => $value) {
 																$data_bln[$jns]['arr_data'][$key] = (float)$value['saldo_akhir'];
+														}
+														foreach ($datanya_sum as $kyx => $v) {
+															$data_bln['arr_data_dana_bersih_sum'][$key] = (float)$v['saldo_dana_bersih'];
+														}
+														foreach ($datanya_pie as $kyx1 => $v1) {
+															$data_bln['arr_data_pie_name'][$kyx1] = $v1['jenis_investasi'];
+															$data_bln['arr_data_pie_sum'][$kyx1] = (float)$v1['saldo_akhir'];
 														}
 												// }
 										}
@@ -319,18 +329,24 @@ class Dashboard extends CI_Controller {
             		$array['arr_data_line_bukan_invest'] = $data_bln['BUKAN INVESTASI']['arr_data'];
 								$array['arr_data_line_kewajiban'] = $data_bln['KEWAJIBAN']['arr_data'];
 
-								$array['arr_jns'] = array('Deposito', 'Surat Utang Negara', 'Obligasi Korporasi', 'Sukuk Korporasi', 'MTN', 'Reksadana');
-            		$array['arr_data_pie'] = $data_bln['INVESTASI']['arr_data'];
+								// $output = array();
+								// foreach ($data_bln['arr_data_pie_name'] as $kyx1 => $v1) {
+								// 	// Menambahkan nomor urutan dan nama jenis investasi dengan pemisah koma
+								// 	$array['arr_jns'] = implode(", ", $output);
+								// }
+								// $array['arr_jns'] = array('Deposito', 'Surat Utang Negara', 'Obligasi Korporasi', 'Sukuk Korporasi', 'MTN', 'Reksadana','Deposito', 'Surat Utang Negara', 'Obligasi Korporasi', 'Sukuk Korporasi', 'MTN', 'Reksadana');
+								$array['arr_jns'] = $data_bln['arr_data_pie_name'];
+            		$array['arr_data_pie'] = $data_bln['arr_data_pie_sum'];
 
 								$array['tot_investasi'] = rupiah(array_sum($data_bln['INVESTASI']['arr_data']));
 								$array['tot_bukan_investasi'] = rupiah(array_sum($data_bln['BUKAN INVESTASI']['arr_data']));
 								$array['tot_kewajiban'] = rupiah(array_sum($data_bln['KEWAJIBAN']['arr_data']));
 
 								
-								$danabersih = (array_sum($data_bln['INVESTASI']['arr_data']) + array_sum($data_bln['BUKAN INVESTASI']['arr_data']) - array_sum($data_bln['KEWAJIBAN']['arr_data']));
-								$array['tot_dana_bersih'] = rupiah($danabersih);
-
-								$array['arr_data_line_dana_bersih'] = array($danabersih);
+								// $danabersih = (array_sum($data_bln['INVESTASI']['arr_data']) + array_sum($data_bln['BUKAN INVESTASI']['arr_data']) - array_sum($data_bln['KEWAJIBAN']['arr_data']));
+								// $array['tot_dana_bersih'] = rupiah($danabersih);
+								$array['tot_dana_bersih'] = rupiah(array_sum($data_bln['arr_data_dana_bersih_sum']));
+								$array['arr_data_line_dana_bersih'] = $data_bln['arr_data_dana_bersih_sum'];
 								// print_r($danabersih);exit;
 
         }	elseif ($param == 'SEMESTERAN') {
@@ -350,6 +366,7 @@ class Dashboard extends CI_Controller {
 												$blnnya = 12 ;
 											}
 											$datanya = $this->danabersihds_model->getdata('dashboard-smt-danabersih', 'result_array', $thn, $jns, $blnnya);
+											
 											foreach ($datanya as $ky => $value) {
 												$data_bln[$jns]['arr_data'][] = (float)$value['saldo_akhir'];
 											}
