@@ -307,6 +307,7 @@ class Dashboard extends CI_Controller {
 										}
 								}
 
+
 								// echo "<pre>";
             		// print_r($data_bln['PENDANAAN']['arr_data']);exit;								
 								
@@ -323,6 +324,7 @@ class Dashboard extends CI_Controller {
 								$array['tot_investasi'] = rupiah(array_sum($data_bln['INVESTASI']['arr_data']));
 								$array['tot_bukan_investasi'] = rupiah(array_sum($data_bln['BUKAN INVESTASI']['arr_data']));
 								$array['tot_kewajiban'] = rupiah(array_sum($data_bln['KEWAJIBAN']['arr_data']));
+
 								
 								$danabersih = (array_sum($data_bln['INVESTASI']['arr_data']) + array_sum($data_bln['BUKAN INVESTASI']['arr_data']) - array_sum($data_bln['KEWAJIBAN']['arr_data']));
 								$array['tot_dana_bersih'] = rupiah($danabersih);
@@ -333,8 +335,8 @@ class Dashboard extends CI_Controller {
         }	elseif ($param == 'SEMESTERAN') {
 								$data_bln = array();
 								$current_year = date('Y');
-								$year = range($current_year, $current_year-2);
-
+								$year = range($current_year, $current_year-3);
+								sort($year);
 								$smt = array('Semester I', 'Semester II');
 								$jenis = array('INVESTASI', 'BUKAN INVESTASI', 'KEWAJIBAN');
 								foreach ($year as $key => $thn) {
@@ -354,8 +356,9 @@ class Dashboard extends CI_Controller {
 									}
 								}
 
-            		$array['arr_bln'] = array('Semester 1 - 2021', 'Semester 2 - 2021', 'Semester 1 - 2022', 'Semester 2 - 2022', 'Semester 1 - 2023', 'Semester 2 - 2023','Semester 1 - 2023', 'Semester 2 - 2023');
-            		$array['arr_data_line_invest'] = $data_bln['INVESTASI']['arr_data'];
+            		// $array['arr_bln'] = array('Semester 1 - 2021', 'Semester 2 - 2021', 'Semester 1 - 2022', 'Semester 2 - 2022', 'Semester 1 - 2023', 'Semester 2 - 2023','Semester 1 - 2023', 'Semester 2 - 2023');
+            		$array['arr_bln'] = $data_bln['INVESTASI']['arr_bln'];
+								$array['arr_data_line_invest'] = $data_bln['INVESTASI']['arr_data'];
             		$array['arr_data_line_bukan_invest'] = $data_bln['BUKAN INVESTASI']['arr_data'];
 								$array['arr_data_line_kewajiban'] = $data_bln['KEWAJIBAN']['arr_data'];
 
@@ -437,12 +440,12 @@ class Dashboard extends CI_Controller {
 												$data_bln[$jns]['arr_bln'][$key] = konversi_bln($bln);
 												
 												
-												if ($bln == $param_bln) {
+												// if ($bln == $param_bln) {
 														$datanya = $this->perubahandanabersihds_model->getdata('dashboard-perubahandanabersih', 'result_array', $bln, $jns);
 														foreach ($datanya as $ky => $value) {
 																$data_bln[$jns]['arr_data'][$key] = (float)$value['saldo_akhir'];
 														}
-												}
+												// }
 						
 												// Fee Pengelolaan AIP
 												$jns2 = 'BEBAN'; 
@@ -515,8 +518,8 @@ class Dashboard extends CI_Controller {
 
 								$data_bln = array();
 								$current_year = date('Y');
-								$year = range($current_year, $current_year-2);
-
+								$year = range($current_year, $current_year-3);
+								sort($year);
 								$smt = array('Semester I', 'Semester II');
 								$jenis = array('HASIL INVESTASI', 'IURAN', 'BEBAN', 'BEBAN INVESTASI', 'NILAI INVESTASI', 'INVESTASI');
 								foreach ($year as $key => $thn) {
@@ -536,7 +539,7 @@ class Dashboard extends CI_Controller {
 									}
 								}
 
-								$array['arr_bln'] = array('Semester 1 - 2021', 'Semester 2 - 2021', 'Semester 1 - 2022', 'Semester 2 - 2022', 'Semester 1 - 2023', 'Semester 2 - 2023','Semester 1 - 2023', 'Semester 2 - 2023');
+								$array['arr_bln'] = $data_bln['INVESTASI']['arr_bln'];
             		$array['arr_data_bar_hasil_invest'] = $data_bln['HASIL INVESTASI']['arr_data'];
             		$array['arr_data_line_hasil_invest'] = $data_bln['HASIL INVESTASI']['arr_data'];
 
