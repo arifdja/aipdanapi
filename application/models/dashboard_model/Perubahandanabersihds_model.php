@@ -121,6 +121,32 @@ class Perubahandanabersihds_model extends CI_Model {
 						";
 				break;
 
+				case 'dashboard-perubahandanabersih-sum':
+					$sql="SELECT
+									b.id_bulan,
+									b.tahun,
+									b.iduser,
+									a.`group`,
+									b.id_investasi,
+									a.jenis_investasi,
+									MAX(b.mutasi_invest) AS mutasi_invest,
+									MAX(b.realisasi_rka) AS realisasi_rka,
+									MAX(b.rka) AS rka,
+									COALESCE (SUM(b.saldo_awal_invest), 0) AS saldo_awal,
+									COALESCE (SUM(b.saldo_akhir_invest), 0) AS saldo_akhir,
+									a.id_dana_besih
+								FROM
+									mst_investasi a
+								LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
+								$where
+								AND b.tahun = '".$tahun."'
+								 AND CAST(b.id_bulan AS UNSIGNED) BETWEEN 1 AND '".$p1."'
+								 AND a.`group` = '".$p2."'
+								 ORDER BY
+								 a.id_dana_besih ASC
+							";
+					break;
+
 			case 'dashboard-perubahandanabersih2':
 				$sql="SELECT
 								b.id_bulan,
@@ -147,6 +173,32 @@ class Perubahandanabersihds_model extends CI_Model {
 							 a.id_dana_besih ASC
 						";
 				break;
+				case 'dashboard-perubahandanabersih2-sum':
+					$sql="SELECT
+									b.id_bulan,
+									b.tahun,
+									b.iduser,
+									a.`group`,
+									b.id_investasi,
+									a.jenis_investasi,
+									MAX(b.mutasi_invest) AS mutasi_invest,
+									MAX(b.realisasi_rka) AS realisasi_rka,
+									MAX(b.rka) AS rka,
+									COALESCE (SUM(b.saldo_awal_invest), 0) AS saldo_awal,
+									COALESCE (SUM(b.saldo_akhir_invest), 0) AS saldo_akhir,
+									a.id_dana_besih
+								FROM
+									mst_investasi a
+								LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
+								$where
+								AND b.tahun = '".$tahun."'
+								 AND CAST(b.id_bulan AS UNSIGNED) BETWEEN 1 AND '".$p1."'
+								 AND a.`group` = '".$p2."'
+								 AND a.jenis_investasi = 'Pengelolaan Akumulasi Iuran Pensiun'
+								 ORDER BY
+								 a.id_dana_besih ASC
+							";
+					break;
 			
 				case 'dashboard-perubahandanabersih3':
 					$sql="SELECT
@@ -174,6 +226,32 @@ class Perubahandanabersihds_model extends CI_Model {
 								 a.id_dana_besih ASC
 							";
 					break;
+					case 'dashboard-perubahandanabersih3-sum':
+						$sql="SELECT
+										b.id_bulan,
+										b.tahun,
+										b.iduser,
+										a.`group`,
+										b.id_investasi,
+										a.jenis_investasi,
+										MAX(b.mutasi_invest) AS mutasi_invest,
+										MAX(b.realisasi_rka) AS realisasi_rka,
+										MAX(b.rka) AS rka,
+										COALESCE (SUM(b.saldo_awal_invest), 0) AS saldo_awal,
+										COALESCE (SUM(b.saldo_akhir_invest), 0) AS saldo_akhir,
+										a.id_dana_besih
+									FROM
+										mst_investasi a
+									LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
+									$where
+									AND b.tahun = '".$tahun."'
+									 AND CAST(b.id_bulan AS UNSIGNED) BETWEEN 1 AND '".$p1."'
+									 AND a.`group` = '".$p2."'
+									 AND a.jenis_investasi IN('BOP Pembayaran Manfaat Pensiun','Pengelolaan Akumulasi Iuran Pensiun','Beban Penyusutan dan Amortisasi')
+									 ORDER BY
+									 a.id_dana_besih ASC
+								";
+						break;
 				
 					case 'dashboard-perubahandanabersih4':
 						$sql="SELECT
@@ -201,6 +279,32 @@ class Perubahandanabersihds_model extends CI_Model {
 									 a.id_dana_besih ASC
 								";
 						break;
+						case 'dashboard-perubahandanabersih4-sum':
+							$sql="SELECT
+											b.id_bulan,
+											b.tahun,
+											b.iduser,
+											a.`group`,
+											b.id_investasi,
+											a.jenis_investasi,
+											MAX(b.mutasi_invest) AS mutasi_invest,
+											MAX(b.realisasi_rka) AS realisasi_rka,
+											MAX(b.rka) AS rka,
+											COALESCE (SUM(b.saldo_awal_invest), 0) AS saldo_awal,
+											COALESCE (SUM(b.saldo_akhir_invest), 0) AS saldo_akhir,
+											a.id_dana_besih
+										FROM
+											mst_investasi a
+										LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
+										$where
+										AND b.tahun = '".$tahun."'
+										 AND CAST(b.id_bulan AS UNSIGNED) BETWEEN 1 AND '".$p1."'
+										 AND a.`group` = '".$p2."'
+										 AND a.jenis_investasi = 'Manfaat Nilai Tunai (SP3IP)'
+										 ORDER BY
+										 a.id_dana_besih ASC
+									";
+							break;
 					
 						case 'dashboard-perubahandanabersih5':
 							$sql="SELECT
@@ -227,6 +331,31 @@ class Perubahandanabersihds_model extends CI_Model {
 										 a.id_dana_besih ASC
 									";
 							break;
+							case 'dashboard-perubahandanabersih5-sum':
+								$sql="SELECT
+												b.id_bulan,
+												b.tahun,
+												b.iduser,
+												a.`group`,
+												b.id_investasi,
+												a.jenis_investasi,
+												MAX(b.mutasi_invest) AS mutasi_invest,
+												MAX(b.realisasi_rka) AS realisasi_rka,
+												MAX(b.rka) AS rka,
+												COALESCE (SUM(b.saldo_awal_invest), 0) AS saldo_awal,
+												COALESCE (SUM(b.saldo_akhir_invest), 0) AS saldo_akhir,
+												a.id_dana_besih
+											FROM
+												mst_investasi a
+											LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
+											$where
+											AND b.tahun = '".$tahun."'
+											 AND CAST(b.id_bulan AS UNSIGNED) BETWEEN 1 AND '".$p1."'
+											 AND a.jenis_investasi IN('Peningkatan/Penurunan Nilai Surat Utang Negara','Peningkatan/Penurunan Nilai Sukuk Pemerintah','Peningkatan/Penurunan Nilai Obligasi Korporasi','Peningkatan/Penurunan Nilai Sukuk Korporasi','Peningkatan/Penurunan Nilai Medium Term Notes','Peningkatan/Penurunan Nilai Saham','Peningkatan/Penurunan NAB Reksadana','Peningkatan/Penurunan Nilai Penyertaan Langsung','Pendapatan Investasi Lainnya')
+											 ORDER BY
+											 a.id_dana_besih ASC
+										";
+								break;
 
 			case 'dashboard-smt-perubahandanabersih':
 			$sql="SELECT
