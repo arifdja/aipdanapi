@@ -365,10 +365,14 @@ class Dashboard extends CI_Controller {
 											}else{
 												$blnnya = 12 ;
 											}
-											$datanya = $this->danabersihds_model->getdata('dashboard-smt-danabersih', 'result_array', $thn, $jns, $blnnya);
+											$datanya_sum = $this->danabersihds_model->getdata('dashboard-danabersih-sum', 'result_array', $blnnya);
+											$datanya = $this->danabersihds_model->getdata('dashboard-smt-danabersih', 'result_array', $jns, $blnnya);
 											
 											foreach ($datanya as $ky => $value) {
 												$data_bln[$jns]['arr_data'][] = (float)$value['saldo_akhir'];
+											}
+											foreach ($datanya_sum as $kyx => $v) {
+												$data_bln['arr_data_dana_bersih_sum'][$key] = (float)$v['saldo_dana_bersih'];
 											}
 										}
 									}
@@ -387,10 +391,12 @@ class Dashboard extends CI_Controller {
 								$array['tot_bukan_investasi'] = rupiah(array_sum($data_bln['BUKAN INVESTASI']['arr_data']));
 								$array['tot_kewajiban'] = rupiah(array_sum($data_bln['KEWAJIBAN']['arr_data']));
 								
-								$danabersih = (array_sum($data_bln['INVESTASI']['arr_data']) + array_sum($data_bln['BUKAN INVESTASI']['arr_data']) + array_sum($data_bln['KEWAJIBAN']['arr_data']));
-								$array['tot_dana_bersih'] = rupiah($danabersih);
+								// $danabersih = (array_sum($data_bln['INVESTASI']['arr_data']) + array_sum($data_bln['BUKAN INVESTASI']['arr_data']) + array_sum($data_bln['KEWAJIBAN']['arr_data']));
+								// $array['tot_dana_bersih'] = rupiah($danabersih);
 
-								$array['arr_data_line_dana_bersih'] = array($danabersih);
+								// $array['arr_data_line_dana_bersih'] = array($danabersih);
+								$array['tot_dana_bersih'] = rupiah(array_sum($data_bln['arr_data_dana_bersih_sum']));
+								$array['arr_data_line_dana_bersih'] = $data_bln['arr_data_dana_bersih_sum'];
 
         }	else	{
 								$data_bln = array();
@@ -400,9 +406,13 @@ class Dashboard extends CI_Controller {
 								foreach ($year as $key => $thn) {
 									foreach ($jenis as $ky => $jns) {
 										$data_bln[$jns]['arr_bln'][] = $thn;
-										$datanya = $this->danabersihds_model->getdata('dashboard-thn-danabersih', 'result_array', $thn, $jns, '13');
+										$datanya = $this->danabersihds_model->getdata('dashboard-thn-danabersih', 'result_array', $jns, $thn, '13');
+										$datanya_sum = $this->danabersihds_model->getdata('dashboard-thn-danabersih-sum', 'result_array', $thn, '13');
 										foreach ($datanya as $ky => $value) {
 											$data_bln[$jns]['arr_data'][] = (float)$value['saldo_akhir'];
+										}
+										foreach ($datanya_sum as $kyx => $v) {
+											$data_bln['arr_data_dana_bersih_sum'][$key] = (float)$v['saldo_dana_bersih'];
 										}
 									}
 								}
@@ -418,10 +428,12 @@ class Dashboard extends CI_Controller {
 								$array['tot_bukan_investasi'] = rupiah(array_sum($data_bln['BUKAN INVESTASI']['arr_data']));
 								$array['tot_kewajiban'] = rupiah(array_sum($data_bln['KEWAJIBAN']['arr_data']));
 								
-								$danabersih = (array_sum($data_bln['INVESTASI']['arr_data']) + array_sum($data_bln['BUKAN INVESTASI']['arr_data']) + array_sum($data_bln['KEWAJIBAN']['arr_data']));
-								$array['tot_dana_bersih'] = rupiah($danabersih);
+								// $danabersih = (array_sum($data_bln['INVESTASI']['arr_data']) + array_sum($data_bln['BUKAN INVESTASI']['arr_data']) + array_sum($data_bln['KEWAJIBAN']['arr_data']));
+								// $array['tot_dana_bersih'] = rupiah($danabersih);
 
-								$array['arr_data_line_dana_bersih'] = array($danabersih);
+								// $array['arr_data_line_dana_bersih'] = array($danabersih);
+								$array['tot_dana_bersih'] = rupiah(array_sum($data_bln['arr_data_dana_bersih_sum']));
+								$array['arr_data_line_dana_bersih'] = $data_bln['arr_data_dana_bersih_sum'];
           }
 
 				// print($array);exit();
