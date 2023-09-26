@@ -376,6 +376,7 @@ class Perubahandanabersihds_model extends CI_Model {
 						LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
 						$where
 						AND b.tahun = '".$p1."'
+						AND CAST(b.id_bulan AS UNSIGNED) = '".$p3."'
 			 			AND a.`group` = '".$p2."'
 			 			ORDER BY
 			 			a.id_dana_besih ASC
@@ -401,8 +402,9 @@ class Perubahandanabersihds_model extends CI_Model {
 				mst_investasi a
 			LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
 			$where
-					AND b.tahun = '".$p1."'
 					AND a.`group` = '".$p2."'
+					AND b.tahun = '".$tahun."'
+					AND CAST(b.id_bulan AS UNSIGNED) = '".$p3."'
 					ORDER BY
 					a.id_dana_besih ASC 
 					";

@@ -182,8 +182,8 @@ class Danabersihds_model extends CI_Model {
 					mst_investasi a
 				LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
 				$where
-				AND a.`group` = '" . $p2 . "'
-				AND CAST(b.id_bulan AS UNSIGNED) = '" . $p1 . "'
+				AND a.`group` = '" . $p1 . "'
+				AND CAST(b.id_bulan AS UNSIGNED) = '" . $p2 . "'
 				AND b.tahun = '" . $tahun . "'
 				ORDER BY
 				a.id_dana_besih ASC 
@@ -192,6 +192,59 @@ class Danabersihds_model extends CI_Model {
 				// echo $sql;exit;
 			break;
 			
+			case 'dashboard-thn-danabersih-sum':
+				
+				$sql = "SELECT
+				(SELECT COALESCE(SUM(b.saldo_akhir_invest), 0)
+				FROM mst_investasi a
+				LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
+				WHERE a.`group` = 'INVESTASI'
+				AND CAST(b.id_bulan AS UNSIGNED) = '" . $p2 . "'
+				AND b.tahun = '" . $tahun . "'
+				ORDER BY a.id_dana_besih ASC) AS saldo_investasi,
+				
+				(SELECT COALESCE(SUM(b.saldo_akhir_invest), 0)
+				FROM mst_investasi a
+				LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
+				WHERE a.`group` = 'BUKAN INVESTASI'
+				AND CAST(b.id_bulan AS UNSIGNED) = '" . $p2 . "'
+				AND b.tahun = '" . $tahun . "'
+				ORDER BY a.id_dana_besih ASC) AS saldo_bukan_investasi,
+				
+				(SELECT COALESCE(SUM(b.saldo_akhir_invest), 0)
+				FROM mst_investasi a
+				LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
+				WHERE a.`group` = 'KEWAJIBAN'
+				AND CAST(b.id_bulan AS UNSIGNED) = '" . $p2 . "'
+				AND b.tahun = '" . $tahun . "'
+				ORDER BY a.id_dana_besih ASC) AS saldo_kewajiban,
+				
+				((SELECT COALESCE(SUM(b.saldo_akhir_invest), 0)
+				FROM mst_investasi a
+				LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
+				WHERE a.`group` = 'INVESTASI'
+				AND CAST(b.id_bulan AS UNSIGNED) = '" . $p2 . "'
+				AND b.tahun = '" . $tahun . "'
+				ORDER BY a.id_dana_besih ASC) +
+				
+				(SELECT COALESCE(SUM(b.saldo_akhir_invest), 0)
+				FROM mst_investasi a
+				LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
+				WHERE a.`group` = 'BUKAN INVESTASI'
+				AND CAST(b.id_bulan AS UNSIGNED) = '" . $p2 . "'
+				AND b.tahun = '" . $tahun . "'
+				ORDER BY a.id_dana_besih ASC) -
+				
+				(SELECT COALESCE(SUM(b.saldo_akhir_invest), 0)
+				FROM mst_investasi a
+				LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
+				WHERE a.`group` = 'KEWAJIBAN'
+				AND CAST(b.id_bulan AS UNSIGNED) = '" . $p2 . "'
+				AND b.tahun = '" . $tahun . "'
+				ORDER BY a.id_dana_besih ASC)) AS saldo_dana_bersih		
+				";
+				// echo $sql;exit;
+			break;
 			case 'dashboard-thn-danabersih':
 				$sql = "SELECT
 					b.id_bulan,
@@ -211,8 +264,9 @@ class Danabersihds_model extends CI_Model {
 					mst_investasi a
 				LEFT JOIN bln_aset_investasi_header b ON a.id_investasi = b.id_investasi
 				$where
-				AND a.`group` = '" . $p2 . "'
+				AND a.`group` = '" . $p1 . "'
 				AND b.tahun = '" . $tahun . "'
+				AND CAST(b.id_bulan AS UNSIGNED) = '" . $p3 . "'
 				ORDER BY
 				a.id_dana_besih ASC 
 				";
