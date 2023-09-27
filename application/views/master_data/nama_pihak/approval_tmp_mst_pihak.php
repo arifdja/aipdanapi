@@ -4,6 +4,7 @@
  <div class="row">
      <div class="col-xs-12">
          <div class="nav-tabs-custom">
+            <?php $this->load->view('main/nav_tab_tmp_nama_pihak_dja'); ?>
              <div class="box box-default">
                  <div class="box-header with-border">
                      <h3 class="box-title">Approval Pengajuan Nama Pihak</h3>

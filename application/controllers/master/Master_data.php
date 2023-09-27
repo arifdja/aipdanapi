@@ -50,6 +50,15 @@ class Master_data extends CI_Controller {
         $this->load->view('main/utama', $data);
     }
 
+    public function master_tmp_nama_pihak(){
+        $data['data_nama_pihak'] = $this->master_data_model->getdata('tmp_mst_nama_pihak', 'result_array');
+        $data['opt_user'] = dtuser();
+        $data['group'] = group_pihak_investasi();
+        $data['bread'] = array('header'=>'Master Data', 'subheader'=>'Nama Pihak');
+        $data['view']  = "master_data/nama_pihak/index_tmp_nama_pihak_dja";
+        $this->load->view('main/utama', $data);
+    }
+
     public function mst_pihak(){
         $data['data_mst_pihak'] = $this->master_data_model->getdata('mst_pihak', 'result_array');
         $data['opt_user'] = dtuser();
