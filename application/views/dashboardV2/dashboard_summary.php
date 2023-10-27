@@ -12,15 +12,7 @@
 <?php
 $level = $this->session->userdata('level');
 $tahun = $this->session->userdata('tahun');
-if ($level == 'DJA') {
-  $foto_profile = "files/profiles/logo-dja.jpg";
-} elseif ($level == 'TASPEN') {
-  $foto_profile = "files/profiles/logo-taspen.jpg";
-} elseif ($level == 'ASABRI') {
-  $foto_profile = "files/profiles/logo-asabri.jpg";
-} else {
-  $foto_profile = "files/profiles/_noprofile.jpg";
-}
+
 ?>
 <!-- <img src="" id="image3-nya" class="img" style="width: auto; height: 35px;" /> -->
 <div class="row adm">
@@ -165,9 +157,24 @@ if ($level == 'DJA') {
     'width': '100%'
   });
   $('.tahun').text(tahun);
+  var levelnya = '<?php echo $this->session->userdata('level'); ?>';
+  // if (levelnya == 'TASPEN') {
+  //   var image = document.getElementById("image-nya").src = host + "files/profiles/TASPEN.png";
+  // } else if (levelnya == 'ASABRI') {
+  //   var image = document.getElementById("image-nya").src = host + "files/profiles/logo-asabri-v2.png";
+  // }else{
+  //   var image = document.getElementById("image-nya").src = host + "files/profiles/TASPEN.png";
+  // }
 
   $('#iduser').on('change', function() {
-    var val = $(this).val();
+    if (levelnya == 'TASPEN') {
+      var val = 'TSN002';
+    } else if (levelnya == 'ASABRI') {
+      var val = 'ASB003';
+    }else{
+      var val = $(this).val();
+    }
+    
     console.log(val);
     if (val == 'TSN002') {
       var image = document.getElementById("image-nya").src = host + "files/profiles/TASPEN.png";
@@ -176,14 +183,24 @@ if ($level == 'DJA') {
       var image = document.getElementById("image-nya").src = host + "files/profiles/logo-asabri-v2.png";
     } else {
       var image = document.getElementById("image-nya").src = host + "files/profiles/TASPEN.png";
+
+      
     }
   });
 
 
   var par = {};
-  var idnya = $('#iduser').val('TSN002').trigger("change");
-  console.log(idnya);
-  par['iduser'] = 'TSN002';
+  // var idnya = $('#iduser').val('TSN002').trigger("change");
+  console.log(levelnya);
+
+  if (levelnya == 'TASPEN') {
+    var userid = 'TSN002';
+  } else if (levelnya == 'ASABRI') {
+    var userid = 'ASB003';
+  }else{
+    var userid = 'TSN002';
+  }
+  par['iduser'] = userid;
   par[csrf_token] = csrf_hash;
   $.LoadingOverlay("show");
   $.post(host + 'dashboard-tampil-summary/get_executive_summary', par, function(resp) {
