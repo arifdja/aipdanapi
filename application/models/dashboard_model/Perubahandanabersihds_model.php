@@ -326,6 +326,7 @@ class Perubahandanabersihds_model extends CI_Model {
 										$where
 										AND b.tahun = '".$tahun."'
 										 AND CAST(b.id_bulan AS UNSIGNED) = '".$p1."'
+										 AND a.type_sub_jenis_investasi = 'C'
 										 AND a.jenis_investasi IN('Peningkatan/Penurunan Nilai Surat Utang Negara','Peningkatan/Penurunan Nilai Sukuk Pemerintah','Peningkatan/Penurunan Nilai Obligasi Korporasi','Peningkatan/Penurunan Nilai Sukuk Korporasi','Peningkatan/Penurunan Nilai Medium Term Notes','Peningkatan/Penurunan Nilai Saham','Peningkatan/Penurunan NAB Reksadana','Peningkatan/Penurunan Nilai Penyertaan Langsung','Pendapatan Investasi Lainnya')
 										 ORDER BY
 										 a.id_dana_besih ASC
@@ -351,6 +352,7 @@ class Perubahandanabersihds_model extends CI_Model {
 											$where
 											AND b.tahun = '".$tahun."'
 											 AND CAST(b.id_bulan AS UNSIGNED) BETWEEN 1 AND '".$p1."'
+											 AND a.type_sub_jenis_investasi = 'C'
 											 AND a.jenis_investasi IN('Peningkatan/Penurunan Nilai Surat Utang Negara','Peningkatan/Penurunan Nilai Sukuk Pemerintah','Peningkatan/Penurunan Nilai Obligasi Korporasi','Peningkatan/Penurunan Nilai Sukuk Korporasi','Peningkatan/Penurunan Nilai Medium Term Notes','Peningkatan/Penurunan Nilai Saham','Peningkatan/Penurunan NAB Reksadana','Peningkatan/Penurunan Nilai Penyertaan Langsung','Pendapatan Investasi Lainnya')
 											 ORDER BY
 											 a.id_dana_besih ASC

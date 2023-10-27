@@ -572,8 +572,7 @@ class Dashboard extends CI_Controller {
 								$array['tot_hasil_investasi'] = rupiah(array_sum($data_bln['HASIL INVESTASI']['arr_data']));
 								$array['tot_iuran'] = rupiah(array_sum($data_bln['IURAN']['arr_data']));
 							
-
-            	}elseif ($param == 'SEMESTERAN') {
+            	} elseif ($param == 'SEMESTERAN' ) {
 
 								$data_bln = array();
 								$current_year = date('Y');
