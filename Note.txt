@@ -1,0 +1,20 @@
+========================= Dashboard ==========================
+1. Executive Summary
+   - Tampilkan Pembanding/Nilai pada saat kursor menyentuh Chart
+   - Dan tampilkan di bawah chart donnut Nilai/Pembanding
+2. Dana Bersih
+   - Bagian dari total line bar bukan akumulasi tetapi sum di bulan tersebut pada saat filter Bulanan
+   - Di line Bar bawah tahun semester terbalik
+   - Perhitungan Semester dan Tahunan Belum Sesuai
+3. Perubahan Dana Bersih
+   - Beban Operasional, Fee
+4. Untuk penambahan nama Pihak kalo bisa di buat otomatis pada saat pengecekan oleh admin.
+5. Perubahan Warna Bar di Dashboard
+6. Sub Menu di Dashboard V2 "Aspek Operasional" digabung ke menu "Operasional Belanja Pensiun APBN" menjadi "Aspek Operasional Pembelanjaan Pensiun APBN" ( Koreksi Bila salah)
+=============================================================
+
+=================== Meet 31 Oktober 2023 ====================
+1. Masa Maintenance sampai akhir Desember 2023
+2. Ada perubahan formula untuk YOI ( untuk yang sekarang masih salah )
+3. Perbaikan Dashboard agar lebih di rapihkan UI
+4. 

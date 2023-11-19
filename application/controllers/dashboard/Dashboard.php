@@ -532,9 +532,6 @@ class Dashboard extends CI_Controller {
 										}
 								}
 
-								
-
-
             		// $monthName = date('M', mktime(0, 0, 0, $param_bln, 1));
 								// $array['arr_bln'] = array($monthName);
 								$array['arr_bln'] = $data_bln['INVESTASI']['arr_bln'];
