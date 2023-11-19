@@ -1,4 +1,3 @@
-<br><br><br><br><br><br><br><br>
 <p style="margin-left:0px;margin-top:10px;margin-bottom:10px;font-weight: bold">     
     Aset Investasi - <?php echo (isset($bulan[0]->nama_bulan) ? $bulan[0]->nama_bulan : '');?>
 </p>
@@ -77,5 +76,5 @@
     <p style="margin-left:15px;font-size: 14px;font-weight: bold">Keterangan :</p>
     <p style="margin-left:10px;font-size: 12px;margin-right: 15px;margin-left: 15px;text-align: justify;"><?php echo (isset($data_posisi_investasi_ket[0]->keterangan_lap) ? $data_posisi_investasi_ket[0]->keterangan_lap : '');?></p>
 </div>
-
+<p style="page-break-before: always">
 <!-- end keterangan -->
