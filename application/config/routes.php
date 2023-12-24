@@ -22,6 +22,7 @@ $route['api-master-klaim'] 		  	    = 'api_referensi/master_klaim';
 $route['api-master-aruskas'] 		  	= 'api_referensi/master_aruskas';
 $route['api-master-kelompok-penerima'] 	= 'api_referensi/master_kelompok_penerima';
 $route['api-master-jenis-penerima'] 	= 'api_referensi/master_jenis_penerima';
+$route['api-peserta-aktif'] 	= 'api_bulanan/peserta_aktif';
 
 
 // API SEMESTERAN
