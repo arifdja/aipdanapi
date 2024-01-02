@@ -506,6 +506,7 @@ function check_access($role_id, $menu_id){
 		$data = array(
 			'0' => array('id'=>'INVESTASI','txt'=>'INVESTASI'),
 			'1' => array('id'=>'BUKAN INVESTASI','txt'=>'BUKAN INVESTASI'),
+			'2' => array('id'=>'HASIL INVESTASI','txt'=>'HASIL INVESTASI'),
 
 		);
 		return $data;

@@ -190,7 +190,7 @@ class Dashboard_summary extends CI_Controller {
 					}
 				}
 
-				$datanya_operasional = $this->executivesummary->getdata('aspek_operasional', 'row_array', $semester);
+				$datanya_operasional = $this->executivesummary->getdata('aspek_operasional', 'row_array', $param_bln);
 				$pertumbuhan_invest = $this->executivesummary->getdata('nilai_pertumbuhan_investasi', 'row_array', $param_bln);
 
 				$array['nil_invest'] = $data_bln['INVESTASI']['arr_persen'][$param_bln];
@@ -216,8 +216,8 @@ class Dashboard_summary extends CI_Controller {
 				$danabersih = ($data_bln['INVESTASI']['arr_data'][$param_bln]) + ($data_bln['BUKAN INVESTASI']['arr_data'][$param_bln]) - ($data_bln['KEWAJIBAN']['arr_data'][$param_bln]);
 				$array['tot_dana_bersih'] = rupiah($danabersih);
 
-				$array['tot_peserta'] = "-";
-				$array['tot_pensiunan'] = rupiah($datanya_operasional['jml_penerima']);
+				$array['tot_peserta'] = rupiah($datanya_operasional['jml_peserta']);;
+				$array['tot_pensiunan'] = rupiah($datanya_operasional['jml_pensiunan']);
 				$array['tot_pembayaran'] = rupiah($datanya_operasional['jml_pembayaran']);
 
 				echo json_encode($array);

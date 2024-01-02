@@ -104,7 +104,7 @@ class Executivesummary_model extends CI_Model {
 					ORDER BY A.no_urut ASC
 				";
 			break;
-			case 'aspek_operasional':
+			case 'aspek_operasional_lama':
 				$sql = "
 					SELECT
 					A.semester,
@@ -119,6 +119,22 @@ class Executivesummary_model extends CI_Model {
 					AND A.semester = '".$p1."'
 				";
 				// echo $sql;exit();
+			break;
+			case 'aspek_operasional':
+				$sql = "
+					SELECT
+						A.bulan,
+						A.tahun,
+						COALESCE (A.jml_peserta_aktif, 0) AS jml_peserta,
+						COALESCE (A.jml_pensiunan, 0) AS jml_pensiunan,
+						COALESCE (A.jml_pembayaran, 0) AS jml_pembayaran
+					FROM tbl_lkao_peserta_aktif A
+					$where2
+					AND A.bulan = '".$p1."'
+					AND A.tahun = '".$tahun."'
+				";
+
+				 // echo $sql;exit();
 			break;
 			case 'yoi_hasil_investasi':
 				$sql="
