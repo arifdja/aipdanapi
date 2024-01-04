@@ -159,11 +159,7 @@ class Beban_investasi_model extends CI_Model {
 
         if($status_input == true){
 
-          if ($saldo_akhir_invest/$rka*100 != $realisasi_rka) {
-            $msg.= '<< RKA id_investasi '.$id_investasi.' tidak valid>>';
-            $res['error']=true;
-            $res['msg']=$msg;
-          } else {
+        
             
 
             if($id_bulan != 1){
@@ -194,11 +190,21 @@ class Beban_investasi_model extends CI_Model {
               unset($value['detail']);
               $dataUpdate=$value;
 
+              $dataUpdateValid = $dataUpdate; 
+            
+              if($dataUpdate['rka'] == ''){
+                $dataUpdateValid['realisasi_rka'] = 100;
+              } else {
+                $dataUpdateValid['realisasi_rka'] = @round($dataUpdate['saldo_akhir_invest']/$dataUpdate['rka']*100,2);
+              }
+
+              // var_dump($dataUpdateValid);exit;
+
               $this->db->where('iduser',$value['iduser']);
               $this->db->where('id_investasi',$value['id_investasi']);
               $this->db->where('id_bulan',$value['id_bulan']);
               $this->db->where('tahun',$value['tahun']);
-              $this->db->update($this->table , $dataUpdate);
+              $this->db->update($this->table , $dataUpdateValid);
               $jumlahUpdate = $this->db->affected_rows();
 
               if ($jumlahUpdate>0) {
@@ -221,7 +227,7 @@ class Beban_investasi_model extends CI_Model {
               
             }
 
-          }
+          
 
         } else {
           $status = 0;

@@ -258,12 +258,22 @@ class Hasil_investasi_model extends CI_Model {
               unset($data[$key]['detail']);
               unset($value['detail']);
               $dataUpdate=$value;
+
+              $dataUpdateValid = $dataUpdate; 
+            
+              if($dataUpdate['rka'] == ''){
+                $dataUpdateValid['realisasi_rka'] = 100;
+              } else {
+                $dataUpdateValid['realisasi_rka'] = @round($dataUpdate['saldo_akhir_invest']/$dataUpdate['rka']*100,2);
+              }
+
+              // var_dump($dataUpdateValid);exit;
     
               $this->db->where('iduser',$value['iduser']);
               $this->db->where('id_investasi',$value['id_investasi']);
               $this->db->where('id_bulan',$value['id_bulan']);
               $this->db->where('tahun',$value['tahun']);
-              $this->db->update($this->table , $dataUpdate);
+              $this->db->update($this->table , $dataUpdateValid);
               $jumlahUpdate = $this->db->affected_rows();
     
               $cekdataDetail = $this->db->get_where($this->tableDetail,array('iduser'=>$id_user,'bln_aset_investasi_header_id'=>$idDetail,'id_bulan'=>$id_bulan,'tahun'=>$tahun))->num_rows();
@@ -455,9 +465,9 @@ class Hasil_investasi_model extends CI_Model {
     if ($header_saldo_akhir != $sum_saldo_akhir){
       $msg.= '<< Saldo akhir header dan detil id_investasi '.$id_investasi.' tidak valid>>';
     }
-    if ($header_saldo_akhir/$header_rka*100 != $header_realisasi_rka){
-      $msg.= '<< RKA id_investasi '.$id_investasi.' tidak valid>>';
-    }
+    // if ($header_saldo_akhir/$header_rka*100 != $header_realisasi_rka){
+    //   $msg.= '<< RKA id_investasi '.$id_investasi.' tidak valid>>';
+    // }
 
     return $msg;
 
