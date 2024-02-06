@@ -363,8 +363,10 @@ class Aset_investasi_model extends CI_Model {
             $dataUpdate=$value;
 
             $dataUpdateValid = $dataUpdate; 
+
+            // var_dump($dataUpdate['rka']);exit;
             
-            if($dataUpdate['rka'] == ''){
+            if($dataUpdate['rka'] == '' || $dataUpdate['rka'] == 0){
               $dataUpdateValid['realisasi_rka'] = 100;
             } else {
               $dataUpdateValid['realisasi_rka'] = @round($dataUpdate['saldo_akhir_invest']/$dataUpdate['rka']*100,2);
@@ -443,7 +445,17 @@ class Aset_investasi_model extends CI_Model {
             unset($value['detail']);
             $dataInsert=$value;
 
-            $insert = $this->db->insert($this->table, $dataInsert);
+            $dataInsertValid = $dataInsert; 
+
+            // var_dump($dataUpdate['rka']);exit;
+            
+            if($dataInsert['rka'] == '' || $dataInsert['rka'] == 0){
+              $dataInsertValid['realisasi_rka'] = 100;
+            } else {
+              $dataInsertValid['realisasi_rka'] = @round($dataInsert['saldo_akhir_invest']/$dataInsert['rka']*100,2);
+            }
+
+            $insert = $this->db->insert($this->table, $dataInsertValid);
             $idDetail = $this->db->insert_id();
             $jumlahInsert = $this->db->affected_rows();
 
