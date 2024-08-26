@@ -70,4 +70,3 @@
 	<td></td>
 </tr>
 </table>
-<p style="page-break-before: always">

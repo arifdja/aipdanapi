@@ -113,6 +113,7 @@ class Pembayaran_pensiun_model extends CI_Model {
     $arrSmt = array(1,2);
     $arrSD = array(1,2);
     $insert_at = date('Y-m-d H:i:s');
+
     // master user
     $this->db->select('iduser');
     $resUser = $this->db->get('t_user')->result_array();
@@ -137,8 +138,6 @@ class Pembayaran_pensiun_model extends CI_Model {
       $arrPen[] = $valuePen['id_penerima'];
     }
 
-
-
     $status = 1;
     $msg='-- Trans Begin --';
     $noHeader = 0;
@@ -151,7 +150,6 @@ class Pembayaran_pensiun_model extends CI_Model {
       $id_penerima = $value['id_penerima'];
       $id_kelompok = $value['id_kelompok'];
       $sd = $value['sumber_dana'];
-
 
       // master cabang
       $this->db->select('id_cabang');
@@ -185,7 +183,7 @@ class Pembayaran_pensiun_model extends CI_Model {
             $dataUpdate=$value;
             $dataUpdate['insert_at']=$getdata->insert_at;
             $dataUpdate['update_at']=$insert_at;
-            
+            // var_dump($dataUpdate);exit;
 
             $this->db->where('iduser',$value['iduser']);
             $this->db->where('semester',$value['semester']);
@@ -195,7 +193,10 @@ class Pembayaran_pensiun_model extends CI_Model {
             $this->db->update($this->table , $dataUpdate);
             $jumlahUpdate = $this->db->affected_rows();
             $cekdataDetail = $this->db->get_where($this->tableDetail,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun,'id_penerima'=>$id_penerima,'id_kelompok'=>$id_kelompok,'sumber_dana'=>$sd))->num_rows();
-            if ($cekdataDetail>0) {
+            // var_dump($id_penerima);
+            // var_dump($id_kelompok);
+            // var_dump($cekdataDetail);exit;
+            // if ($cekdataDetail>0) {
               $del = $this->db->delete($this->tableDetail,array('iduser'=>$id_user,'semester'=>$smt,'tahun'=>$tahun,'id_penerima'=>$id_penerima,'id_kelompok'=>$id_kelompok,'sumber_dana'=>$sd));
               
               
@@ -214,6 +215,8 @@ class Pembayaran_pensiun_model extends CI_Model {
                           'insert_at' => $getdata->insert_at,
                           'update_at' => $insert_at,
                       );
+
+                      // var_dump($dataInsertDetail);exit;
                       
                       $this->db->insert($this->tableDetail, $dataInsertDetail);
                       if ($jumlahUpdate>0) {
@@ -222,11 +225,12 @@ class Pembayaran_pensiun_model extends CI_Model {
                     }
             
 
-            }
-            if ($jumlahUpdate>0) {
-              $msg.= '<< Data Header ke-'.$noHeader.' Berhasil Diperbarui >>';
-            }
+            // }
+            // if ($jumlahUpdate>0) {
+            //   $msg.= '<< Data Header ke-'.$noHeader.' Berhasil Diperbarui >>';
+            // }
           }else{
+            // echo "kondisi 2";exit;
             // insert header
             $detail = $value['detail'];
 

@@ -28,6 +28,8 @@ class Dashboard_summary extends CI_Controller {
 
 	public function executive_summary()
 	{
+		// $sesi =  $_SESSION;
+		// var_dump($sesi);exit;
 
 		// $data_bln = array();
 		// $bulan = array(1,2,3,4,5,6,7,8,9,10,11,12);
@@ -49,7 +51,15 @@ class Dashboard_summary extends CI_Controller {
         $data['opt_bln'] = combo_bulan();
 		$data['opt_user'] = dtuser();
 		$data['bln'] = date('m');
-		$data['bln_head'] = konversi_bln(intval(date('m')), 'fullbulan');
+		$tanggal = date('j');
+		if ($tanggal > 15) {
+			$bln_head = date('n') - 1;
+		}
+		if ($tanggal <= 15) {
+			$bln_head = date('n') - 2;
+		}
+		// var_dump($bln_head);exit;
+		$data['bln_head'] = konversi_bln($bln_head, 'fullbulan');
 		$data['bread'] = array('header'=>'Executive Summary', 'subheader'=>'Executive Summary');
 		$data['view']  = "dashboardV2/dashboard_summary";
 		$this->load->view('main/utama', $data);
@@ -66,6 +76,7 @@ class Dashboard_summary extends CI_Controller {
 		$data['view']  = "dashboardV2/dashboard_dana_bersih";
 		$this->load->view('main/utama', $data);
 	}
+
 
 
 	public function perubahan_danabersih()
@@ -170,6 +181,19 @@ class Dashboard_summary extends CI_Controller {
 					$idusernya = $this->session->userdata('iduser');
 				}
 				$param_bln = intval(date('m'));
+
+				$tanggal = date('j');
+
+				if ($tanggal > 15)
+				{
+					$param_bln = $param_bln - 1;
+				} 
+				if ($tanggal <= 15)
+				{
+					$param_bln = $param_bln - 2;
+				} 
+
+
 				if ($param_bln > 1 && $param_bln <= 6) {
 					$semester = 1;
 				}else if ($param_bln > 7 && $param_bln <= 12) {
@@ -189,6 +213,7 @@ class Dashboard_summary extends CI_Controller {
 						}
 					}
 				}
+				// $param_bln = 1;
 
 				$datanya_operasional = $this->executivesummary->getdata('aspek_operasional', 'row_array', $param_bln);
 				$pertumbuhan_invest = $this->executivesummary->getdata('nilai_pertumbuhan_investasi', 'row_array', $param_bln);
@@ -210,6 +235,7 @@ class Dashboard_summary extends CI_Controller {
 				// print($array);exit();
 				// TOTAL
 				$array['tot_investasi'] = rupiah($data_bln['INVESTASI']['arr_data'][$param_bln]);
+				// var_dump($param_bln);exit;
 				$array['tot_bukan_investasi'] = rupiah($data_bln['BUKAN INVESTASI']['arr_data'][$param_bln]);
 				$array['tot_kewajiban'] = rupiah($data_bln['KEWAJIBAN']['arr_data'][$param_bln]);
 
@@ -219,7 +245,7 @@ class Dashboard_summary extends CI_Controller {
 				$array['tot_peserta'] = rupiah($datanya_operasional['jml_peserta']);;
 				$array['tot_pensiunan'] = rupiah($datanya_operasional['jml_pensiunan']);
 				$array['tot_pembayaran'] = rupiah($datanya_operasional['jml_pembayaran']);
-
+				// var_dump($array);exit;
 				echo json_encode($array);
 			break;
 
@@ -419,4 +445,30 @@ class Dashboard_summary extends CI_Controller {
         return $data;
     }
 
+
+	public function executive_summary_tableau(){
+
+		$data['bread'] = array('header'=>'Executive Summary', 'subheader'=>'Executive Summary');
+        $data["host_url"]  = 'https%3A%2F%2Fdashboard-sldk.kemenkeu.go.id%2F';
+        $data["site_root"] = '&#47;t&#47;DJA';
+        $data["name"]      = 'Taspen-AsabriDatamart&#47;DashboardTaspen-Asabri';
+        $data["ticket"] = getTableauToken();
+        $data['view']  = "dashboardV3/dashboard_tableau";
+		$this->load->view('main/utama_tableau',$data);
+
+	}
+	
+
+	public function arus_kas_tableau(){
+
+		$data['bread'] = array('header'=>'Executive Summary', 'subheader'=>'Executive Summary');
+        $data["host_url"]  = 'https%3A%2F%2Fdashboard-sldk.kemenkeu.go.id%2F';
+        $data["site_root"] = '&#47;t&#47;DJA';
+        $data["name"]      = 'Taspen-AsabriDatamart&#47;DashboardArusKas';
+        $data["ticket"] = getTableauToken();
+        $data['view']  = "dashboardV3/dashboard_tableau";
+		$this->load->view('main/utama_tableau',$data);
+
+	}
+	
 }

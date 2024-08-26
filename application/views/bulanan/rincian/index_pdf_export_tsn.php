@@ -433,7 +433,6 @@
             <td></td>
         </tr>
 </table>
-<p style="page-break-before: always">
 <!-- <br> -->
 <!-- data keterangan  -->
 <!-- <div>

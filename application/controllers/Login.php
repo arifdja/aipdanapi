@@ -32,7 +32,7 @@ class Login extends CI_Controller {
         $pass = escape($this->input->post('password'));
         $code = escape($this->input->post('CaptchaCode'));
 
-
+        // echo $code;exit;
         // TAMBAHAN
 
         $this->form_validation->set_rules(
@@ -78,7 +78,9 @@ class Login extends CI_Controller {
                 // Check User ID dan Password is null ?
                     if( $nmuser && $password && $tahun) {
                         if ($this->login_model->validate_user($nmuser, $password)) {
+                            // var_dump($code);exit;
                             if ($this->botdetectcaptcha->Validate($code)) {
+                                // var_dump($this->botdetectcaptcha->Validate($code));exit;
                                 $this->index();
                             }else{
                                 $this->session->set_flashdata('sukses','Captcha yang anda masukan salah');

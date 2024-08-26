@@ -102,4 +102,17 @@ class Aspek_operasional extends CI_Controller
                 break;
         }
     }
+
+    
+    // public function aspek_operasional_tableau()
+    // {
+
+    //     $data['bread'] = array('header'=>'Perubahan Dana Bersih', 'subheader'=>'Perubahan Dana Bersih');
+    //     $data["host_url"]  = 'https%3A%2F%2Fdashboard-sldk.kemenkeu.go.id%2F';
+    //     $data["site_root"] = '&#47;t&#47;DJA';
+    //     $data["name"]      = 'Taspen-AsabriDatamart&#47;DashboardPerubahanDanaBersih';
+    //     $data["ticket"] = getTableauToken();
+    //     $data['view']  = "dashboardV3/dashboard_tableau";
+    //     $this->load->view('main/utama_tableau',$data);
+    // }
 }

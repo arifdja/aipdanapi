@@ -32,4 +32,5 @@
 <?php echo $data_pendahuluan[0]->periode; ?>
 <?php echo $data_pendahuluan[0]->keterangan; ?>
 <?php echo $data_pendahuluan[0]->direksi; ?>
-<p style="page-break-before: always">
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>

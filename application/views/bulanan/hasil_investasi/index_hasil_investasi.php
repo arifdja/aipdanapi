@@ -92,11 +92,11 @@
                                                 <td><?=($hasil['realisasi_rka'] != 0 ) ? persen($hasil['realisasi_rka']).'%' : '-';?></td>
                                                 <td><?=($hasil['target_yoi'] != 0 ) ? persen($hasil['target_yoi']).'%' : '-';?></td>
                                                 <td>
-                                                    <?php if($hasil['id'] != ""):?>
+                                                   <!--  <?php if($hasil['id'] != ""):?>
                                                     <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat user-bln" onClick="genform('addhasil_investasi', 'hasil_investasi','hasil_investasi','','<?=$hasil['id'] ?>','','','edit');">
                                                         <i class="fa fa-edit"></i>
                                                     </a> 
-                                                    &nbsp;
+                                                    &nbsp; -->
                                                     <a href="javascript:void(0)" title="Delete" class="btn btn-danger btn-sm btn-flat user-bln" onClick="genform('delete', 'hasil_investasi','hasil_investasi','','<?=$hasil['id'] ?>','');">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
@@ -140,10 +140,10 @@
                                                         <td><?=($subchild['target_yoi'] != 0 ) ? persen($subchild['target_yoi']).'%' : '-';?></td>
                                                         <td>
                                                             <?php if($subchild['id'] != ""):?>
-                                                               <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat user-bln" onClick="genform('addhasil_investasi', 'hasil_investasi','hasil_investasi','','<?=$subchild['id'] ?>','','','edit');">
+                                                              <!--  <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat user-bln" onClick="genform('addhasil_investasi', 'hasil_investasi','hasil_investasi','','<?=$subchild['id'] ?>','','','edit');">
                                                                 <i class="fa fa-edit"></i>
                                                                 </a> 
-                                                                &nbsp;
+                                                                &nbsp; -->
                                                                 <a href="javascript:void(0)" title="Delete" class="btn btn-danger btn-sm btn-flat user-bln" onClick="genform('delete', 'hasil_investasi','hasil_investasi','','<?=$subchild['id'] ?>','');">
                                                                     <i class="fa fa-trash"></i>
                                                                 </a>

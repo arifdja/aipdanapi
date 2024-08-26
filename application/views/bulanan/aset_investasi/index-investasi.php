@@ -98,11 +98,11 @@
                                                 <td><?=($invest['saldo_akhir'] != 0 ) ? rupiah($invest['saldo_akhir']) : '-';?></td>
                                                 <td><?=($invest['realisasi_rka'] != 0 ) ? persen($invest['realisasi_rka']).'%' : '-';?></td>
                                                 <td>
-                                                    <?php if($invest['id'] != ""):?>
+                                                  <!--   <?php if($invest['id'] != ""):?>
                                                     <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat user-bln" onClick="genform('edit', 'aset_investasi','aset_investasi','','<?=$invest['id'] ?>','<?=$invest['jns_form']?>');">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
-                                                    &nbsp;
+                                                    &nbsp; -->
                                                    <a href="javascript:void(0)" title="Detail" class="btn btn-primary btn-sm btn-flat" onClick="genform('edit', 'detail_aset_investasi','detail_aset_investasi','','<?=$invest['id'] ?>','<?=$invest['jns_form']?>');">
                                                         <i class="fa fa-list"></i>
                                                     </a>
@@ -139,10 +139,10 @@
                                                         <td><?=($subchild['realisasi_rka'] != 0 ) ? persen($subchild['realisasi_rka']).'%' : '-';?></td>
                                                         <td>
                                                             <?php if($subchild['id'] != ""):?>
-                                                                <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat user" onClick="genform('edit', 'aset_investasi','aset_investasi','','<?=$subchild['id'] ?>','<?=$subchild['jns_form']?>');">
+                                                               <!--  <a href="javascript:void(0)" title="Edit" class="btn btn-success btn-sm btn-flat user" onClick="genform('edit', 'aset_investasi','aset_investasi','','<?=$subchild['id'] ?>','<?=$subchild['jns_form']?>');">
                                                                     <i class="fa fa-edit"></i>
                                                                 </a>
-                                                                &nbsp;
+                                                                &nbsp; -->
                                                                 <a href="javascript:void(0)" title="Detail" class="btn btn-primary btn-sm btn-flat" onClick="genform('edit', 'detail_aset_investasi','detail_aset_investasi','','<?=$subchild['id'] ?>','<?=$subchild['jns_form']?>');">
                                                                     <i class="fa fa-list"></i>
                                                                 </a>

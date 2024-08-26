@@ -152,7 +152,62 @@ $tahun = $this->session->userdata('tahun');
     </div>
   </div>
 </div>
+<div>
+  <button id="tampilkan">tes</button>
+</div>
+<div id="tableau">
+  
+</div>
 <script type="text/javascript">
+
+  jQuery(document).ready(function($) {
+
+    $(document).on( "click","#tampilkan", function() {
+
+        alert('work');
+
+
+        $.ajax({
+           type: "post",
+           headers: {'X-Requested-With': 'XMLHttpRequest'},
+           url: "<?= base_url(); ?>/dashboard-tableau",
+           dataType:'json',
+           data: {
+              kdsatker:'tes',
+              bulan:'tes2'
+            },
+           success: function (response) {
+            console.log(response.data.body[0][0]);
+
+            $("#tableau").html(response.data.body[0][0].value);
+             // if (response.error) {
+             //    if (response.error.info) {
+             //      toastr.warning(response.error.info);
+             //    }
+             //    if (response.error.bulan) {
+             //      toastr.warning(response.error.bulan);
+             //    }
+             //    if (response.error.kdsatker) {
+             //      toastr.warning(response.error.kdsatker);
+             //    }
+             //    $("#ajaxbody").html(response.html); 
+             //    $(".csrf").val(response.csrf);
+             // } else {
+             //    $("#ajaxbody").html(response.html);
+             //    toastr.success(response.success);
+             //  }
+
+             },
+           error:function(xhr,ajaxOptions,thrownError){
+              alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+           }
+         });
+
+    });
+
+  });
+
+
   $(".select2nya").select2({
     'width': '100%'
   });

@@ -220,52 +220,7 @@ class Printall extends CI_Controller {
             $rincian_template = $this->load->view('bulanan/rincian/index_pdf_export_tsn', $data, true);
         }
 
-            // Array to store templates with data 
-            $templatesWithData = []; 
-            if(!empty($danabersih_template)) 
-            { 
-                $templatesWithData[] = $danabersih_template; 
-            } 
-            if(!empty($perubahandanabersih_template)) 
-            { 
-                $templatesWithData[] = $perubahandanabersih_template; 
-            } 
-            if(!empty($invest_template)) 
-            { 
-                $templatesWithData[] = $invest_template; 
-            } 
-            if (!empty($bukan_invest_template))
-            { 
-                $templatesWithData[] = $bukan_invest_template; 
-            } 
-            if (!empty($hasil_invest_template)) 
-            {
-                $templatesWithData[] = $hasil_invest_template; 
-            } 
-            if (!empty($beban_invest_template)) 
-            { 
-                $templatesWithData[] = $beban_invest_template; 
-            } 
-            if (!empty($arus_kas_template)) 
-            { 
-                $templatesWithData[] = $arus_kas_template; 
-            }
-            if (!empty($pendahuluan_template)) 
-            { 
-                $templatesWithData[] = $pendahuluan_template; 
-            } 
-            if (!empty($rincian_template)) 
-            { 
-                $templatesWithData[] = $rincian_template; 
-            } 
-            // Combine templates with data
-            $combined_template = implode('', $templatesWithData); // If no templates have data, set a message or handle it accordingly 
-            if (empty($combined_template)) 
-            { 
-                $combined_template = 'Data Tidak ada'; 
-            }
-
-            // $combined_template = $danabersih_template . $perubahandanabersih_template . $invest_template . $bukan_invest_template . $hasil_invest_template . $beban_invest_template . $arus_kas_template . $pendahuluan_template . $rincian_template;
+            $combined_template = $danabersih_template . $perubahandanabersih_template . $invest_template . $bukan_invest_template . $hasil_invest_template . $beban_invest_template . $arus_kas_template . $pendahuluan_template . $rincian_template;
 
             $this->hasil_output('pdf', $mod, '', $data, '', "A4", $combined_template, "ya", "no");
     }

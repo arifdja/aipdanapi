@@ -928,3 +928,38 @@ function number_shorten($number, $precision = 3, $divisors = null) {
     // Either way, use the last defined value for $divisor.
     return number_format($number / $divisor, $precision) . $shorthand;
 }
+
+function getTableauToken(){
+
+		$ci = & get_instance();
+		$ci->load->database();
+
+		$idusergroup = $ci->session->userdata('idusergroup');
+		// idusergroup dja = 1, taspen = 2, asabri = 3
+		if ($idusergroup == 1) {
+			$userTableau = 'djav3';
+		} else if($idusergroup == 3){
+			$userTableau = 'djav4';
+		} else if($idusergroup == 2){
+			$userTableau = 'djav1';
+		} else {
+			$userTableau = '';
+		}
+
+	 $opts = array('http' =>
+            array(
+                'method'  => 'POST',
+                'header'  => 'Content-type: application/x-www-form-urlencoded',
+                'content' => "username=user.".$userTableau."&target_site=DJA"
+            ),
+            'ssl'=>array(
+                'verify_peer'=>false,
+                'verify_peer_name'=>false
+            ),
+        );
+
+    $context  = stream_context_create($opts);
+    $ticket = file_get_contents('https://dashboard-sldk.kemenkeu.go.id/trusted', false, $context);     
+
+    return $ticket;
+}

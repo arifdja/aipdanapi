@@ -91,6 +91,8 @@ class Iuran_model extends CI_Model {
       $arrID[] = $value['id_investasi'];
     }
 
+    // var_dump($arrID);exit;/
+
     $this->db->select('iduser');
     $resUser = $this->db->get('t_user')->result_array();
     $arrUSER = array();

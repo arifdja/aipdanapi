@@ -119,5 +119,4 @@
     <p style="margin-left:15px;font-size: 14px;font-weight: bold">Keterangan :</p>
     <p style="margin-left:10px;font-size: 12px;margin-right: 15px;margin-left: 15px;text-align: justify;"><?php echo (isset($data_dana_bersih_ket[0]->keterangan_lap) ? $data_dana_bersih_ket[0]->keterangan_lap : '');?></p>
 </div>
-<p style="page-break-before: always">
 <!-- end keterangan -->

@@ -5,6 +5,8 @@
 
 <!-- jQUery 3.3.1 -->
 <script src="<?=base_url('assets/plugins/jquery/jquery-3.6.0.min.js');?>" type="text/javascript"></script>
+<!-- <script src="<?=base_url('assets/plugins/tableau/tableau-2.min.js');?>" type="text/javascript"></script>
+<script src="<?=base_url('assets/plugins/tableau/tableau-2.9.1.min.js');?>" type="text/javascript"></script> -->
 <!-- Bootstrap 3.3.2 -->
 <link href="<?=base_url('assets/bootstrap/css/bootstrap.min.css');?>" rel="stylesheet" type="text/css" />
 <!-- Font Awesome Icons -->

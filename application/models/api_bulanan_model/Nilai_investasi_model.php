@@ -89,6 +89,8 @@ class Nilai_investasi_model extends CI_Model {
       $arrID[] = $value['id_investasi'];
     }
 
+    // var_dump($arrID);exit;
+
     $this->db->select('iduser');
     $resUser = $this->db->get('t_user')->result_array();
     $arrUSER = array();
@@ -114,6 +116,8 @@ class Nilai_investasi_model extends CI_Model {
         // jika key nya not null maka id investasi merupakan NILAI INVESTASI
         
         $status_input = get_status_input($id_user,$tahun,$id_bulan);
+
+        // var_dump($status_input);exit;
 
         if($status_input == true){
 
@@ -159,13 +163,17 @@ class Nilai_investasi_model extends CI_Model {
         } else {
           $status = 0;
           $res['msg'].="Invalid status input $id_user $tahun $id_bulan, ";
+          return $res;
         }
 
       }else{
         $status = 0;
+        $res['msg'].="Invalid Id Investasi $id_investasi, ";
         // jika key nya null maka error karna bukan NILAI INVESTASI
       }
     }
+
+    // var_dump($status);exit;
 
     if ($status==1){
       if ((is_countable($dataInsert)?$dataInsert:[])) { 
