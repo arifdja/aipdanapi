@@ -39,6 +39,10 @@
     <!-- <input type="checkbox" id="CbRincian" name="testx" value="Lap_Rincian"/>&nbsp; -->
     Rincian</a></li>
 
+    <li role="presentation" <?php if($this->uri->segment(2)=="peserta_aktif"){echo 'class="active"';}?>><a href="<?php echo site_url('bulanan/peserta_aktif').get_uri();?>">
+    <!-- <input type="checkbox" id="CbRincian" name="testx" value="Lap_Rincian"/>&nbsp; -->
+    Peserta Aktif</a></li>
+
 	<li role="presentation" <?php if($this->uri->segment(3)=="pernyataan_direksi" || $this->uri->segment(2)=="index-pernyataan"){echo 'class="active"';}?>><a href="<?php echo site_url('bulanan/pendahuluan/pernyataan_direksi').get_uri();?>">
     <!-- <input type="checkbox" id="CbPernyataan" name="testx" value="Lap_Pernyataan"/>&nbsp; -->
     Pernyataan</a></li>

@@ -691,6 +691,44 @@ function check_access($role_id, $menu_id){
 		return $bulan;
 	}
 
+	
+	function getSemester(){
+		$bulan = date("m");
+
+		switch($bulan){
+			case 1:$semester=1;break;
+			case 2:$semester=1;break;
+			case 3:$semester=1;break;
+			case 4:$semester=1;break;
+			case 5:$semester=1;break;
+			case 6:$semester=1;break;
+			case 7:$semester=2;break;
+			case 8:$semester=2;break;
+			case 9:$semester=2;break;
+			case 10:$semester=2;break;
+			case 11:$semester=2;break;
+			case 12:$semester=2;break;
+		}
+		
+		return $semester;
+	}
+
+	function konversi_semester($semester,$type=""){
+		if($type == 'full'){
+			switch($semester){
+				case 1:$semester='Semester I';break;
+				case 2:$semester='Semester II';break;
+			}
+		}else{
+			switch($semester){
+				case 1:$semester='I';break;
+				case 2:$semester='II';break;
+			}
+		}
+		
+		return $semester;
+	}
+
 
 
 	function tgl_format($date){

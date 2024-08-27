@@ -23,6 +23,9 @@ $route['api-master-aruskas'] 		  	= 'api_referensi/master_aruskas';
 $route['api-master-kelompok-penerima'] 	= 'api_referensi/master_kelompok_penerima';
 $route['api-master-jenis-penerima'] 	= 'api_referensi/master_jenis_penerima';
 $route['api-peserta-aktif'] 	= 'api_bulanan/peserta_aktif';
+$route['api-peserta-aktif-bulanan'] 	= 'api_bulanan/peserta_aktif_vTIP';
+$route['api-peserta-aktif-semester'] 	= 'api_semesteran/peserta_aktif_semester_vTIP';
+$route['api-peserta-aktif-cabang-semester'] 	= 'api_semesteran/peserta_aktif_semester_cabang_vTIP';
 
 
 // API SEMESTERAN

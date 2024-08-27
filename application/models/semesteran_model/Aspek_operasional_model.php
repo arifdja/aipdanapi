@@ -1596,4 +1596,31 @@ class Aspek_operasional_model extends CI_Model {
 		}
 	}
 
+	function get_peserta_aktif_semester(){
+        $tahun = $this->session->userdata('tahun');
+		$iduser = $this->session->userdata('iduser');
+
+        $sql ="
+                SELECT * FROM tbl_lkao_peserta_aktif_semester a 
+				LEFT JOIN  mst_kelompok_peserta_aktif b USING (id_kelompok,iduser)
+                WHERE a.iduser = '$iduser' AND a.tahun = '$tahun'
+            ";
+			
+        return $this->db->query($sql)->result_array();
+	}
+
+	function get_peserta_aktif_cabang_semester(){
+        $tahun = $this->session->userdata('tahun');
+		$iduser = $this->session->userdata('iduser');
+
+        $sql ="
+				SELECT * FROM tbl_lkao_peserta_aktif_cabang_semester a 
+				LEFT JOIN  mst_kelompok_peserta_aktif b USING (id_kelompok,iduser)
+				LEFT JOIN mst_cabang c USING (id_cabang,iduser)
+				WHERE a.iduser = '$iduser' AND a.tahun = '$tahun'
+            ";
+			
+        return $this->db->query($sql)->result_array();
+	}
+
 }	

@@ -971,4 +971,22 @@ class Aspek_operasional extends CI_Controller {
         // print_r($array);exit;
         return $array;
     }
+
+    public function getdata_peserta_aktif_semester(){
+        $data['data'] = $this->aspek_operasional_model->get_peserta_aktif_semester();
+        $data['semester'] = getSemester();
+		$data['bread'] = array('header'=>'Peserta Aktif ', 'subheader'=>'Semester');
+		$data['view']  = "semesteran/peserta_aktif/data_peserta_aktif_semester";
+		$this->load->view('main/utama', $data);
+    }
+
+    public function getdata_peserta_aktif_cabang_semester(){
+        $data['data'] = $this->aspek_operasional_model->get_peserta_aktif_cabang_semester();
+        $data['semester'] = getSemester();
+		$data['bread'] = array('header'=>'Peserta Aktif Cabang', 'subheader'=>'Semester');
+		$data['view']  = "semesteran/peserta_aktif/data_peserta_aktif_cabang_semester";
+		$this->load->view('main/utama', $data);
+    }
+
+
 }
